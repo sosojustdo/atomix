@@ -16,6 +16,8 @@
 package io.atomix.core.list;
 
 import io.atomix.core.collection.DistributedCollection;
+import io.atomix.primitive.DistributedPrimitive;
+import io.atomix.primitive.PrimitiveManagementService;
 
 import java.util.List;
 
@@ -23,4 +25,14 @@ import java.util.List;
  * Distributed list.
  */
 public interface DistributedList<E> extends DistributedCollection<E>, List<E> {
+  /**
+   * Builder for distributed list.
+   *
+   * @param <E> list element type
+   */
+  abstract class Builder<E> extends DistributedPrimitive.Builder<Builder<E>, DistributedListConfig, DistributedList<E>> {
+    protected Builder(String name, DistributedListConfig config, PrimitiveManagementService managementService) {
+      super(DistributedListType.instance(), name, config, managementService);
+    }
+  }
 }

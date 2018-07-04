@@ -18,7 +18,6 @@ package io.atomix.core.map.impl;
 import com.google.common.io.BaseEncoding;
 import io.atomix.core.map.AsyncAtomicMap;
 import io.atomix.core.map.AtomicMap;
-import io.atomix.core.map.AtomicMapBuilder;
 import io.atomix.core.map.AtomicMapConfig;
 import io.atomix.primitive.PrimitiveManagementService;
 import io.atomix.primitive.proxy.ProxyClient;
@@ -33,7 +32,7 @@ import java.util.concurrent.CompletableFuture;
  * @param <K> type for map key
  * @param <V> type for map value
  */
-public class AtomicMapProxyBuilder<K, V> extends AtomicMapBuilder<K, V> {
+public class AtomicMapProxyBuilder<K, V> extends AtomicMap.Builder<K, V> {
   public AtomicMapProxyBuilder(String name, AtomicMapConfig config, PrimitiveManagementService managementService) {
     super(name, config, managementService);
   }

@@ -23,7 +23,7 @@ import io.atomix.cluster.NodeDiscoveryProvider;
 import io.atomix.cluster.messaging.ClusterCommunicationService;
 import io.atomix.core.barrier.DistributedCyclicBarrier;
 import io.atomix.core.counter.AtomicCounter;
-import io.atomix.core.counter.AtomicCounterMap;
+import io.atomix.core.countermap.AtomicCounterMap;
 import io.atomix.core.idgenerator.AtomicIdGenerator;
 import io.atomix.core.impl.CorePrimitivesService;
 import io.atomix.core.leadership.LeaderElection;
@@ -37,7 +37,7 @@ import io.atomix.core.profile.Profile;
 import io.atomix.core.queue.DistributedQueue;
 import io.atomix.core.semaphore.DistributedSemaphore;
 import io.atomix.core.set.DistributedSet;
-import io.atomix.core.transaction.TransactionBuilder;
+import io.atomix.core.transaction.Transaction;
 import io.atomix.core.transaction.TransactionService;
 import io.atomix.core.tree.AtomicDocumentTree;
 import io.atomix.core.treemap.AtomicTreeMap;
@@ -329,7 +329,7 @@ public class Atomix extends AtomixCluster implements PrimitivesService {
   }
 
   @Override
-  public TransactionBuilder transactionBuilder(String name) {
+  public Transaction.Builder transactionBuilder(String name) {
     return primitives.transactionBuilder(name);
   }
 

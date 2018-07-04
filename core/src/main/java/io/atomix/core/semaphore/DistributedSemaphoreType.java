@@ -33,7 +33,7 @@ import static com.google.common.base.MoreObjects.toStringHelper;
 /**
  * Distributed semaphore primitive type.
  */
-public class DistributedSemaphoreType implements PrimitiveType<DistributedSemaphoreBuilder, DistributedSemaphoreConfig, DistributedSemaphore> {
+public class DistributedSemaphoreType implements PrimitiveType<DistributedSemaphore.Builder, DistributedSemaphoreConfig, DistributedSemaphore> {
   private static final String NAME = "semaphore";
   private static final DistributedSemaphoreType INSTANCE = new DistributedSemaphoreType();
 
@@ -72,7 +72,7 @@ public class DistributedSemaphoreType implements PrimitiveType<DistributedSemaph
   }
 
   @Override
-  public DistributedSemaphoreBuilder newBuilder(String name, DistributedSemaphoreConfig config, PrimitiveManagementService managementService) {
+  public DistributedSemaphore.Builder newBuilder(String name, DistributedSemaphoreConfig config, PrimitiveManagementService managementService) {
     return new DistributedSemaphoreProxyBuilder(name, config, managementService);
   }
 

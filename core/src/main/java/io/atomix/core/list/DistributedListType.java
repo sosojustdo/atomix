@@ -32,7 +32,7 @@ import static com.google.common.base.MoreObjects.toStringHelper;
 /**
  * Distributed list primitive type.
  */
-public class DistributedListType<E> implements PrimitiveType<DistributedListBuilder<E>, DistributedListConfig, DistributedList<E>> {
+public class DistributedListType<E> implements PrimitiveType<DistributedList.Builder<E>, DistributedListConfig, DistributedList<E>> {
   private static final String NAME = "list";
   private static final DistributedListType INSTANCE = new DistributedListType();
 
@@ -77,7 +77,7 @@ public class DistributedListType<E> implements PrimitiveType<DistributedListBuil
   }
 
   @Override
-  public DistributedListBuilder<E> newBuilder(String name, DistributedListConfig config, PrimitiveManagementService managementService) {
+  public DistributedList.Builder<E> newBuilder(String name, DistributedListConfig config, PrimitiveManagementService managementService) {
     return new DistributedListProxyBuilder<>(name, config, managementService);
   }
 

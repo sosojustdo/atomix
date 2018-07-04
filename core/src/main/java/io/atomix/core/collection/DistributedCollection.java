@@ -15,6 +15,8 @@
  */
 package io.atomix.core.collection;
 
+import io.atomix.primitive.DistributedPrimitive;
+import io.atomix.primitive.PrimitiveManagementService;
 import io.atomix.primitive.SyncPrimitive;
 
 import java.util.Collection;
@@ -41,4 +43,14 @@ public interface DistributedCollection<E> extends SyncPrimitive, SyncIterable<E>
    */
   void removeListener(CollectionEventListener<E> listener);
 
+  /**
+   * Builder for distributed collection.
+   *
+   * @param <E> collection element type
+   */
+  abstract class Builder<E> extends DistributedPrimitive.Builder<Builder<E>, DistributedCollectionConfig, DistributedCollection<E>> {
+    protected Builder(String name, DistributedCollectionConfig config, PrimitiveManagementService managementService) {
+      super(DistributedCollectionType.instance(), name, config, managementService);
+    }
+  }
 }

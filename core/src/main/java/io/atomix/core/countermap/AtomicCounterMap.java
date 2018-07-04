@@ -13,9 +13,10 @@
  * See the License for the specific language governing permissions and
  * limitations under the License.
  */
-package io.atomix.core.counter;
+package io.atomix.core.countermap;
 
-import io.atomix.core.countermap.AsyncAtomicCounterMap;
+import io.atomix.primitive.DistributedPrimitive;
+import io.atomix.primitive.PrimitiveManagementService;
 import io.atomix.primitive.SyncPrimitive;
 
 /**
@@ -156,4 +157,13 @@ public interface AtomicCounterMap<K> extends SyncPrimitive {
 
   @Override
   AsyncAtomicCounterMap<K> async();
+
+  /**
+   * Builder for AtomicCounterMap.
+   */
+  abstract class Builder<K> extends DistributedPrimitive.Builder<Builder<K>, AtomicCounterMapConfig, AtomicCounterMap<K>> {
+    public Builder(String name, AtomicCounterMapConfig config, PrimitiveManagementService managementService) {
+      super(AtomicCounterMapType.instance(), name, config, managementService);
+    }
+  }
 }

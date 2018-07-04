@@ -13,11 +13,10 @@
  * See the License for the specific language governing permissions and
  * limitations under the License.
  */
-package io.atomix.core.value.impl;
+package io.atomix.core.leadership.impl;
 
-import io.atomix.core.value.AtomicValue;
-import io.atomix.core.value.AtomicValueBuilder;
-import io.atomix.core.value.AtomicValueConfig;
+import io.atomix.core.leadership.LeaderElection;
+import io.atomix.core.leadership.LeaderElectionConfig;
 import io.atomix.primitive.PrimitiveManagementService;
 import io.atomix.primitive.proxy.ProxyClient;
 import io.atomix.primitive.service.ServiceConfig;
@@ -26,30 +25,28 @@ import io.atomix.utils.serializer.Serializer;
 import java.util.concurrent.CompletableFuture;
 
 /**
- * Default implementation of AtomicValueBuilder.
- *
- * @param <V> value type
+ * Default implementation of {@code LeaderElectorBuilder}.
  */
-public class AtomicValueProxyBuilder<V> extends AtomicValueBuilder<V> {
-  public AtomicValueProxyBuilder(String name, AtomicValueConfig config, PrimitiveManagementService managementService) {
+public class LeaderElectionProxyBuilder<T> extends LeaderElection.Builder<T> {
+  public LeaderElectionProxyBuilder(String name, LeaderElectionConfig config, PrimitiveManagementService managementService) {
     super(name, config, managementService);
   }
 
   @Override
   @SuppressWarnings("unchecked")
-  public CompletableFuture<AtomicValue<V>> buildAsync() {
-    ProxyClient<AtomicValueService> proxy = protocol().newProxy(
+  public CompletableFuture<LeaderElection<T>> buildAsync() {
+    ProxyClient<LeaderElectionService> proxy = protocol().newProxy(
         name(),
         primitiveType(),
-        AtomicValueService.class,
+        LeaderElectionService.class,
         new ServiceConfig(),
         managementService.getPartitionService());
-    return new AtomicValueProxy(proxy, managementService.getPrimitiveRegistry())
+    return new LeaderElectionProxy(proxy, managementService.getPrimitiveRegistry())
         .connect()
-        .thenApply(elector -> {
+        .thenApply(election -> {
           Serializer serializer = serializer();
-          return new TranscodingAsyncAtomicValue<V, byte[]>(
-              elector,
+          return new TranscodingAsyncLeaderElection<T, byte[]>(
+              election,
               key -> serializer.encode(key),
               bytes -> serializer.decode(bytes))
               .sync();

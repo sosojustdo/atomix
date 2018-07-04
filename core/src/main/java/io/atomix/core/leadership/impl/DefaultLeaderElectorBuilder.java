@@ -13,12 +13,10 @@
  * See the License for the specific language governing permissions and
  * limitations under the License.
  */
-package io.atomix.core.tree.impl;
+package io.atomix.core.leadership.impl;
 
-import io.atomix.core.tree.AsyncAtomicDocumentTree;
-import io.atomix.core.tree.AtomicDocumentTree;
-import io.atomix.core.tree.AtomicDocumentTreeBuilder;
-import io.atomix.core.tree.AtomicDocumentTreeConfig;
+import io.atomix.core.leadership.LeaderElector;
+import io.atomix.core.leadership.LeaderElectorConfig;
 import io.atomix.primitive.PrimitiveManagementService;
 import io.atomix.primitive.proxy.ProxyClient;
 import io.atomix.primitive.service.ServiceConfig;
@@ -27,30 +25,28 @@ import io.atomix.utils.serializer.Serializer;
 import java.util.concurrent.CompletableFuture;
 
 /**
- * Default {@link AsyncAtomicDocumentTree} builder.
- *
- * @param <V> type for document tree value
+ * Default implementation of {@code LeaderElectorBuilder}.
  */
-public class AtomicDocumentTreeProxyBuilder<V> extends AtomicDocumentTreeBuilder<V> {
-  public AtomicDocumentTreeProxyBuilder(String name, AtomicDocumentTreeConfig config, PrimitiveManagementService managementService) {
+public class LeaderElectorProxyBuilder<T> extends LeaderElector.Builder<T> {
+  public LeaderElectorProxyBuilder(String name, LeaderElectorConfig config, PrimitiveManagementService managementService) {
     super(name, config, managementService);
   }
 
   @Override
   @SuppressWarnings("unchecked")
-  public CompletableFuture<AtomicDocumentTree<V>> buildAsync() {
-    ProxyClient<DocumentTreeService> proxy = protocol().newProxy(
+  public CompletableFuture<LeaderElector<T>> buildAsync() {
+    ProxyClient<LeaderElectorService> proxy = protocol().newProxy(
         name(),
         primitiveType(),
-        DocumentTreeService.class,
+        LeaderElectorService.class,
         new ServiceConfig(),
         managementService.getPartitionService());
-    return new AtomicDocumentTreeProxy(proxy, managementService.getPrimitiveRegistry())
+    return new LeaderElectorProxy(proxy, managementService.getPrimitiveRegistry())
         .connect()
-        .thenApply(tree -> {
+        .thenApply(elector -> {
           Serializer serializer = serializer();
-          return new TranscodingAsyncAtomicDocumentTree<V, byte[]>(
-              tree,
+          return new TranscodingAsyncLeaderElector<T, byte[]>(
+              elector,
               key -> serializer.encode(key),
               bytes -> serializer.decode(bytes))
               .sync();

@@ -42,7 +42,7 @@ import static com.google.common.base.MoreObjects.toStringHelper;
 /**
  * Document tree primitive type.
  */
-public class AtomicDocumentTreeType<V> implements PrimitiveType<AtomicDocumentTreeBuilder<V>, AtomicDocumentTreeConfig, AtomicDocumentTree<V>> {
+public class AtomicDocumentTreeType<V> implements PrimitiveType<AtomicDocumentTree.Builder<V>, AtomicDocumentTreeConfig, AtomicDocumentTree<V>> {
   private static final String NAME = "document-tree";
   private static final AtomicDocumentTreeType INSTANCE = new AtomicDocumentTreeType();
 
@@ -102,7 +102,7 @@ public class AtomicDocumentTreeType<V> implements PrimitiveType<AtomicDocumentTr
   }
 
   @Override
-  public AtomicDocumentTreeBuilder<V> newBuilder(String name, AtomicDocumentTreeConfig config, PrimitiveManagementService managementService) {
+  public AtomicDocumentTree.Builder<V> newBuilder(String name, AtomicDocumentTreeConfig config, PrimitiveManagementService managementService) {
     return new AtomicDocumentTreeProxyBuilder<>(name, config, managementService);
   }
 

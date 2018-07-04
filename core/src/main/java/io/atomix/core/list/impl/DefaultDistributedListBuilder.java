@@ -13,13 +13,12 @@
  * See the License for the specific language governing permissions and
  * limitations under the License.
  */
-package io.atomix.core.set.impl;
+package io.atomix.core.list.impl;
 
 import com.google.common.io.BaseEncoding;
-import io.atomix.core.set.AsyncDistributedSet;
-import io.atomix.core.set.DistributedSet;
-import io.atomix.core.set.DistributedSetBuilder;
-import io.atomix.core.set.DistributedSetConfig;
+import io.atomix.core.list.AsyncDistributedList;
+import io.atomix.core.list.DistributedList;
+import io.atomix.core.list.DistributedListConfig;
 import io.atomix.primitive.PrimitiveManagementService;
 import io.atomix.primitive.proxy.ProxyClient;
 import io.atomix.primitive.service.ServiceConfig;
@@ -28,41 +27,41 @@ import io.atomix.utils.serializer.Serializer;
 import java.util.concurrent.CompletableFuture;
 
 /**
- * Default distributed set builder.
+ * Default distributed list builder.
  *
- * @param <E> type for set elements
+ * @param <E> type for list elements
  */
-public class DistributedSetProxyBuilder<E> extends DistributedSetBuilder<E> {
-  public DistributedSetProxyBuilder(String name, DistributedSetConfig config, PrimitiveManagementService managementService) {
+public class DistributedListProxyBuilder<E> extends DistributedList.Builder<E> {
+  public DistributedListProxyBuilder(String name, DistributedListConfig config, PrimitiveManagementService managementService) {
     super(name, config, managementService);
   }
 
   @Override
   @SuppressWarnings("unchecked")
-  public CompletableFuture<DistributedSet<E>> buildAsync() {
-    ProxyClient<DistributedSetService> proxy = protocol().newProxy(
+  public CompletableFuture<DistributedList<E>> buildAsync() {
+    ProxyClient<DistributedListService> proxy = protocol().newProxy(
         name(),
         primitiveType(),
-        DistributedSetService.class,
+        DistributedListService.class,
         new ServiceConfig(),
         managementService.getPartitionService());
-    return new DistributedSetProxy(proxy, managementService.getPrimitiveRegistry())
+    return new DistributedListProxy(proxy, managementService.getPrimitiveRegistry())
         .connect()
-        .thenApply(rawSet -> {
+        .thenApply(rawList -> {
           Serializer serializer = serializer();
-          AsyncDistributedSet<E> set = new TranscodingAsyncDistributedSet<>(
-              rawSet,
+          AsyncDistributedList<E> list = new TranscodingAsyncDistributedList<>(
+              rawList,
               element -> BaseEncoding.base16().encode(serializer.encode(element)),
               string -> serializer.decode(BaseEncoding.base16().decode(string)));
 
           if (config.isCacheEnabled()) {
-            set = new CachingAsyncDistributedSet<>(set, config.getCacheSize());
+            list = new CachingAsyncDistributedList<>(list, config.getCacheSize());
           }
 
           if (config.isReadOnly()) {
-            set = new UnmodifiableAsyncDistributedSet<>(set);
+            list = new UnmodifiableAsyncDistributedList<>(list);
           }
-          return set.sync();
+          return list.sync();
         });
   }
 }

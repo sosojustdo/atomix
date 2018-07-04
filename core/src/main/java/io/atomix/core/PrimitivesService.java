@@ -16,59 +16,41 @@
 package io.atomix.core;
 
 import io.atomix.core.barrier.DistributedCyclicBarrier;
-import io.atomix.core.barrier.DistributedCyclicBarrierBuilder;
 import io.atomix.core.barrier.DistributedCyclicBarrierType;
 import io.atomix.core.counter.AtomicCounter;
-import io.atomix.core.counter.AtomicCounterBuilder;
-import io.atomix.core.counter.AtomicCounterMap;
 import io.atomix.core.counter.AtomicCounterType;
-import io.atomix.core.countermap.AtomicCounterMapBuilder;
+import io.atomix.core.countermap.AtomicCounterMap;
 import io.atomix.core.countermap.AtomicCounterMapType;
 import io.atomix.core.idgenerator.AtomicIdGenerator;
-import io.atomix.core.idgenerator.AtomicIdGeneratorBuilder;
 import io.atomix.core.idgenerator.AtomicIdGeneratorType;
 import io.atomix.core.leadership.LeaderElection;
-import io.atomix.core.leadership.LeaderElectionBuilder;
 import io.atomix.core.leadership.LeaderElectionType;
 import io.atomix.core.leadership.LeaderElector;
-import io.atomix.core.leadership.LeaderElectorBuilder;
 import io.atomix.core.leadership.LeaderElectorType;
 import io.atomix.core.list.DistributedList;
-import io.atomix.core.list.DistributedListBuilder;
 import io.atomix.core.list.DistributedListType;
 import io.atomix.core.lock.DistributedLock;
-import io.atomix.core.lock.DistributedLockBuilder;
 import io.atomix.core.lock.DistributedLockType;
 import io.atomix.core.map.AtomicMap;
-import io.atomix.core.map.AtomicMapBuilder;
 import io.atomix.core.map.AtomicMapType;
 import io.atomix.core.multimap.AtomicMultimap;
-import io.atomix.core.multimap.AtomicMultimapBuilder;
 import io.atomix.core.multimap.AtomicMultimapType;
 import io.atomix.core.multiset.DistributedMultiset;
-import io.atomix.core.multiset.DistributedMultisetBuilder;
 import io.atomix.core.multiset.DistributedMultisetType;
 import io.atomix.core.queue.DistributedQueue;
-import io.atomix.core.queue.DistributedQueueBuilder;
 import io.atomix.core.queue.DistributedQueueType;
 import io.atomix.core.semaphore.DistributedSemaphore;
-import io.atomix.core.semaphore.DistributedSemaphoreBuilder;
 import io.atomix.core.semaphore.DistributedSemaphoreType;
 import io.atomix.core.set.DistributedSet;
-import io.atomix.core.set.DistributedSetBuilder;
 import io.atomix.core.set.DistributedSetType;
-import io.atomix.core.transaction.TransactionBuilder;
+import io.atomix.core.transaction.Transaction;
 import io.atomix.core.tree.AtomicDocumentTree;
-import io.atomix.core.tree.AtomicDocumentTreeBuilder;
 import io.atomix.core.tree.AtomicDocumentTreeType;
 import io.atomix.core.treemap.AtomicTreeMap;
-import io.atomix.core.treemap.AtomicTreeMapBuilder;
 import io.atomix.core.treemap.AtomicTreeMapType;
 import io.atomix.core.value.AtomicValue;
-import io.atomix.core.value.AtomicValueBuilder;
 import io.atomix.core.value.AtomicValueType;
 import io.atomix.core.workqueue.WorkQueue;
-import io.atomix.core.workqueue.WorkQueueBuilder;
 import io.atomix.core.workqueue.WorkQueueType;
 import io.atomix.primitive.DistributedPrimitive;
 import io.atomix.primitive.PrimitiveInfo;
@@ -91,7 +73,7 @@ public interface PrimitivesService {
    * @param <V>  value type
    * @return builder for a atomic map
    */
-  default <K, V> AtomicMapBuilder<K, V> atomicMapBuilder(String name) {
+  default <K, V> AtomicMap.Builder<K, V> atomicMapBuilder(String name) {
     return primitiveBuilder(name, AtomicMapType.instance());
   }
 
@@ -104,7 +86,7 @@ public interface PrimitivesService {
    * @param <V>      value type
    * @return builder for a atomic map
    */
-  default <K, V> AtomicMapBuilder<K, V> atomicMapBuilder(String name, PrimitiveProtocol protocol) {
+  default <K, V> AtomicMap.Builder<K, V> atomicMapBuilder(String name, PrimitiveProtocol protocol) {
     return primitiveBuilder(name, AtomicMapType.instance(), protocol);
   }
 
@@ -115,7 +97,7 @@ public interface PrimitivesService {
    * @param <V>  value type
    * @return builder for a atomic document tree
    */
-  default <V> AtomicDocumentTreeBuilder<V> atomicDocumentTreeBuilder(String name) {
+  default <V> AtomicDocumentTree.Builder<V> atomicDocumentTreeBuilder(String name) {
     return primitiveBuilder(name, AtomicDocumentTreeType.instance());
   }
 
@@ -127,7 +109,7 @@ public interface PrimitivesService {
    * @param <V>      value type
    * @return builder for a atomic document tree
    */
-  default <V> AtomicDocumentTreeBuilder<V> atomicDocumentTreeBuilder(String name, PrimitiveProtocol protocol) {
+  default <V> AtomicDocumentTree.Builder<V> atomicDocumentTreeBuilder(String name, PrimitiveProtocol protocol) {
     return primitiveBuilder(name, AtomicDocumentTreeType.instance(), protocol);
   }
 
@@ -138,7 +120,7 @@ public interface PrimitivesService {
    * @param <V>  value type
    * @return builder for a async atomic tree map
    */
-  default <V> AtomicTreeMapBuilder<V> atomicTreeMapBuilder(String name) {
+  default <V> AtomicTreeMap.Builder<V> atomicTreeMapBuilder(String name) {
     return primitiveBuilder(name, AtomicTreeMapType.instance());
   }
 
@@ -150,7 +132,7 @@ public interface PrimitivesService {
    * @param <V>      value type
    * @return builder for a async atomic tree map
    */
-  default <V> AtomicTreeMapBuilder<V> atomicTreeMapBuilder(String name, PrimitiveProtocol protocol) {
+  default <V> AtomicTreeMap.Builder<V> atomicTreeMapBuilder(String name, PrimitiveProtocol protocol) {
     return primitiveBuilder(name, AtomicTreeMapType.instance(), protocol);
   }
 
@@ -162,7 +144,7 @@ public interface PrimitivesService {
    * @param <V>  value type
    * @return builder for a set based async atomic multimap
    */
-  default <K, V> AtomicMultimapBuilder<K, V> atomicMultimapBuilder(String name) {
+  default <K, V> AtomicMultimap.Builder<K, V> atomicMultimapBuilder(String name) {
     return primitiveBuilder(name, AtomicMultimapType.instance());
   }
 
@@ -175,7 +157,7 @@ public interface PrimitivesService {
    * @param <V>      value type
    * @return builder for a set based async atomic multimap
    */
-  default <K, V> AtomicMultimapBuilder<K, V> atomicMultimapBuilder(String name, PrimitiveProtocol protocol) {
+  default <K, V> AtomicMultimap.Builder<K, V> atomicMultimapBuilder(String name, PrimitiveProtocol protocol) {
     return primitiveBuilder(name, AtomicMultimapType.instance(), protocol);
   }
 
@@ -186,7 +168,7 @@ public interface PrimitivesService {
    * @param <K>  key type
    * @return builder for an atomic counter map
    */
-  default <K> AtomicCounterMapBuilder<K> atomicCounterMapBuilder(String name) {
+  default <K> AtomicCounterMap.Builder<K> atomicCounterMapBuilder(String name) {
     return primitiveBuilder(name, AtomicCounterMapType.instance());
   }
 
@@ -198,7 +180,7 @@ public interface PrimitivesService {
    * @param <K>      key type
    * @return builder for an atomic counter map
    */
-  default <K> AtomicCounterMapBuilder<K> atomicCounterMapBuilder(String name, PrimitiveProtocol protocol) {
+  default <K> AtomicCounterMap.Builder<K> atomicCounterMapBuilder(String name, PrimitiveProtocol protocol) {
     return primitiveBuilder(name, AtomicCounterMapType.instance(), protocol);
   }
 
@@ -209,7 +191,7 @@ public interface PrimitivesService {
    * @param <E>  set element type
    * @return builder for an distributed set
    */
-  default <E> DistributedSetBuilder<E> setBuilder(String name) {
+  default <E> DistributedSet.Builder<E> setBuilder(String name) {
     return primitiveBuilder(name, DistributedSetType.instance());
   }
 
@@ -221,7 +203,7 @@ public interface PrimitivesService {
    * @param <E>      set element type
    * @return builder for an distributed set
    */
-  default <E> DistributedSetBuilder<E> setBuilder(String name, PrimitiveProtocol protocol) {
+  default <E> DistributedSet.Builder<E> setBuilder(String name, PrimitiveProtocol protocol) {
     return primitiveBuilder(name, DistributedSetType.instance(), protocol);
   }
 
@@ -232,7 +214,7 @@ public interface PrimitivesService {
    * @param <E>  queue element type
    * @return builder for a distributed queue
    */
-  default <E> DistributedQueueBuilder<E> queueBuilder(String name) {
+  default <E> DistributedQueue.Builder<E> queueBuilder(String name) {
     return primitiveBuilder(name, DistributedQueueType.instance());
   }
 
@@ -244,7 +226,7 @@ public interface PrimitivesService {
    * @param <E>      queue element type
    * @return builder for a distributed queue
    */
-  default <E> DistributedQueueBuilder<E> queueBuilder(String name, PrimitiveProtocol protocol) {
+  default <E> DistributedQueue.Builder<E> queueBuilder(String name, PrimitiveProtocol protocol) {
     return primitiveBuilder(name, DistributedQueueType.instance(), protocol);
   }
 
@@ -255,7 +237,7 @@ public interface PrimitivesService {
    * @param <E>  list element type
    * @return builder for a distributed list
    */
-  default <E> DistributedListBuilder<E> listBuilder(String name) {
+  default <E> DistributedList.Builder<E> listBuilder(String name) {
     return primitiveBuilder(name, DistributedListType.instance());
   }
 
@@ -267,7 +249,7 @@ public interface PrimitivesService {
    * @param <E>      list element type
    * @return builder for a distributed list
    */
-  default <E> DistributedListBuilder<E> listBuilder(String name, PrimitiveProtocol protocol) {
+  default <E> DistributedList.Builder<E> listBuilder(String name, PrimitiveProtocol protocol) {
     return primitiveBuilder(name, DistributedListType.instance(), protocol);
   }
 
@@ -278,7 +260,7 @@ public interface PrimitivesService {
    * @param <E>  multiset element type
    * @return builder for a distributed multiset
    */
-  default <E> DistributedMultisetBuilder<E> multisetBuilder(String name) {
+  default <E> DistributedMultiset.Builder<E> multisetBuilder(String name) {
     return primitiveBuilder(name, DistributedMultisetType.instance());
   }
 
@@ -290,7 +272,7 @@ public interface PrimitivesService {
    * @param <E>      multiset element type
    * @return builder for a distributed multiset
    */
-  default <E> DistributedMultisetBuilder<E> multisetBuilder(String name, PrimitiveProtocol protocol) {
+  default <E> DistributedMultiset.Builder<E> multisetBuilder(String name, PrimitiveProtocol protocol) {
     return primitiveBuilder(name, DistributedMultisetType.instance(), protocol);
   }
 
@@ -300,7 +282,7 @@ public interface PrimitivesService {
    * @param name the primitive name
    * @return atomic counter builder
    */
-  default AtomicCounterBuilder atomicCounterBuilder(String name) {
+  default AtomicCounter.Builder atomicCounterBuilder(String name) {
     return primitiveBuilder(name, AtomicCounterType.instance());
   }
 
@@ -311,7 +293,7 @@ public interface PrimitivesService {
    * @param protocol the primitive protocol
    * @return atomic counter builder
    */
-  default AtomicCounterBuilder atomicCounterBuilder(String name, PrimitiveProtocol protocol) {
+  default AtomicCounter.Builder atomicCounterBuilder(String name, PrimitiveProtocol protocol) {
     return primitiveBuilder(name, AtomicCounterType.instance(), protocol);
   }
 
@@ -321,7 +303,7 @@ public interface PrimitivesService {
    * @param name the primitive name
    * @return atomic ID generator builder
    */
-  default AtomicIdGeneratorBuilder atomicIdGeneratorBuilder(String name) {
+  default AtomicIdGenerator.Builder atomicIdGeneratorBuilder(String name) {
     return primitiveBuilder(name, AtomicIdGeneratorType.instance());
   }
 
@@ -332,7 +314,7 @@ public interface PrimitivesService {
    * @param protocol the primitive protocol
    * @return atomic ID generator builder
    */
-  default AtomicIdGeneratorBuilder atomicIdGeneratorBuilder(String name, PrimitiveProtocol protocol) {
+  default AtomicIdGenerator.Builder atomicIdGeneratorBuilder(String name, PrimitiveProtocol protocol) {
     return primitiveBuilder(name, AtomicIdGeneratorType.instance(), protocol);
   }
 
@@ -343,7 +325,7 @@ public interface PrimitivesService {
    * @param <V>  atomic value type
    * @return atomic value builder
    */
-  default <V> AtomicValueBuilder<V> atomicValueBuilder(String name) {
+  default <V> AtomicValue.Builder<V> atomicValueBuilder(String name) {
     return primitiveBuilder(name, AtomicValueType.instance());
   }
 
@@ -355,7 +337,7 @@ public interface PrimitivesService {
    * @param <V>      atomic value type
    * @return atomic value builder
    */
-  default <V> AtomicValueBuilder<V> atomicValueBuilder(String name, PrimitiveProtocol protocol) {
+  default <V> AtomicValue.Builder<V> atomicValueBuilder(String name, PrimitiveProtocol protocol) {
     return primitiveBuilder(name, AtomicValueType.instance(), protocol);
   }
 
@@ -365,7 +347,7 @@ public interface PrimitivesService {
    * @param name the primitive name
    * @return leader election builder
    */
-  default <T> LeaderElectionBuilder<T> leaderElectionBuilder(String name) {
+  default <T> LeaderElection.Builder<T> leaderElectionBuilder(String name) {
     return primitiveBuilder(name, LeaderElectionType.instance());
   }
 
@@ -376,7 +358,7 @@ public interface PrimitivesService {
    * @param protocol the primitive protocol
    * @return leader election builder
    */
-  default <T> LeaderElectionBuilder<T> leaderElectionBuilder(String name, PrimitiveProtocol protocol) {
+  default <T> LeaderElection.Builder<T> leaderElectionBuilder(String name, PrimitiveProtocol protocol) {
     return primitiveBuilder(name, LeaderElectionType.instance(), protocol);
   }
 
@@ -386,7 +368,7 @@ public interface PrimitivesService {
    * @param name the primitive name
    * @return leader elector builder
    */
-  default <T> LeaderElectorBuilder<T> leaderElectorBuilder(String name) {
+  default <T> LeaderElector.Builder<T> leaderElectorBuilder(String name) {
     return primitiveBuilder(name, LeaderElectorType.instance());
   }
 
@@ -397,7 +379,7 @@ public interface PrimitivesService {
    * @param protocol the primitive protocol
    * @return leader elector builder
    */
-  default <T> LeaderElectorBuilder<T> leaderElectorBuilder(String name, PrimitiveProtocol protocol) {
+  default <T> LeaderElector.Builder<T> leaderElectorBuilder(String name, PrimitiveProtocol protocol) {
     return primitiveBuilder(name, LeaderElectorType.instance(), protocol);
   }
 
@@ -407,7 +389,7 @@ public interface PrimitivesService {
    * @param name the primitive name
    * @return distributed lock builder
    */
-  default DistributedLockBuilder lockBuilder(String name) {
+  default DistributedLock.Builder lockBuilder(String name) {
     return primitiveBuilder(name, DistributedLockType.instance());
   }
 
@@ -418,7 +400,7 @@ public interface PrimitivesService {
    * @param protocol the primitive protocol
    * @return distributed lock builder
    */
-  default DistributedLockBuilder lockBuilder(String name, PrimitiveProtocol protocol) {
+  default DistributedLock.Builder lockBuilder(String name, PrimitiveProtocol protocol) {
     return primitiveBuilder(name, DistributedLockType.instance(), protocol);
   }
 
@@ -428,7 +410,7 @@ public interface PrimitivesService {
    * @param name the primitive name
    * @return distributed cyclic barrier builder
    */
-  default DistributedCyclicBarrierBuilder cyclicBarrierBuilder(String name) {
+  default DistributedCyclicBarrier.Builder cyclicBarrierBuilder(String name) {
     return primitiveBuilder(name, DistributedCyclicBarrierType.instance());
   }
 
@@ -439,7 +421,7 @@ public interface PrimitivesService {
    * @param protocol the primitive protocol
    * @return distributed cyclic barrier builder
    */
-  default DistributedCyclicBarrierBuilder cyclicBarrierBuilder(String name, PrimitiveProtocol protocol) {
+  default DistributedCyclicBarrier.Builder cyclicBarrierBuilder(String name, PrimitiveProtocol protocol) {
     return primitiveBuilder(name, DistributedCyclicBarrierType.instance(), protocol);
   }
 
@@ -449,7 +431,7 @@ public interface PrimitivesService {
    * @param name the primitive name
    * @return distributed semaphore builder
    */
-  default DistributedSemaphoreBuilder semaphoreBuilder(String name) {
+  default DistributedSemaphore.Builder semaphoreBuilder(String name) {
     return primitiveBuilder(name, DistributedSemaphoreType.instance());
   }
 
@@ -460,7 +442,7 @@ public interface PrimitivesService {
    * @param protocol the primitive protocol
    * @return distributed semaphore builder
    */
-  default DistributedSemaphoreBuilder semaphoreBuilder(String name, PrimitiveProtocol protocol) {
+  default DistributedSemaphore.Builder semaphoreBuilder(String name, PrimitiveProtocol protocol) {
     return primitiveBuilder(name, DistributedSemaphoreType.instance(), protocol);
   }
 
@@ -471,7 +453,7 @@ public interface PrimitivesService {
    * @param <E>  work queue element type
    * @return work queue builder
    */
-  default <E> WorkQueueBuilder<E> workQueueBuilder(String name) {
+  default <E> WorkQueue.Builder<E> workQueueBuilder(String name) {
     return primitiveBuilder(name, WorkQueueType.instance());
   }
 
@@ -483,7 +465,7 @@ public interface PrimitivesService {
    * @param <E>      work queue element type
    * @return work queue builder
    */
-  default <E> WorkQueueBuilder<E> workQueueBuilder(String name, PrimitiveProtocol protocol) {
+  default <E> WorkQueue.Builder<E> workQueueBuilder(String name, PrimitiveProtocol protocol) {
     return primitiveBuilder(name, WorkQueueType.instance(), protocol);
   }
 
@@ -492,7 +474,7 @@ public interface PrimitivesService {
    *
    * @return transaction builder
    */
-  default TransactionBuilder transactionBuilder() {
+  default Transaction.Builder transactionBuilder() {
     return transactionBuilder("transaction");
   }
 
@@ -502,7 +484,7 @@ public interface PrimitivesService {
    * @param name the transaction name
    * @return the transaction builder
    */
-  TransactionBuilder transactionBuilder(String name);
+  Transaction.Builder transactionBuilder(String name);
 
   /**
    * Creates a new AtomicMap.

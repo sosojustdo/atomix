@@ -32,7 +32,7 @@ import static com.google.common.base.MoreObjects.toStringHelper;
 /**
  * Placeholder type for the distributed multiset primitive type.
  */
-public class DistributedMultisetType<E> implements PrimitiveType<DistributedMultisetBuilder<E>, DistributedMultisetConfig, DistributedMultiset<E>> {
+public class DistributedMultisetType<E> implements PrimitiveType<DistributedMultiset.Builder<E>, DistributedMultisetConfig, DistributedMultiset<E>> {
   private static final String NAME = "multiset";
   private static final DistributedMultisetType INSTANCE = new DistributedMultisetType();
 
@@ -77,7 +77,7 @@ public class DistributedMultisetType<E> implements PrimitiveType<DistributedMult
   }
 
   @Override
-  public DistributedMultisetBuilder<E> newBuilder(String name, DistributedMultisetConfig config, PrimitiveManagementService managementService) {
+  public DistributedMultiset.Builder<E> newBuilder(String name, DistributedMultisetConfig config, PrimitiveManagementService managementService) {
     return new DistributedMultisetProxyBuilder<E>(name, config, managementService);
   }
 

@@ -78,7 +78,7 @@ public interface AsyncTransaction extends AsyncPrimitive {
    * @param <V>  the value type
    * @return the transactional map builder
    */
-  <K, V> TransactionalMapBuilder<K, V> mapBuilder(String name);
+  <K, V> TransactionalMap.Builder<K, V> mapBuilder(String name);
 
   /**
    * Returns a new transactional map builder.
@@ -89,7 +89,7 @@ public interface AsyncTransaction extends AsyncPrimitive {
    * @param <V>  the value type
    * @return the transactional map builder
    */
-  default <K, V> TransactionalMapBuilder<K, V> mapBuilder(String name, PrimitiveProtocol protocol) {
+  default <K, V> TransactionalMap.Builder<K, V> mapBuilder(String name, PrimitiveProtocol protocol) {
     return this.<K, V>mapBuilder(name).withProtocol(protocol);
   }
 
@@ -100,7 +100,7 @@ public interface AsyncTransaction extends AsyncPrimitive {
    * @param <E>  the set element type
    * @return the transactional set builder
    */
-  <E> TransactionalSetBuilder<E> setBuilder(String name);
+  <E> TransactionalSet.Builder<E> setBuilder(String name);
 
   /**
    * Returns a new transactional set builder.
@@ -110,7 +110,7 @@ public interface AsyncTransaction extends AsyncPrimitive {
    * @param <E>  the set element type
    * @return the transactional set builder
    */
-  default <E> TransactionalSetBuilder<E> setBuilder(String name, PrimitiveProtocol protocol) {
+  default <E> TransactionalSet.Builder<E> setBuilder(String name, PrimitiveProtocol protocol) {
     return this.<E>setBuilder(name).withProtocol(protocol);
   }
 

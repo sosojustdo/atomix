@@ -15,9 +15,13 @@
  */
 package io.atomix.core.barrier;
 
+import io.atomix.primitive.DistributedPrimitive;
+import io.atomix.primitive.PrimitiveManagementService;
 import io.atomix.primitive.SyncPrimitive;
 
 import java.time.Duration;
+
+import static com.google.common.base.Preconditions.checkNotNull;
 
 /**
  * Distributed cyclic barrier.
@@ -69,4 +73,28 @@ public interface DistributedCyclicBarrier extends SyncPrimitive {
 
   @Override
   AsyncDistributedCyclicBarrier async();
+
+  /**
+   * Distributed cyclic barrier builder.
+   */
+  abstract class Builder extends DistributedPrimitive.Builder<Builder, DistributedCyclicBarrierConfig, DistributedCyclicBarrier> {
+
+    protected Runnable barrierAction = () -> {
+    };
+
+    public Builder(String name, DistributedCyclicBarrierConfig config, PrimitiveManagementService managementService) {
+      super(DistributedCyclicBarrierType.instance(), name, config, managementService);
+    }
+
+    /**
+     * Sets the action to run when the barrier is tripped.
+     *
+     * @param barrierAction the action to run when the barrier is tripped
+     * @return the cyclic barrier builder
+     */
+    public Builder withBarrierAction(Runnable barrierAction) {
+      this.barrierAction = checkNotNull(barrierAction);
+      return this;
+    }
+  }
 }

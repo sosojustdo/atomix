@@ -15,11 +15,10 @@
  */
 package io.atomix.core.transaction.impl;
 
-import io.atomix.core.map.AtomicMapBuilder;
+import io.atomix.core.map.AtomicMap;
 import io.atomix.core.map.AtomicMapConfig;
 import io.atomix.core.map.AtomicMapType;
 import io.atomix.core.transaction.TransactionalMap;
-import io.atomix.core.transaction.TransactionalMapBuilder;
 import io.atomix.core.transaction.TransactionalMapConfig;
 import io.atomix.primitive.PrimitiveManagementService;
 import io.atomix.primitive.protocol.PrimitiveProtocol;
@@ -30,8 +29,8 @@ import java.util.concurrent.CompletableFuture;
 /**
  * Transactional map builder.
  */
-public class DefaultTransactionalMapBuilder<K, V> extends TransactionalMapBuilder<K, V> {
-  private final AtomicMapBuilder<K, V> mapBuilder;
+public class DefaultTransactionalMapBuilder<K, V> extends TransactionalMap.Builder<K, V> {
+  private final AtomicMap.Builder<K, V> mapBuilder;
   private final DefaultTransaction transaction;
 
   public DefaultTransactionalMapBuilder(String name, TransactionalMapConfig config, PrimitiveManagementService managementService, DefaultTransaction transaction) {
@@ -41,13 +40,13 @@ public class DefaultTransactionalMapBuilder<K, V> extends TransactionalMapBuilde
   }
 
   @Override
-  public TransactionalMapBuilder<K, V> withSerializer(Serializer serializer) {
+  public TransactionalMap.Builder<K, V> withSerializer(Serializer serializer) {
     mapBuilder.withSerializer(serializer);
     return this;
   }
 
   @Override
-  public TransactionalMapBuilder<K, V> withProtocol(PrimitiveProtocol protocol) {
+  public TransactionalMap.Builder<K, V> withProtocol(PrimitiveProtocol protocol) {
     mapBuilder.withProtocol(protocol);
     return this;
   }

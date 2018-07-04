@@ -13,13 +13,12 @@
  * See the License for the specific language governing permissions and
  * limitations under the License.
  */
-package io.atomix.core.list.impl;
+package io.atomix.core.multiset.impl;
 
 import com.google.common.io.BaseEncoding;
-import io.atomix.core.list.AsyncDistributedList;
-import io.atomix.core.list.DistributedList;
-import io.atomix.core.list.DistributedListBuilder;
-import io.atomix.core.list.DistributedListConfig;
+import io.atomix.core.multiset.AsyncDistributedMultiset;
+import io.atomix.core.multiset.DistributedMultiset;
+import io.atomix.core.multiset.DistributedMultisetConfig;
 import io.atomix.primitive.PrimitiveManagementService;
 import io.atomix.primitive.proxy.ProxyClient;
 import io.atomix.primitive.service.ServiceConfig;
@@ -28,39 +27,39 @@ import io.atomix.utils.serializer.Serializer;
 import java.util.concurrent.CompletableFuture;
 
 /**
- * Default distributed list builder.
+ * Default distributed multiset builder.
  *
- * @param <E> type for list elements
+ * @param <E> type for multiset elements
  */
-public class DistributedListProxyBuilder<E> extends DistributedListBuilder<E> {
-  public DistributedListProxyBuilder(String name, DistributedListConfig config, PrimitiveManagementService managementService) {
+public class DistributedMultisetProxyBuilder<E> extends DistributedMultiset.Builder<E> {
+  public DistributedMultisetProxyBuilder(String name, DistributedMultisetConfig config, PrimitiveManagementService managementService) {
     super(name, config, managementService);
   }
 
   @Override
   @SuppressWarnings("unchecked")
-  public CompletableFuture<DistributedList<E>> buildAsync() {
-    ProxyClient<DistributedListService> proxy = protocol().newProxy(
+  public CompletableFuture<DistributedMultiset<E>> buildAsync() {
+    ProxyClient<DistributedMultisetService> proxy = protocol().newProxy(
         name(),
         primitiveType(),
-        DistributedListService.class,
+        DistributedMultisetService.class,
         new ServiceConfig(),
         managementService.getPartitionService());
-    return new DistributedListProxy(proxy, managementService.getPrimitiveRegistry())
+    return new DistributedMultisetProxy(proxy, managementService.getPrimitiveRegistry())
         .connect()
         .thenApply(rawList -> {
           Serializer serializer = serializer();
-          AsyncDistributedList<E> list = new TranscodingAsyncDistributedList<>(
+          AsyncDistributedMultiset<E> list = new TranscodingAsyncDistributedMultiset<>(
               rawList,
               element -> BaseEncoding.base16().encode(serializer.encode(element)),
               string -> serializer.decode(BaseEncoding.base16().decode(string)));
 
           if (config.isCacheEnabled()) {
-            list = new CachingAsyncDistributedList<>(list, config.getCacheSize());
+            list = new CachingAsyncDistributedMultiset<>(list, config.getCacheSize());
           }
 
           if (config.isReadOnly()) {
-            list = new UnmodifiableAsyncDistributedList<>(list);
+            list = new UnmodifiableAsyncDistributedMultiset<>(list);
           }
           return list.sync();
         });

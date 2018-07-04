@@ -29,7 +29,7 @@ import static com.google.common.base.MoreObjects.toStringHelper;
 /**
  * Atomic counter primitive type.
  */
-public class AtomicCounterType implements PrimitiveType<AtomicCounterBuilder, AtomicCounterConfig, AtomicCounter> {
+public class AtomicCounterType implements PrimitiveType<AtomicCounter.Builder, AtomicCounterConfig, AtomicCounter> {
   private static final String NAME = "counter";
   private static final AtomicCounterType INSTANCE = new AtomicCounterType();
 
@@ -63,7 +63,7 @@ public class AtomicCounterType implements PrimitiveType<AtomicCounterBuilder, At
   }
 
   @Override
-  public AtomicCounterBuilder newBuilder(String name, AtomicCounterConfig config, PrimitiveManagementService managementService) {
+  public AtomicCounter.Builder newBuilder(String name, AtomicCounterConfig config, PrimitiveManagementService managementService) {
     return new AtomicCounterProxyBuilder(name, config, managementService);
   }
 

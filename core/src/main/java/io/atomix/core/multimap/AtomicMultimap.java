@@ -20,6 +20,8 @@ import com.google.common.util.concurrent.MoreExecutors;
 import io.atomix.core.collection.DistributedCollection;
 import io.atomix.core.multiset.DistributedMultiset;
 import io.atomix.core.set.DistributedSet;
+import io.atomix.primitive.DistributedPrimitive;
+import io.atomix.primitive.PrimitiveManagementService;
 import io.atomix.primitive.SyncPrimitive;
 import io.atomix.utils.time.Versioned;
 
@@ -227,4 +229,13 @@ public interface AtomicMultimap<K, V> extends SyncPrimitive {
 
   @Override
   AsyncAtomicMultimap<K, V> async();
+
+  /**
+   * A builder class for {@code AsyncConsistentMultimap}.
+   */
+  abstract class Builder<K, V> extends DistributedPrimitive.Builder<Builder<K, V>, AtomicMultimapConfig, AtomicMultimap<K, V>> {
+    protected Builder(String name, AtomicMultimapConfig config, PrimitiveManagementService managementService) {
+      super(AtomicMultimapType.instance(), name, config, managementService);
+    }
+  }
 }

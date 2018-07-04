@@ -15,11 +15,10 @@
  */
 package io.atomix.core.transaction.impl;
 
-import io.atomix.core.set.DistributedSetBuilder;
+import io.atomix.core.set.DistributedSet;
 import io.atomix.core.set.DistributedSetConfig;
 import io.atomix.core.set.DistributedSetType;
 import io.atomix.core.transaction.TransactionalSet;
-import io.atomix.core.transaction.TransactionalSetBuilder;
 import io.atomix.core.transaction.TransactionalSetConfig;
 import io.atomix.primitive.PrimitiveManagementService;
 import io.atomix.primitive.protocol.PrimitiveProtocol;
@@ -30,8 +29,8 @@ import java.util.concurrent.CompletableFuture;
 /**
  * Default transactional set builder.
  */
-public class DefaultTransactionalSetBuilder<E> extends TransactionalSetBuilder<E> {
-  private final DistributedSetBuilder<E> setBuilder;
+public class DefaultTransactionalSetBuilder<E> extends TransactionalSet.Builder<E> {
+  private final DistributedSet.Builder<E> setBuilder;
   private final DefaultTransaction transaction;
 
   public DefaultTransactionalSetBuilder(String name, TransactionalSetConfig config, PrimitiveManagementService managementService, DefaultTransaction transaction) {
@@ -41,13 +40,13 @@ public class DefaultTransactionalSetBuilder<E> extends TransactionalSetBuilder<E
   }
 
   @Override
-  public TransactionalSetBuilder<E> withSerializer(Serializer serializer) {
+  public TransactionalSet.Builder<E> withSerializer(Serializer serializer) {
     setBuilder.withSerializer(serializer);
     return this;
   }
 
   @Override
-  public TransactionalSetBuilder<E> withProtocol(PrimitiveProtocol protocol) {
+  public TransactionalSet.Builder<E> withProtocol(PrimitiveProtocol protocol) {
     setBuilder.withProtocol(protocol);
     return this;
   }

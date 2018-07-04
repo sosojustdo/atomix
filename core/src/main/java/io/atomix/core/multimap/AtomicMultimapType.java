@@ -34,7 +34,7 @@ import static com.google.common.base.MoreObjects.toStringHelper;
 /**
  * Consistent multimap primitive type.
  */
-public class AtomicMultimapType<K, V> implements PrimitiveType<AtomicMultimapBuilder<K, V>, AtomicMultimapConfig, AtomicMultimap<K, V>> {
+public class AtomicMultimapType<K, V> implements PrimitiveType<AtomicMultimap.Builder<K, V>, AtomicMultimapConfig, AtomicMultimap<K, V>> {
   private static final String NAME = "atomic-multimap";
   private static final AtomicMultimapType INSTANCE = new AtomicMultimapType();
 
@@ -78,7 +78,7 @@ public class AtomicMultimapType<K, V> implements PrimitiveType<AtomicMultimapBui
   }
 
   @Override
-  public AtomicMultimapBuilder<K, V> newBuilder(String name, AtomicMultimapConfig config, PrimitiveManagementService managementService) {
+  public AtomicMultimap.Builder<K, V> newBuilder(String name, AtomicMultimapConfig config, PrimitiveManagementService managementService) {
     return new AtomicMultimapProxyBuilder<>(name, config, managementService);
   }
 

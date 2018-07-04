@@ -26,8 +26,8 @@ import io.atomix.core.PrimitivesService;
 import io.atomix.core.barrier.DistributedCyclicBarrier;
 import io.atomix.core.barrier.DistributedCyclicBarrierType;
 import io.atomix.core.counter.AtomicCounter;
-import io.atomix.core.counter.AtomicCounterMap;
 import io.atomix.core.counter.AtomicCounterType;
+import io.atomix.core.countermap.AtomicCounterMap;
 import io.atomix.core.countermap.AtomicCounterMapType;
 import io.atomix.core.idgenerator.AtomicIdGenerator;
 import io.atomix.core.idgenerator.AtomicIdGeneratorType;
@@ -52,7 +52,7 @@ import io.atomix.core.semaphore.DistributedSemaphoreType;
 import io.atomix.core.set.DistributedSet;
 import io.atomix.core.set.DistributedSetType;
 import io.atomix.core.transaction.ManagedTransactionService;
-import io.atomix.core.transaction.TransactionBuilder;
+import io.atomix.core.transaction.Transaction;
 import io.atomix.core.transaction.TransactionConfig;
 import io.atomix.core.transaction.TransactionService;
 import io.atomix.core.transaction.impl.DefaultTransactionBuilder;
@@ -138,7 +138,7 @@ public class CorePrimitivesService implements ManagedPrimitivesService {
   }
 
   @Override
-  public TransactionBuilder transactionBuilder(String name) {
+  public Transaction.Builder transactionBuilder(String name) {
     return new DefaultTransactionBuilder(name, new TransactionConfig(), managementService, transactionService);
   }
 

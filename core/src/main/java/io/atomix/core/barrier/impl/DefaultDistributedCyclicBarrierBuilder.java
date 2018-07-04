@@ -5,7 +5,7 @@
  * you may not use this file except in compliance with the License.
  * You may obtain a copy of the License at
  *
- *     http://www.apache.org/licenses/LICENSE-2.0
+ * http://www.apache.org/licenses/LICENSE-2.0
  *
  * Unless required by applicable law or agreed to in writing, software
  * distributed under the License is distributed on an "AS IS" BASIS,
@@ -13,13 +13,11 @@
  * See the License for the specific language governing permissions and
  * limitations under the License.
  */
-package io.atomix.core.idgenerator.impl;
+package io.atomix.core.barrier.impl;
 
-import io.atomix.core.counter.impl.AtomicCounterProxy;
-import io.atomix.core.counter.impl.AtomicCounterService;
-import io.atomix.core.idgenerator.AtomicIdGenerator;
-import io.atomix.core.idgenerator.AtomicIdGeneratorBuilder;
-import io.atomix.core.idgenerator.AtomicIdGeneratorConfig;
+import io.atomix.core.barrier.AsyncDistributedCyclicBarrier;
+import io.atomix.core.barrier.DistributedCyclicBarrier;
+import io.atomix.core.barrier.DistributedCyclicBarrierConfig;
 import io.atomix.primitive.PrimitiveManagementService;
 import io.atomix.primitive.proxy.ProxyClient;
 import io.atomix.primitive.service.ServiceConfig;
@@ -27,24 +25,24 @@ import io.atomix.primitive.service.ServiceConfig;
 import java.util.concurrent.CompletableFuture;
 
 /**
- * Default implementation of AtomicIdGeneratorBuilder.
+ * Default distributed cyclic barrier builder implementation.
  */
-public class DelegatingAtomicIdGeneratorBuilder extends AtomicIdGeneratorBuilder {
-  public DelegatingAtomicIdGeneratorBuilder(String name, AtomicIdGeneratorConfig config, PrimitiveManagementService managementService) {
+public class DistributedCyclicBarrierProxyBuilder extends DistributedCyclicBarrier.Builder {
+  public DistributedCyclicBarrierProxyBuilder(String name, DistributedCyclicBarrierConfig config, PrimitiveManagementService managementService) {
     super(name, config, managementService);
   }
 
   @Override
   @SuppressWarnings("unchecked")
-  public CompletableFuture<AtomicIdGenerator> buildAsync() {
-    ProxyClient<AtomicCounterService> proxy = protocol().newProxy(
+  public CompletableFuture<DistributedCyclicBarrier> buildAsync() {
+    ProxyClient<DistributedCyclicBarrierService> proxy = protocol().newProxy(
         name(),
         primitiveType(),
-        AtomicCounterService.class,
+        DistributedCyclicBarrierService.class,
         new ServiceConfig(),
         managementService.getPartitionService());
-    return new AtomicCounterProxy(proxy, managementService.getPrimitiveRegistry())
+    return new DistributedCyclicBarrierProxy(proxy, managementService.getPrimitiveRegistry(), barrierAction)
         .connect()
-        .thenApply(counter -> new DelegatingAtomicIdGenerator(counter).sync());
+        .thenApply(AsyncDistributedCyclicBarrier::sync);
   }
 }

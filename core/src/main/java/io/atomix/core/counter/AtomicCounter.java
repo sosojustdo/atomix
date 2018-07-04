@@ -15,6 +15,8 @@
  */
 package io.atomix.core.counter;
 
+import io.atomix.primitive.DistributedPrimitive;
+import io.atomix.primitive.PrimitiveManagementService;
 import io.atomix.primitive.SyncPrimitive;
 
 /**
@@ -92,4 +94,13 @@ public interface AtomicCounter extends SyncPrimitive {
 
   @Override
   AsyncAtomicCounter async();
+
+  /**
+   * Builder for AtomicCounter.
+   */
+  abstract class Builder extends DistributedPrimitive.Builder<Builder, AtomicCounterConfig, AtomicCounter> {
+    public Builder(String name, AtomicCounterConfig config, PrimitiveManagementService managementService) {
+      super(AtomicCounterType.instance(), name, config, managementService);
+    }
+  }
 }

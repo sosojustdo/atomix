@@ -5,7 +5,7 @@
  * you may not use this file except in compliance with the License.
  * You may obtain a copy of the License at
  *
- * http://www.apache.org/licenses/LICENSE-2.0
+ *     http://www.apache.org/licenses/LICENSE-2.0
  *
  * Unless required by applicable law or agreed to in writing, software
  * distributed under the License is distributed on an "AS IS" BASIS,
@@ -13,12 +13,12 @@
  * See the License for the specific language governing permissions and
  * limitations under the License.
  */
-package io.atomix.core.lock.impl;
+package io.atomix.core.idgenerator.impl;
 
-import io.atomix.core.lock.AsyncDistributedLock;
-import io.atomix.core.lock.DistributedLock;
-import io.atomix.core.lock.DistributedLockBuilder;
-import io.atomix.core.lock.DistributedLockConfig;
+import io.atomix.core.counter.impl.AtomicCounterProxy;
+import io.atomix.core.counter.impl.AtomicCounterService;
+import io.atomix.core.idgenerator.AtomicIdGenerator;
+import io.atomix.core.idgenerator.AtomicIdGeneratorConfig;
 import io.atomix.primitive.PrimitiveManagementService;
 import io.atomix.primitive.proxy.ProxyClient;
 import io.atomix.primitive.service.ServiceConfig;
@@ -26,24 +26,24 @@ import io.atomix.primitive.service.ServiceConfig;
 import java.util.concurrent.CompletableFuture;
 
 /**
- * Default distributed lock builder implementation.
+ * Default implementation of AtomicIdGeneratorBuilder.
  */
-public class DistributedLockProxyBuilder extends DistributedLockBuilder {
-  public DistributedLockProxyBuilder(String name, DistributedLockConfig config, PrimitiveManagementService managementService) {
+public class DelegatingAtomicIdGeneratorBuilder extends AtomicIdGenerator.Builder {
+  public DelegatingAtomicIdGeneratorBuilder(String name, AtomicIdGeneratorConfig config, PrimitiveManagementService managementService) {
     super(name, config, managementService);
   }
 
   @Override
   @SuppressWarnings("unchecked")
-  public CompletableFuture<DistributedLock> buildAsync() {
-    ProxyClient<DistributedLockService> proxy = protocol().newProxy(
+  public CompletableFuture<AtomicIdGenerator> buildAsync() {
+    ProxyClient<AtomicCounterService> proxy = protocol().newProxy(
         name(),
         primitiveType(),
-        DistributedLockService.class,
+        AtomicCounterService.class,
         new ServiceConfig(),
         managementService.getPartitionService());
-    return new DistributedLockProxy(proxy, managementService.getPrimitiveRegistry())
+    return new AtomicCounterProxy(proxy, managementService.getPrimitiveRegistry())
         .connect()
-        .thenApply(AsyncDistributedLock::sync);
+        .thenApply(counter -> new DelegatingAtomicIdGenerator(counter).sync());
   }
 }

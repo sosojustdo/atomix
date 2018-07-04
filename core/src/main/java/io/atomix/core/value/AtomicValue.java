@@ -15,6 +15,8 @@
  */
 package io.atomix.core.value;
 
+import io.atomix.primitive.DistributedPrimitive;
+import io.atomix.primitive.PrimitiveManagementService;
 import io.atomix.primitive.SyncPrimitive;
 
 /**
@@ -75,4 +77,15 @@ public interface AtomicValue<V> extends SyncPrimitive {
 
   @Override
   AsyncAtomicValue<V> async();
+
+  /**
+   * Builder for constructing new AtomicValue instances.
+   *
+   * @param <V> atomic value type
+   */
+  abstract class Builder<V> extends DistributedPrimitive.Builder<Builder<V>, AtomicValueConfig, AtomicValue<V>> {
+    protected Builder(String name, AtomicValueConfig config, PrimitiveManagementService managementService) {
+      super(AtomicValueType.instance(), name, config, managementService);
+    }
+  }
 }

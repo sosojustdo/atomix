@@ -15,7 +15,14 @@
  */
 package io.atomix.core.leadership;
 
+import io.atomix.cluster.MemberId;
+import io.atomix.primitive.DistributedPrimitive;
+import io.atomix.primitive.PrimitiveManagementService;
 import io.atomix.primitive.SyncPrimitive;
+import io.atomix.utils.serializer.Namespace;
+import io.atomix.utils.serializer.NamespaceConfig;
+import io.atomix.utils.serializer.Namespaces;
+import io.atomix.utils.serializer.Serializer;
 
 /**
  * {@code LeaderElector} provides the same functionality as {@link AsyncLeaderElection} with
@@ -92,4 +99,35 @@ public interface LeaderElection<T> extends SyncPrimitive {
 
   @Override
   AsyncLeaderElection<T> async();
+
+  /**
+   * Builder for constructing new {@link AsyncLeaderElection} instances.
+   */
+  abstract class Builder<T> extends DistributedPrimitive.Builder<Builder<T>, LeaderElectionConfig, LeaderElection<T>> {
+
+    public Builder(String name, LeaderElectionConfig config, PrimitiveManagementService managementService) {
+      super(LeaderElectionType.instance(), name, config, managementService);
+    }
+
+    @Override
+    public Serializer serializer() {
+      Serializer serializer = this.serializer;
+      if (serializer == null) {
+        NamespaceConfig config = this.config.getNamespaceConfig();
+        if (config == null) {
+          serializer = Serializer.using(Namespace.builder()
+              .register(Namespaces.BASIC)
+              .register(MemberId.class)
+              .build());
+        } else {
+          serializer = Serializer.using(Namespace.builder()
+              .register(Namespaces.BASIC)
+              .register(MemberId.class)
+              .register(new Namespace(config))
+              .build());
+        }
+      }
+      return serializer;
+    }
+  }
 }

@@ -34,7 +34,7 @@ import static com.google.common.base.MoreObjects.toStringHelper;
 /**
  * Distributed queue primitive type.
  */
-public class DistributedQueueType<E> implements PrimitiveType<DistributedQueueBuilder<E>, DistributedQueueConfig, DistributedQueue<E>> {
+public class DistributedQueueType<E> implements PrimitiveType<DistributedQueue.Builder<E>, DistributedQueueConfig, DistributedQueue<E>> {
   private static final String NAME = "queue";
   private static final DistributedQueueType INSTANCE = new DistributedQueueType();
 
@@ -85,7 +85,7 @@ public class DistributedQueueType<E> implements PrimitiveType<DistributedQueueBu
   }
 
   @Override
-  public DistributedQueueBuilder<E> newBuilder(String name, DistributedQueueConfig config, PrimitiveManagementService managementService) {
+  public DistributedQueue.Builder<E> newBuilder(String name, DistributedQueueConfig config, PrimitiveManagementService managementService) {
     return new DistributedQueueProxyBuilder<>(name, config, managementService);
   }
 

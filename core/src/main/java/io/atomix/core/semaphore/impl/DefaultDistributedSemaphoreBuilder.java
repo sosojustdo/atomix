@@ -17,14 +17,13 @@ package io.atomix.core.semaphore.impl;
 
 import io.atomix.core.semaphore.AsyncDistributedSemaphore;
 import io.atomix.core.semaphore.DistributedSemaphore;
-import io.atomix.core.semaphore.DistributedSemaphoreBuilder;
 import io.atomix.core.semaphore.DistributedSemaphoreConfig;
 import io.atomix.primitive.PrimitiveManagementService;
 import io.atomix.primitive.proxy.ProxyClient;
 
 import java.util.concurrent.CompletableFuture;
 
-public class DistributedSemaphoreProxyBuilder extends DistributedSemaphoreBuilder {
+public class DistributedSemaphoreProxyBuilder extends DistributedSemaphore.Builder {
   public DistributedSemaphoreProxyBuilder(String name, DistributedSemaphoreConfig config, PrimitiveManagementService managementService) {
     super(name, config, managementService);
   }

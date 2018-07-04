@@ -19,6 +19,8 @@ package io.atomix.core.map;
 import com.google.common.util.concurrent.MoreExecutors;
 import io.atomix.core.collection.DistributedCollection;
 import io.atomix.core.set.DistributedSet;
+import io.atomix.primitive.DistributedPrimitive;
+import io.atomix.primitive.PrimitiveManagementService;
 import io.atomix.primitive.SyncPrimitive;
 import io.atomix.utils.time.Versioned;
 
@@ -373,4 +375,37 @@ public interface AtomicMap<K, V> extends SyncPrimitive {
 
   @Override
   AsyncAtomicMap<K, V> async();
+
+  /**
+   * Builder for {@link AtomicMap} instances.
+   *
+   * @param <K> type for map key
+   * @param <V> type for map value
+   */
+  abstract class Builder<K, V> extends DistributedPrimitive.Builder<Builder<K, V>, AtomicMapConfig, AtomicMap<K, V>> {
+    protected Builder(String name, AtomicMapConfig config, PrimitiveManagementService managementService) {
+      super(AtomicMapType.instance(), name, config, managementService);
+    }
+
+    /**
+     * Enables null values in the map.
+     *
+     * @return this builder
+     */
+    public Builder<K, V> withNullValues() {
+      config.setNullValues();
+      return this;
+    }
+
+    /**
+     * Sets whether null values are allowed.
+     *
+     * @param nullValues whether null values are allowed
+     * @return this builder
+     */
+    public Builder<K, V> withNullValues(boolean nullValues) {
+      config.setNullValues(nullValues);
+      return this;
+    }
+  }
 }

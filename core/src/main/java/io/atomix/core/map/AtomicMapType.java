@@ -40,7 +40,7 @@ import static com.google.common.base.MoreObjects.toStringHelper;
 /**
  * Consistent map primitive type.
  */
-public class AtomicMapType<K, V> implements PrimitiveType<AtomicMapBuilder<K, V>, AtomicMapConfig, AtomicMap<K, V>> {
+public class AtomicMapType<K, V> implements PrimitiveType<AtomicMap.Builder<K, V>, AtomicMapConfig, AtomicMap<K, V>> {
   private static final String NAME = "atomic-map";
 
   private static final AtomicMapType INSTANCE = new AtomicMapType();
@@ -102,7 +102,7 @@ public class AtomicMapType<K, V> implements PrimitiveType<AtomicMapBuilder<K, V>
   }
 
   @Override
-  public AtomicMapBuilder<K, V> newBuilder(String name, AtomicMapConfig config, PrimitiveManagementService managementService) {
+  public AtomicMap.Builder<K, V> newBuilder(String name, AtomicMapConfig config, PrimitiveManagementService managementService) {
     return new AtomicMapProxyBuilder<>(name, config, managementService);
   }
 

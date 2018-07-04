@@ -16,6 +16,8 @@
 
 package io.atomix.core.tree;
 
+import io.atomix.primitive.DistributedPrimitive;
+import io.atomix.primitive.PrimitiveManagementService;
 import io.atomix.primitive.SyncPrimitive;
 import io.atomix.utils.time.Versioned;
 
@@ -142,4 +144,13 @@ public interface AtomicDocumentTree<V> extends SyncPrimitive {
 
   @Override
   AsyncAtomicDocumentTree<V> async();
+
+  /**
+   * Builder for {@link AtomicDocumentTree}.
+   */
+  abstract class Builder<V> extends DistributedPrimitive.Builder<Builder<V>, AtomicDocumentTreeConfig, AtomicDocumentTree<V>> {
+    protected Builder(String name, AtomicDocumentTreeConfig config, PrimitiveManagementService managementService) {
+      super(AtomicDocumentTreeType.instance(), name, config, managementService);
+    }
+  }
 }

@@ -18,6 +18,8 @@ package io.atomix.core.multiset;
 import com.google.common.collect.Multiset;
 import io.atomix.core.collection.DistributedCollection;
 import io.atomix.core.set.DistributedSet;
+import io.atomix.primitive.DistributedPrimitive;
+import io.atomix.primitive.PrimitiveManagementService;
 
 import java.util.Spliterator;
 import java.util.Spliterators;
@@ -40,4 +42,15 @@ public interface DistributedMultiset<E> extends DistributedCollection<E>, Multis
 
   @Override
   AsyncDistributedMultiset<E> async();
+
+  /**
+   * Builder for distributed multiset.
+   *
+   * @param <E> multiset element type
+   */
+  abstract class Builder<E> extends DistributedPrimitive.Builder<Builder<E>, DistributedMultisetConfig, DistributedMultiset<E>> {
+    protected Builder(String name, DistributedMultisetConfig config, PrimitiveManagementService managementService) {
+      super(DistributedMultisetType.instance(), name, config, managementService);
+    }
+  }
 }

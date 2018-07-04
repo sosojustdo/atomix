@@ -1,5 +1,5 @@
 /*
- * Copyright 2017-present Open Networking Foundation
+ * Copyright 2016-present Open Networking Foundation
  *
  * Licensed under the Apache License, Version 2.0 (the "License");
  * you may not use this file except in compliance with the License.
@@ -13,12 +13,11 @@
  * See the License for the specific language governing permissions and
  * limitations under the License.
  */
-package io.atomix.core.countermap.impl;
+package io.atomix.core.treemap.impl;
 
-import com.google.common.io.BaseEncoding;
-import io.atomix.core.counter.AtomicCounterMap;
-import io.atomix.core.countermap.AtomicCounterMapBuilder;
-import io.atomix.core.countermap.AtomicCounterMapConfig;
+import io.atomix.core.treemap.AsyncAtomicTreeMap;
+import io.atomix.core.treemap.AtomicTreeMap;
+import io.atomix.core.treemap.AtomicTreeMapConfig;
 import io.atomix.primitive.PrimitiveManagementService;
 import io.atomix.primitive.proxy.ProxyClient;
 import io.atomix.primitive.service.ServiceConfig;
@@ -27,30 +26,32 @@ import io.atomix.utils.serializer.Serializer;
 import java.util.concurrent.CompletableFuture;
 
 /**
- * Default {@code AtomicCounterMapBuilder}.
+ * Default {@link AsyncAtomicTreeMap} builder.
+ *
+ * @param <V> type for map value
  */
-public class AtomicCounterMapProxyBuilder<K> extends AtomicCounterMapBuilder<K> {
-  public AtomicCounterMapProxyBuilder(String name, AtomicCounterMapConfig config, PrimitiveManagementService managementService) {
+public class AtomicTreeMapProxyBuilder<V> extends AtomicTreeMap.Builder<V> {
+  public AtomicTreeMapProxyBuilder(String name, AtomicTreeMapConfig config, PrimitiveManagementService managementService) {
     super(name, config, managementService);
   }
 
   @Override
   @SuppressWarnings("unchecked")
-  public CompletableFuture<AtomicCounterMap<K>> buildAsync() {
-    ProxyClient<AtomicCounterMapService> proxy = protocol().newProxy(
+  public CompletableFuture<AtomicTreeMap<V>> buildAsync() {
+    ProxyClient<AtomicTreeMapService> proxy = protocol().newProxy(
         name(),
         primitiveType(),
-        AtomicCounterMapService.class,
+        AtomicTreeMapService.class,
         new ServiceConfig(),
         managementService.getPartitionService());
-    return new AtomicCounterMapProxy(proxy, managementService.getPrimitiveRegistry())
+    return new AtomicTreeMapProxy(proxy, managementService.getPrimitiveRegistry())
         .connect()
         .thenApply(map -> {
           Serializer serializer = serializer();
-          return new TranscodingAsyncAtomicCounterMap<K, String>(
-              map,
-              key -> BaseEncoding.base16().encode(serializer.encode(key)),
-              string -> serializer.decode(BaseEncoding.base16().decode(string)))
+          return new TranscodingAsyncAtomicTreeMap<V, byte[]>(
+              (AsyncAtomicTreeMap) map,
+              value -> serializer.encode(value),
+              bytes -> serializer.decode(bytes))
               .sync();
         });
   }

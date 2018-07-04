@@ -1,5 +1,5 @@
 /*
- * Copyright 2017-present Open Networking Foundation
+ * Copyright 2018-present Open Networking Foundation
  *
  * Licensed under the Apache License, Version 2.0 (the "License");
  * you may not use this file except in compliance with the License.
@@ -13,16 +13,17 @@
  * See the License for the specific language governing permissions and
  * limitations under the License.
  */
-package io.atomix.core.workqueue;
+package io.atomix.core.collection;
 
-import io.atomix.primitive.DistributedPrimitive;
-import io.atomix.primitive.PrimitiveManagementService;
+import io.atomix.primitive.PrimitiveType;
+import io.atomix.primitive.config.PrimitiveConfig;
 
 /**
- * Work queue builder.
+ * Distributed collection configuration.
  */
-public abstract class WorkQueueBuilder<E> extends DistributedPrimitive.Builder<WorkQueueBuilder<E>, WorkQueueConfig, WorkQueue<E>> {
-  public WorkQueueBuilder(String name, WorkQueueConfig config, PrimitiveManagementService managementService) {
-    super(WorkQueueType.instance(), name, config, managementService);
+public class DistributedCollectionConfig extends PrimitiveConfig<DistributedCollectionConfig> {
+  @Override
+  public PrimitiveType getType() {
+    return DistributedCollectionType.instance();
   }
 }

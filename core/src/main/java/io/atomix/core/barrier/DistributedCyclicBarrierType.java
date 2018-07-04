@@ -29,7 +29,7 @@ import static com.google.common.base.MoreObjects.toStringHelper;
 /**
  * Distributed cyclic barrier primitive type.
  */
-public class DistributedCyclicBarrierType implements PrimitiveType<DistributedCyclicBarrierBuilder, DistributedCyclicBarrierConfig, DistributedCyclicBarrier> {
+public class DistributedCyclicBarrierType implements PrimitiveType<DistributedCyclicBarrier.Builder, DistributedCyclicBarrierConfig, DistributedCyclicBarrier> {
   private static final String NAME = "cyclic-barrier";
   private static final DistributedCyclicBarrierType INSTANCE = new DistributedCyclicBarrierType();
 
@@ -67,7 +67,7 @@ public class DistributedCyclicBarrierType implements PrimitiveType<DistributedCy
   }
 
   @Override
-  public DistributedCyclicBarrierBuilder newBuilder(String name, DistributedCyclicBarrierConfig config, PrimitiveManagementService managementService) {
+  public DistributedCyclicBarrier.Builder newBuilder(String name, DistributedCyclicBarrierConfig config, PrimitiveManagementService managementService) {
     return new DistributedCyclicBarrierProxyBuilder(name, config, managementService);
   }
 

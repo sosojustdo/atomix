@@ -16,7 +16,6 @@
 package io.atomix.core.transaction.impl;
 
 import io.atomix.core.transaction.Transaction;
-import io.atomix.core.transaction.TransactionBuilder;
 import io.atomix.core.transaction.TransactionConfig;
 import io.atomix.core.transaction.TransactionService;
 import io.atomix.primitive.PrimitiveManagementService;
@@ -28,7 +27,7 @@ import static com.google.common.base.Preconditions.checkNotNull;
 /**
  * Default transaction builder.
  */
-public class DefaultTransactionBuilder extends TransactionBuilder {
+public class DefaultTransactionBuilder extends Transaction.Builder {
   private final TransactionService transactionService;
 
   public DefaultTransactionBuilder(

@@ -30,7 +30,7 @@ import static com.google.common.base.MoreObjects.toStringHelper;
  * Consistent tree map primitive type.
  */
 public class AtomicTreeMapType<V>
-    implements PrimitiveType<AtomicTreeMapBuilder<V>, AtomicTreeMapConfig, AtomicTreeMap<V>> {
+    implements PrimitiveType<AtomicTreeMap.Builder<V>, AtomicTreeMapConfig, AtomicTreeMap<V>> {
   private static final String NAME = "atomic-tree-map";
   private static final AtomicTreeMapType INSTANCE = new AtomicTreeMapType();
 
@@ -66,7 +66,7 @@ public class AtomicTreeMapType<V>
   }
 
   @Override
-  public AtomicTreeMapBuilder<V> newBuilder(String name, AtomicTreeMapConfig config, PrimitiveManagementService managementService) {
+  public AtomicTreeMap.Builder<V> newBuilder(String name, AtomicTreeMapConfig config, PrimitiveManagementService managementService) {
     return new AtomicTreeMapProxyBuilder<>(name, config, managementService);
   }
 

@@ -15,6 +15,8 @@
  */
 package io.atomix.core.lock;
 
+import io.atomix.primitive.DistributedPrimitive;
+import io.atomix.primitive.PrimitiveManagementService;
 import io.atomix.primitive.SyncPrimitive;
 import io.atomix.utils.time.Version;
 
@@ -56,4 +58,12 @@ public interface DistributedLock extends SyncPrimitive {
   @Override
   AsyncDistributedLock async();
 
+  /**
+   * Builder for AtomicIdGenerator.
+   */
+  abstract class Builder extends DistributedPrimitive.Builder<Builder, DistributedLockConfig, DistributedLock> {
+    public Builder(String name, DistributedLockConfig config, PrimitiveManagementService managementService) {
+      super(DistributedLockType.instance(), name, config, managementService);
+    }
+  }
 }

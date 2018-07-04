@@ -15,6 +15,8 @@
  */
 package io.atomix.core.transaction;
 
+import io.atomix.primitive.DistributedPrimitive;
+import io.atomix.primitive.PrimitiveManagementService;
 import io.atomix.primitive.SyncPrimitive;
 import io.atomix.primitive.protocol.PrimitiveProtocol;
 
@@ -70,7 +72,7 @@ public interface Transaction extends SyncPrimitive {
    * @param <V>  the value type
    * @return the transactional map builder
    */
-  <K, V> TransactionalMapBuilder<K, V> mapBuilder(String name);
+  <K, V> TransactionalMap.Builder<K, V> mapBuilder(String name);
 
   /**
    * Returns a new transactional map builder.
@@ -81,7 +83,7 @@ public interface Transaction extends SyncPrimitive {
    * @param <V>      the value type
    * @return the transactional map builder
    */
-  default <K, V> TransactionalMapBuilder<K, V> mapBuilder(String name, PrimitiveProtocol protocol) {
+  default <K, V> TransactionalMap.Builder<K, V> mapBuilder(String name, PrimitiveProtocol protocol) {
     return this.<K, V>mapBuilder(name).withProtocol(protocol);
   }
 
@@ -92,7 +94,7 @@ public interface Transaction extends SyncPrimitive {
    * @param <E>  the set element type
    * @return the transactional set builder
    */
-  <E> TransactionalSetBuilder<E> setBuilder(String name);
+  <E> TransactionalSet.Builder<E> setBuilder(String name);
 
   /**
    * Returns a new transactional set builder.
@@ -102,10 +104,30 @@ public interface Transaction extends SyncPrimitive {
    * @param <E>      the set element type
    * @return the transactional set builder
    */
-  default <E> TransactionalSetBuilder<E> setBuilder(String name, PrimitiveProtocol protocol) {
+  default <E> TransactionalSet.Builder<E> setBuilder(String name, PrimitiveProtocol protocol) {
     return this.<E>setBuilder(name).withProtocol(protocol);
   }
 
   @Override
   AsyncTransaction async();
+
+  /**
+   * Transaction builder.
+   */
+  abstract class Builder extends DistributedPrimitive.Builder<Builder, TransactionConfig, Transaction> {
+    protected Builder(String name, TransactionConfig config, PrimitiveManagementService managementService) {
+      super(TransactionType.instance(), name, config, managementService);
+    }
+
+    /**
+     * Sets the transaction isolation level.
+     *
+     * @param isolation the transaction isolation level
+     * @return the transaction builder
+     */
+    public Builder withIsolation(Isolation isolation) {
+      config.setIsolation(isolation);
+      return this;
+    }
+  }
 }

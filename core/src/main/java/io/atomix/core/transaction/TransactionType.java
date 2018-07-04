@@ -27,7 +27,7 @@ import static com.google.common.base.MoreObjects.toStringHelper;
 /**
  * Transaction primitive type.
  */
-public class TransactionType implements PrimitiveType<TransactionBuilder, TransactionConfig, Transaction> {
+public class TransactionType implements PrimitiveType<Transaction.Builder, TransactionConfig, Transaction> {
   private static final String NAME = "transaction";
   private static final TransactionType INSTANCE = new TransactionType();
 
@@ -56,7 +56,7 @@ public class TransactionType implements PrimitiveType<TransactionBuilder, Transa
   }
 
   @Override
-  public TransactionBuilder newBuilder(String name, TransactionConfig config, PrimitiveManagementService managementService) {
+  public Transaction.Builder newBuilder(String name, TransactionConfig config, PrimitiveManagementService managementService) {
     return new DefaultTransactionBuilder(name, config, managementService, new CoreTransactionService(managementService));
   }
 
