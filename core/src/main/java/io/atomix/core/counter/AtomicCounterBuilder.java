@@ -15,14 +15,14 @@
  */
 package io.atomix.core.counter;
 
-import io.atomix.primitive.DistributedPrimitiveBuilder;
+import io.atomix.primitive.DistributedPrimitive;
 import io.atomix.primitive.PrimitiveManagementService;
 
 /**
  * Builder for AtomicCounter.
  */
 public abstract class AtomicCounterBuilder
-    extends DistributedPrimitiveBuilder<AtomicCounterBuilder, AtomicCounterConfig, AtomicCounter> {
+    extends DistributedPrimitive.Builder<AtomicCounterBuilder, AtomicCounterConfig, AtomicCounter> {
   public AtomicCounterBuilder(String name, AtomicCounterConfig config, PrimitiveManagementService managementService) {
     super(AtomicCounterType.instance(), name, config, managementService);
   }

@@ -16,14 +16,14 @@
 
 package io.atomix.core.tree;
 
-import io.atomix.primitive.DistributedPrimitiveBuilder;
+import io.atomix.primitive.DistributedPrimitive;
 import io.atomix.primitive.PrimitiveManagementService;
 
 /**
  * Builder for {@link AtomicDocumentTree}.
  */
 public abstract class AtomicDocumentTreeBuilder<V>
-    extends DistributedPrimitiveBuilder<AtomicDocumentTreeBuilder<V>, AtomicDocumentTreeConfig, AtomicDocumentTree<V>> {
+    extends DistributedPrimitive.Builder<AtomicDocumentTreeBuilder<V>, AtomicDocumentTreeConfig, AtomicDocumentTree<V>> {
   protected AtomicDocumentTreeBuilder(String name, AtomicDocumentTreeConfig config, PrimitiveManagementService managementService) {
     super(AtomicDocumentTreeType.instance(), name, config, managementService);
   }

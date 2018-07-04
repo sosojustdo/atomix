@@ -15,9 +15,22 @@
  */
 package io.atomix.primitive;
 
+import com.google.common.base.Joiner;
+import io.atomix.primitive.config.PrimitiveConfig;
+import io.atomix.primitive.partition.PartitionGroup;
 import io.atomix.primitive.protocol.PrimitiveProtocol;
+import io.atomix.utils.config.ConfigurationException;
+import io.atomix.utils.serializer.Namespace;
+import io.atomix.utils.serializer.NamespaceConfig;
+import io.atomix.utils.serializer.Namespaces;
+import io.atomix.utils.serializer.Serializer;
 
+import java.util.Collection;
+import java.util.concurrent.CompletableFuture;
 import java.util.function.Consumer;
+import java.util.stream.Collectors;
+
+import static com.google.common.base.Preconditions.checkNotNull;
 
 /**
  * Interface for all distributed primitives.
@@ -66,4 +79,189 @@ public interface DistributedPrimitive {
   default void removeStateChangeListener(Consumer<PrimitiveState> listener) {
   }
 
+  /**
+   * Abstract builder for distributed primitives.
+   *
+   * @param <B> builder type
+   * @param <P> primitive type
+   */
+  abstract class Builder<B extends Builder<B, C, P>, C extends PrimitiveConfig, P extends DistributedPrimitive> implements io.atomix.utils.Builder<P> {
+    protected final PrimitiveType type;
+    protected final String name;
+    protected final C config;
+    protected Serializer serializer;
+    protected PrimitiveProtocol protocol;
+    protected final PrimitiveManagementService managementService;
+
+    protected Builder(PrimitiveType type, String name, C config, PrimitiveManagementService managementService) {
+      this.type = checkNotNull(type, "type cannot be null");
+      this.name = checkNotNull(name, "name cannot be null");
+      this.config = checkNotNull(config, "config cannot be null");
+      this.managementService = checkNotNull(managementService, "managementService cannot be null");
+    }
+
+    /**
+     * Sets the serializer to use for transcoding info held in the primitive.
+     *
+     * @param serializer serializer
+     * @return this builder
+     */
+    @SuppressWarnings("unchecked")
+    public B withSerializer(Serializer serializer) {
+      this.serializer = serializer;
+      return (B) this;
+    }
+
+    /**
+     * Sets the primitive protocol.
+     *
+     * @param protocol the primitive protocol
+     * @return the primitive builder
+     */
+    @SuppressWarnings("unchecked")
+    public B withProtocol(PrimitiveProtocol protocol) {
+      this.protocol = protocol;
+      return (B) this;
+    }
+
+    /**
+     * Enables caching for the primitive.
+     *
+     * @return the primitive builder
+     */
+    @SuppressWarnings("unchecked")
+    public B withCacheEnabled() {
+      config.setCacheEnabled();
+      return (B) this;
+    }
+
+    /**
+     * Sets whether caching is enabled.
+     *
+     * @param cacheEnabled whether caching is enabled
+     * @return the primitive builder
+     */
+    @SuppressWarnings("unchecked")
+    public B withCacheEnabled(boolean cacheEnabled) {
+      config.setCacheEnabled(cacheEnabled);
+      return (B) this;
+    }
+
+    /**
+     * Sets the cache size.
+     *
+     * @param cacheSize the cache size
+     * @return the primitive builder
+     */
+    @SuppressWarnings("unchecked")
+    public B withCacheSize(int cacheSize) {
+      config.setCacheSize(cacheSize);
+      return (B) this;
+    }
+
+    /**
+     * Sets the primitive to read-only.
+     *
+     * @return the primitive builder
+     */
+    @SuppressWarnings("unchecked")
+    public B withReadOnly() {
+      config.setReadOnly();
+      return (B) this;
+    }
+
+    /**
+     * Sets whether the primitive is read-only.
+     *
+     * @param readOnly whether the primitive is read-only
+     * @return the primitive builder
+     */
+    @SuppressWarnings("unchecked")
+    public B withReadOnly(boolean readOnly) {
+      config.setReadOnly(readOnly);
+      return (B) this;
+    }
+
+    /**
+     * Returns the name of the primitive.
+     *
+     * @return primitive name
+     */
+    public String name() {
+      return name;
+    }
+
+    /**
+     * Returns the primitive type.
+     *
+     * @return primitive type
+     */
+    public PrimitiveType primitiveType() {
+      return type;
+    }
+
+    /**
+     * Returns the primitive protocol.
+     *
+     * @return the primitive protocol
+     */
+    public PrimitiveProtocol protocol() {
+      PrimitiveProtocol protocol = this.protocol;
+      if (protocol == null) {
+        PrimitiveProtocol.Config<?> protocolConfig = config.getProtocolConfig();
+        if (protocolConfig == null) {
+          Collection<PartitionGroup> partitionGroups = managementService.getPartitionService().getPartitionGroups();
+          if (partitionGroups.size() == 1) {
+            protocol = partitionGroups.iterator().next().newProtocol();
+          } else {
+            String groups = Joiner.on(", ").join(partitionGroups.stream()
+                .map(group -> group.name())
+                .collect(Collectors.toList()));
+            throw new ConfigurationException(String.format("Primitive protocol is ambiguous: %d partition groups found (%s)", partitionGroups.size(), groups));
+          }
+        } else {
+          protocol = protocolConfig.getType().newProtocol(protocolConfig);
+        }
+      }
+      return protocol;
+    }
+
+    /**
+     * Returns the serializer.
+     *
+     * @return serializer
+     */
+    public Serializer serializer() {
+      Serializer serializer = this.serializer;
+      if (serializer == null) {
+        NamespaceConfig config = this.config.getNamespaceConfig();
+        if (config == null) {
+          serializer = Serializer.using(Namespaces.BASIC);
+        } else {
+          serializer = Serializer.using(Namespace.builder()
+              .register(Namespaces.BASIC)
+              .register(new Namespace(config))
+              .build());
+        }
+      }
+      return serializer;
+    }
+
+    /**
+     * Constructs an instance of the distributed primitive.
+     *
+     * @return distributed primitive
+     */
+    @Override
+    public P build() {
+      return buildAsync().join();
+    }
+
+    /**
+     * Constructs an instance of the asynchronous primitive.
+     *
+     * @return asynchronous distributed primitive
+     */
+    public abstract CompletableFuture<P> buildAsync();
+  }
 }

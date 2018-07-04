@@ -50,7 +50,7 @@ public class TestPrimitiveType implements PrimitiveType {
   }
 
   @Override
-  public DistributedPrimitiveBuilder newBuilder(String primitiveName, PrimitiveConfig config, PrimitiveManagementService managementService) {
+  public DistributedPrimitive.Builder newBuilder(String primitiveName, PrimitiveConfig config, PrimitiveManagementService managementService) {
     throw new UnsupportedOperationException();
   }
 }

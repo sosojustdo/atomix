@@ -15,6 +15,9 @@
  */
 package io.atomix.core;
 
+import io.atomix.core.barrier.DistributedCyclicBarrier;
+import io.atomix.core.barrier.DistributedCyclicBarrierBuilder;
+import io.atomix.core.barrier.DistributedCyclicBarrierType;
 import io.atomix.core.counter.AtomicCounter;
 import io.atomix.core.counter.AtomicCounterBuilder;
 import io.atomix.core.counter.AtomicCounterMap;
@@ -24,12 +27,37 @@ import io.atomix.core.countermap.AtomicCounterMapType;
 import io.atomix.core.idgenerator.AtomicIdGenerator;
 import io.atomix.core.idgenerator.AtomicIdGeneratorBuilder;
 import io.atomix.core.idgenerator.AtomicIdGeneratorType;
+import io.atomix.core.leadership.LeaderElection;
+import io.atomix.core.leadership.LeaderElectionBuilder;
+import io.atomix.core.leadership.LeaderElectionType;
+import io.atomix.core.leadership.LeaderElector;
+import io.atomix.core.leadership.LeaderElectorBuilder;
+import io.atomix.core.leadership.LeaderElectorType;
+import io.atomix.core.list.DistributedList;
+import io.atomix.core.list.DistributedListBuilder;
+import io.atomix.core.list.DistributedListType;
+import io.atomix.core.lock.DistributedLock;
+import io.atomix.core.lock.DistributedLockBuilder;
+import io.atomix.core.lock.DistributedLockType;
 import io.atomix.core.map.AtomicMap;
 import io.atomix.core.map.AtomicMapBuilder;
 import io.atomix.core.map.AtomicMapType;
 import io.atomix.core.multimap.AtomicMultimap;
 import io.atomix.core.multimap.AtomicMultimapBuilder;
 import io.atomix.core.multimap.AtomicMultimapType;
+import io.atomix.core.multiset.DistributedMultiset;
+import io.atomix.core.multiset.DistributedMultisetBuilder;
+import io.atomix.core.multiset.DistributedMultisetType;
+import io.atomix.core.queue.DistributedQueue;
+import io.atomix.core.queue.DistributedQueueBuilder;
+import io.atomix.core.queue.DistributedQueueType;
+import io.atomix.core.semaphore.DistributedSemaphore;
+import io.atomix.core.semaphore.DistributedSemaphoreBuilder;
+import io.atomix.core.semaphore.DistributedSemaphoreType;
+import io.atomix.core.set.DistributedSet;
+import io.atomix.core.set.DistributedSetBuilder;
+import io.atomix.core.set.DistributedSetType;
+import io.atomix.core.transaction.TransactionBuilder;
 import io.atomix.core.tree.AtomicDocumentTree;
 import io.atomix.core.tree.AtomicDocumentTreeBuilder;
 import io.atomix.core.tree.AtomicDocumentTreeType;
@@ -39,39 +67,10 @@ import io.atomix.core.treemap.AtomicTreeMapType;
 import io.atomix.core.value.AtomicValue;
 import io.atomix.core.value.AtomicValueBuilder;
 import io.atomix.core.value.AtomicValueType;
-import io.atomix.core.list.DistributedList;
-import io.atomix.core.list.DistributedListBuilder;
-import io.atomix.core.list.DistributedListType;
-import io.atomix.core.multiset.DistributedMultiset;
-import io.atomix.core.multiset.DistributedMultisetBuilder;
-import io.atomix.core.multiset.DistributedMultisetType;
-import io.atomix.core.queue.DistributedQueue;
-import io.atomix.core.queue.DistributedQueueBuilder;
-import io.atomix.core.queue.DistributedQueueType;
-import io.atomix.core.set.DistributedSet;
-import io.atomix.core.set.DistributedSetBuilder;
-import io.atomix.core.set.DistributedSetType;
-import io.atomix.core.barrier.DistributedCyclicBarrier;
-import io.atomix.core.barrier.DistributedCyclicBarrierBuilder;
-import io.atomix.core.barrier.DistributedCyclicBarrierType;
-import io.atomix.core.lock.DistributedLock;
-import io.atomix.core.lock.DistributedLockBuilder;
-import io.atomix.core.lock.DistributedLockType;
-import io.atomix.core.semaphore.DistributedSemaphore;
-import io.atomix.core.semaphore.DistributedSemaphoreBuilder;
-import io.atomix.core.semaphore.DistributedSemaphoreType;
-import io.atomix.core.leadership.LeaderElection;
-import io.atomix.core.leadership.LeaderElectionBuilder;
-import io.atomix.core.leadership.LeaderElectionType;
-import io.atomix.core.leadership.LeaderElector;
-import io.atomix.core.leadership.LeaderElectorBuilder;
-import io.atomix.core.leadership.LeaderElectorType;
 import io.atomix.core.workqueue.WorkQueue;
 import io.atomix.core.workqueue.WorkQueueBuilder;
 import io.atomix.core.workqueue.WorkQueueType;
-import io.atomix.core.transaction.TransactionBuilder;
 import io.atomix.primitive.DistributedPrimitive;
-import io.atomix.primitive.DistributedPrimitiveBuilder;
 import io.atomix.primitive.PrimitiveInfo;
 import io.atomix.primitive.PrimitiveType;
 import io.atomix.primitive.config.PrimitiveConfig;
@@ -705,7 +704,7 @@ public interface PrimitivesService {
    * @param <P>           the primitive type
    * @return the primitive builder
    */
-  <B extends DistributedPrimitiveBuilder<B, C, P>, C extends PrimitiveConfig<C>, P extends DistributedPrimitive> B primitiveBuilder(
+  <B extends DistributedPrimitive.Builder<B, C, P>, C extends PrimitiveConfig<C>, P extends DistributedPrimitive> B primitiveBuilder(
       String name,
       PrimitiveType<B, C, P> primitiveType);
 
@@ -719,7 +718,7 @@ public interface PrimitivesService {
    * @param <P>           the primitive type
    * @return the primitive builder
    */
-  default <B extends DistributedPrimitiveBuilder<B, C, P>, C extends PrimitiveConfig<C>, P extends DistributedPrimitive> B primitiveBuilder(
+  default <B extends DistributedPrimitive.Builder<B, C, P>, C extends PrimitiveConfig<C>, P extends DistributedPrimitive> B primitiveBuilder(
       String name,
       PrimitiveType<B, C, P> primitiveType,
       PrimitiveProtocol protocol) {

@@ -15,7 +15,7 @@
  */
 package io.atomix.core.map;
 
-import io.atomix.primitive.DistributedPrimitiveBuilder;
+import io.atomix.primitive.DistributedPrimitive;
 import io.atomix.primitive.PrimitiveManagementService;
 
 /**
@@ -25,7 +25,7 @@ import io.atomix.primitive.PrimitiveManagementService;
  * @param <V> type for map value
  */
 public abstract class AtomicMapBuilder<K, V>
-    extends DistributedPrimitiveBuilder<AtomicMapBuilder<K, V>, AtomicMapConfig, AtomicMap<K, V>> {
+    extends DistributedPrimitive.Builder<AtomicMapBuilder<K, V>, AtomicMapConfig, AtomicMap<K, V>> {
 
   public AtomicMapBuilder(String name, AtomicMapConfig config, PrimitiveManagementService managementService) {
     super(AtomicMapType.instance(), name, config, managementService);
