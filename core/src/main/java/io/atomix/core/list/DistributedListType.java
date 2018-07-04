@@ -19,7 +19,7 @@ import io.atomix.core.collection.CollectionEvent;
 import io.atomix.core.collection.impl.CollectionUpdateResult;
 import io.atomix.core.list.impl.DefaultDistributedListService;
 import io.atomix.core.collection.impl.DistributedCollectionService;
-import io.atomix.core.list.impl.DistributedListProxyBuilder;
+import io.atomix.core.list.impl.DefaultDistributedListBuilder;
 import io.atomix.primitive.PrimitiveManagementService;
 import io.atomix.primitive.PrimitiveType;
 import io.atomix.primitive.service.PrimitiveService;
@@ -32,7 +32,7 @@ import static com.google.common.base.MoreObjects.toStringHelper;
 /**
  * Distributed list primitive type.
  */
-public class DistributedListType<E> implements PrimitiveType<DistributedList.Builder<E>, DistributedListConfig, DistributedList<E>> {
+public class DistributedListType<E> implements PrimitiveType<DistributedList.Builder<E>, DistributedList.Config, DistributedList<E>> {
   private static final String NAME = "list";
   private static final DistributedListType INSTANCE = new DistributedListType();
 
@@ -72,13 +72,13 @@ public class DistributedListType<E> implements PrimitiveType<DistributedList.Bui
   }
 
   @Override
-  public DistributedListConfig newConfig() {
-    return new DistributedListConfig();
+  public DistributedList.Config newConfig() {
+    return new DistributedList.Config();
   }
 
   @Override
-  public DistributedList.Builder<E> newBuilder(String name, DistributedListConfig config, PrimitiveManagementService managementService) {
-    return new DistributedListProxyBuilder<>(name, config, managementService);
+  public DistributedList.Builder<E> newBuilder(String name, DistributedList.Config config, PrimitiveManagementService managementService) {
+    return new DefaultDistributedListBuilder<>(name, config, managementService);
   }
 
   @Override

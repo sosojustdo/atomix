@@ -18,6 +18,7 @@ package io.atomix.core.set;
 import io.atomix.core.collection.DistributedCollection;
 import io.atomix.primitive.DistributedPrimitive;
 import io.atomix.primitive.PrimitiveManagementService;
+import io.atomix.primitive.PrimitiveType;
 
 import java.util.Set;
 
@@ -31,12 +32,22 @@ public interface DistributedSet<E> extends DistributedCollection<E>, Set<E> {
   AsyncDistributedSet<E> async();
 
   /**
+   * Distributed set configuration.
+   */
+  class Config extends DistributedPrimitive.Config<Config> {
+    @Override
+    public PrimitiveType getType() {
+      return DistributedSetType.instance();
+    }
+  }
+
+  /**
    * Builder for distributed set.
    *
    * @param <E> type set elements.
    */
-  abstract class Builder<E> extends DistributedPrimitive.Builder<Builder<E>, DistributedSetConfig, DistributedSet<E>> {
-    protected Builder(String name, DistributedSetConfig config, PrimitiveManagementService managementService) {
+  abstract class Builder<E> extends DistributedPrimitive.Builder<Builder<E>, Config, DistributedSet<E>> {
+    protected Builder(String name, Config config, PrimitiveManagementService managementService) {
       super(DistributedSetType.instance(), name, config, managementService);
     }
   }

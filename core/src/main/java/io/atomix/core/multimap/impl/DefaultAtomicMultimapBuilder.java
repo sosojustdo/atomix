@@ -19,7 +19,6 @@ package io.atomix.core.multimap.impl;
 import com.google.common.io.BaseEncoding;
 import io.atomix.core.multimap.AsyncAtomicMultimap;
 import io.atomix.core.multimap.AtomicMultimap;
-import io.atomix.core.multimap.AtomicMultimapConfig;
 import io.atomix.primitive.PrimitiveManagementService;
 import io.atomix.primitive.proxy.ProxyClient;
 import io.atomix.primitive.service.ServiceConfig;
@@ -30,8 +29,8 @@ import java.util.concurrent.CompletableFuture;
 /**
  * Default {@link AsyncAtomicMultimap} builder.
  */
-public class AtomicMultimapProxyBuilder<K, V> extends AtomicMultimap.Builder<K, V> {
-  public AtomicMultimapProxyBuilder(String name, AtomicMultimapConfig config, PrimitiveManagementService managementService) {
+public class DefaultAtomicMultimapBuilder<K, V> extends AtomicMultimap.Builder<K, V> {
+  public DefaultAtomicMultimapBuilder(String name, AtomicMultimap.Config config, PrimitiveManagementService managementService) {
     super(name, config, managementService);
   }
 

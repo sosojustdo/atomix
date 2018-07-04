@@ -18,7 +18,6 @@ package io.atomix.core.queue.impl;
 import com.google.common.io.BaseEncoding;
 import io.atomix.core.queue.AsyncDistributedQueue;
 import io.atomix.core.queue.DistributedQueue;
-import io.atomix.core.queue.DistributedQueueConfig;
 import io.atomix.primitive.PrimitiveManagementService;
 import io.atomix.primitive.proxy.ProxyClient;
 import io.atomix.primitive.service.ServiceConfig;
@@ -31,8 +30,8 @@ import java.util.concurrent.CompletableFuture;
  *
  * @param <E> type for queue elements
  */
-public class DistributedQueueProxyBuilder<E> extends DistributedQueue.Builder<E> {
-  public DistributedQueueProxyBuilder(String name, DistributedQueueConfig config, PrimitiveManagementService managementService) {
+public class DefaultDistributedQueueBuilder<E> extends DistributedQueue.Builder<E> {
+  public DefaultDistributedQueueBuilder(String name, DistributedQueue.Config config, PrimitiveManagementService managementService) {
     super(name, config, managementService);
   }
 

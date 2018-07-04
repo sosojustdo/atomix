@@ -17,6 +17,7 @@ package io.atomix.core.barrier;
 
 import io.atomix.primitive.DistributedPrimitive;
 import io.atomix.primitive.PrimitiveManagementService;
+import io.atomix.primitive.PrimitiveType;
 import io.atomix.primitive.SyncPrimitive;
 
 import java.time.Duration;
@@ -75,14 +76,24 @@ public interface DistributedCyclicBarrier extends SyncPrimitive {
   AsyncDistributedCyclicBarrier async();
 
   /**
+   * Distributed cyclic barrier configuration.
+   */
+  class Config extends DistributedPrimitive.Config<Config> {
+    @Override
+    public PrimitiveType getType() {
+      return DistributedCyclicBarrierType.instance();
+    }
+  }
+
+  /**
    * Distributed cyclic barrier builder.
    */
-  abstract class Builder extends DistributedPrimitive.Builder<Builder, DistributedCyclicBarrierConfig, DistributedCyclicBarrier> {
+  abstract class Builder extends DistributedPrimitive.Builder<Builder, Config, DistributedCyclicBarrier> {
 
     protected Runnable barrierAction = () -> {
     };
 
-    public Builder(String name, DistributedCyclicBarrierConfig config, PrimitiveManagementService managementService) {
+    public Builder(String name, Config config, PrimitiveManagementService managementService) {
       super(DistributedCyclicBarrierType.instance(), name, config, managementService);
     }
 

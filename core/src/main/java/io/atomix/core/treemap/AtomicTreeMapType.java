@@ -15,9 +15,9 @@
  */
 package io.atomix.core.treemap;
 
-import io.atomix.core.treemap.impl.AtomicTreeMapProxyBuilder;
-import io.atomix.core.treemap.impl.DefaultAtomicTreeMapService;
 import io.atomix.core.map.AtomicMapType;
+import io.atomix.core.treemap.impl.DefaultAtomicTreeMapBuilder;
+import io.atomix.core.treemap.impl.DefaultAtomicTreeMapService;
 import io.atomix.primitive.PrimitiveManagementService;
 import io.atomix.primitive.PrimitiveType;
 import io.atomix.primitive.service.PrimitiveService;
@@ -30,7 +30,7 @@ import static com.google.common.base.MoreObjects.toStringHelper;
  * Consistent tree map primitive type.
  */
 public class AtomicTreeMapType<V>
-    implements PrimitiveType<AtomicTreeMap.Builder<V>, AtomicTreeMapConfig, AtomicTreeMap<V>> {
+    implements PrimitiveType<AtomicTreeMap.Builder<V>, AtomicTreeMap.Config, AtomicTreeMap<V>> {
   private static final String NAME = "atomic-tree-map";
   private static final AtomicTreeMapType INSTANCE = new AtomicTreeMapType();
 
@@ -61,13 +61,13 @@ public class AtomicTreeMapType<V>
   }
 
   @Override
-  public AtomicTreeMapConfig newConfig() {
-    return new AtomicTreeMapConfig();
+  public AtomicTreeMap.Config newConfig() {
+    return new AtomicTreeMap.Config();
   }
 
   @Override
-  public AtomicTreeMap.Builder<V> newBuilder(String name, AtomicTreeMapConfig config, PrimitiveManagementService managementService) {
-    return new AtomicTreeMapProxyBuilder<>(name, config, managementService);
+  public AtomicTreeMap.Builder<V> newBuilder(String name, AtomicTreeMap.Config config, PrimitiveManagementService managementService) {
+    return new DefaultAtomicTreeMapBuilder<>(name, config, managementService);
   }
 
   @Override

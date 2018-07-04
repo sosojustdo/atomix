@@ -17,7 +17,7 @@ package io.atomix.core.idgenerator;
 
 import io.atomix.core.counter.impl.DefaultAtomicCounterService;
 import io.atomix.core.idgenerator.impl.AtomicIdGeneratorResource;
-import io.atomix.core.idgenerator.impl.DelegatingAtomicIdGeneratorBuilder;
+import io.atomix.core.idgenerator.impl.DefaultAtomicIdGeneratorBuilder;
 import io.atomix.primitive.PrimitiveManagementService;
 import io.atomix.primitive.PrimitiveType;
 import io.atomix.primitive.resource.PrimitiveResource;
@@ -29,7 +29,7 @@ import static com.google.common.base.MoreObjects.toStringHelper;
 /**
  * Atomic ID generator primitive type.
  */
-public class AtomicIdGeneratorType implements PrimitiveType<AtomicIdGenerator.Builder, AtomicIdGeneratorConfig, AtomicIdGenerator> {
+public class AtomicIdGeneratorType implements PrimitiveType<AtomicIdGenerator.Builder, AtomicIdGenerator.Config, AtomicIdGenerator> {
   private static final String NAME = "id-generator";
   private static final AtomicIdGeneratorType INSTANCE = new AtomicIdGeneratorType();
 
@@ -58,13 +58,13 @@ public class AtomicIdGeneratorType implements PrimitiveType<AtomicIdGenerator.Bu
   }
 
   @Override
-  public AtomicIdGeneratorConfig newConfig() {
-    return new AtomicIdGeneratorConfig();
+  public AtomicIdGenerator.Config newConfig() {
+    return new AtomicIdGenerator.Config();
   }
 
   @Override
-  public AtomicIdGenerator.Builder newBuilder(String name, AtomicIdGeneratorConfig config, PrimitiveManagementService managementService) {
-    return new DelegatingAtomicIdGeneratorBuilder(name, config, managementService);
+  public AtomicIdGenerator.Builder newBuilder(String name, AtomicIdGenerator.Config config, PrimitiveManagementService managementService) {
+    return new DefaultAtomicIdGeneratorBuilder(name, config, managementService);
   }
 
   @Override

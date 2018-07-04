@@ -16,15 +16,15 @@
 package io.atomix.rest.impl;
 
 import io.atomix.core.AtomixRegistry;
+import io.atomix.primitive.DistributedPrimitive;
 import io.atomix.primitive.PrimitiveType;
-import io.atomix.primitive.config.PrimitiveConfig;
 
 /**
  * Primitive configuration deserializer.
  */
-public class PrimitiveConfigDeserializer extends PolymorphicTypeDeserializer<PrimitiveConfig> {
+public class PrimitiveConfigDeserializer extends PolymorphicTypeDeserializer<DistributedPrimitive.Config> {
   @SuppressWarnings("unchecked")
   public PrimitiveConfigDeserializer(AtomixRegistry registry) {
-    super(PrimitiveConfig.class, type -> registry.getType(PrimitiveType.class, type).newConfig().getClass());
+    super(DistributedPrimitive.Config.class, type -> registry.getType(PrimitiveType.class, type).newConfig().getClass());
   }
 }

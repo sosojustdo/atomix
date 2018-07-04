@@ -53,7 +53,6 @@ import io.atomix.core.set.DistributedSet;
 import io.atomix.core.set.DistributedSetType;
 import io.atomix.core.transaction.ManagedTransactionService;
 import io.atomix.core.transaction.Transaction;
-import io.atomix.core.transaction.TransactionConfig;
 import io.atomix.core.transaction.TransactionService;
 import io.atomix.core.transaction.impl.DefaultTransactionBuilder;
 import io.atomix.core.tree.AtomicDocumentTree;
@@ -70,7 +69,6 @@ import io.atomix.primitive.PrimitiveInfo;
 import io.atomix.primitive.PrimitiveManagementService;
 import io.atomix.primitive.PrimitiveType;
 import io.atomix.primitive.config.ConfigService;
-import io.atomix.primitive.config.PrimitiveConfig;
 import io.atomix.primitive.impl.DefaultPrimitiveTypeRegistry;
 import io.atomix.primitive.partition.PartitionGroup;
 import io.atomix.primitive.partition.PartitionService;
@@ -139,7 +137,7 @@ public class CorePrimitivesService implements ManagedPrimitivesService {
 
   @Override
   public Transaction.Builder transactionBuilder(String name) {
-    return new DefaultTransactionBuilder(name, new TransactionConfig(), managementService, transactionService);
+    return new DefaultTransactionBuilder(name, new Transaction.Config(), managementService, transactionService);
   }
 
   @Override
@@ -233,7 +231,7 @@ public class CorePrimitivesService implements ManagedPrimitivesService {
   }
 
   @Override
-  public <B extends DistributedPrimitive.Builder<B, C, P>, C extends PrimitiveConfig<C>, P extends DistributedPrimitive> B primitiveBuilder(
+  public <B extends DistributedPrimitive.Builder<B, C, P>, C extends DistributedPrimitive.Config<C>, P extends DistributedPrimitive> B primitiveBuilder(
       String name, PrimitiveType<B, C, P> primitiveType) {
     return primitiveType.newBuilder(name, primitiveType.newConfig(), managementService);
   }
@@ -248,7 +246,7 @@ public class CorePrimitivesService implements ManagedPrimitivesService {
           return null;
         }
 
-        PrimitiveConfig primitiveConfig = configService.getConfig(name);
+        DistributedPrimitive.Config primitiveConfig = configService.getConfig(name);
         if (primitiveConfig == null) {
           primitiveConfig = info.type().newConfig();
         }
@@ -262,12 +260,12 @@ public class CorePrimitivesService implements ManagedPrimitivesService {
   @Override
   @SuppressWarnings("unchecked")
   public <P extends DistributedPrimitive> P getPrimitive(String name, PrimitiveType<?, ?, P> primitiveType) {
-    return (P) getPrimitive(name, (PrimitiveType) primitiveType, (PrimitiveConfig) configService.getConfig(name));
+    return (P) getPrimitive(name, (PrimitiveType) primitiveType, (DistributedPrimitive.Config) configService.getConfig(name));
   }
 
   @Override
   @SuppressWarnings("unchecked")
-  public <C extends PrimitiveConfig<C>, P extends DistributedPrimitive> P getPrimitive(
+  public <C extends DistributedPrimitive.Config<C>, P extends DistributedPrimitive> P getPrimitive(
       String name, PrimitiveType<?, C, P> primitiveType, C primitiveConfig) {
     try {
       return (P) cache.get(name, () -> {

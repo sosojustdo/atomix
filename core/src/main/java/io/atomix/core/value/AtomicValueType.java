@@ -15,8 +15,8 @@
  */
 package io.atomix.core.value;
 
-import io.atomix.core.value.impl.AtomicValueProxyBuilder;
 import io.atomix.core.value.impl.AtomicValueResource;
+import io.atomix.core.value.impl.DefaultAtomicValueBuilder;
 import io.atomix.core.value.impl.DefaultAtomicValueService;
 import io.atomix.primitive.PrimitiveManagementService;
 import io.atomix.primitive.PrimitiveType;
@@ -29,7 +29,7 @@ import static com.google.common.base.MoreObjects.toStringHelper;
 /**
  * Atomic value primitive type.
  */
-public class AtomicValueType<V> implements PrimitiveType<AtomicValue.Builder<V>, AtomicValueConfig, AtomicValue<V>> {
+public class AtomicValueType<V> implements PrimitiveType<AtomicValue.Builder<V>, AtomicValue.Config, AtomicValue<V>> {
   private static final String NAME = "value";
   private static final AtomicValueType INSTANCE = new AtomicValueType();
 
@@ -61,13 +61,13 @@ public class AtomicValueType<V> implements PrimitiveType<AtomicValue.Builder<V>,
   }
 
   @Override
-  public AtomicValueConfig newConfig() {
-    return new AtomicValueConfig();
+  public AtomicValue.Config newConfig() {
+    return new AtomicValue.Config();
   }
 
   @Override
-  public AtomicValue.Builder<V> newBuilder(String name, AtomicValueConfig config, PrimitiveManagementService managementService) {
-    return new AtomicValueProxyBuilder<>(name, config, managementService);
+  public AtomicValue.Builder<V> newBuilder(String name, AtomicValue.Config config, PrimitiveManagementService managementService) {
+    return new DefaultAtomicValueBuilder<>(name, config, managementService);
   }
 
   @Override

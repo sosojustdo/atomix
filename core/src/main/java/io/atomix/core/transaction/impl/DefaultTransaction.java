@@ -26,9 +26,7 @@ import io.atomix.core.transaction.TransactionParticipant;
 import io.atomix.core.transaction.TransactionService;
 import io.atomix.core.transaction.TransactionType;
 import io.atomix.core.transaction.TransactionalMap;
-import io.atomix.core.transaction.TransactionalMapConfig;
 import io.atomix.core.transaction.TransactionalSet;
-import io.atomix.core.transaction.TransactionalSetConfig;
 import io.atomix.primitive.PrimitiveManagementService;
 import io.atomix.primitive.PrimitiveType;
 import io.atomix.primitive.protocol.PrimitiveProtocol;
@@ -174,13 +172,13 @@ public class DefaultTransaction implements AsyncTransaction {
   @Override
   public <K, V> TransactionalMap.Builder<K, V> mapBuilder(String name) {
     checkState(isOpen(), "transaction not open");
-    return new DefaultTransactionalMapBuilder<>(name, new TransactionalMapConfig(), managementService, this);
+    return new DefaultTransactionalMapBuilder<>(name, new TransactionalMap.Config(), managementService, this);
   }
 
   @Override
   public <E> TransactionalSet.Builder<E> setBuilder(String name) {
     checkState(isOpen(), "transaction not open");
-    return new DefaultTransactionalSetBuilder<>(name, new TransactionalSetConfig(), managementService, this);
+    return new DefaultTransactionalSetBuilder<>(name, new TransactionalSet.Config(), managementService, this);
   }
 
   @Override

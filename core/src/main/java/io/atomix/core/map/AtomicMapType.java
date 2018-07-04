@@ -15,9 +15,9 @@
  */
 package io.atomix.core.map;
 
-import io.atomix.core.map.impl.AtomicMapProxyBuilder;
 import io.atomix.core.map.impl.AtomicMapResource;
 import io.atomix.core.map.impl.AtomicMapService;
+import io.atomix.core.map.impl.DefaultAtomicMapBuilder;
 import io.atomix.core.map.impl.DefaultAtomicMapService;
 import io.atomix.core.map.impl.MapEntryUpdateResult;
 import io.atomix.core.map.impl.MapUpdate;
@@ -40,7 +40,7 @@ import static com.google.common.base.MoreObjects.toStringHelper;
 /**
  * Consistent map primitive type.
  */
-public class AtomicMapType<K, V> implements PrimitiveType<AtomicMap.Builder<K, V>, AtomicMapConfig, AtomicMap<K, V>> {
+public class AtomicMapType<K, V> implements PrimitiveType<AtomicMap.Builder<K, V>, AtomicMap.Config, AtomicMap<K, V>> {
   private static final String NAME = "atomic-map";
 
   private static final AtomicMapType INSTANCE = new AtomicMapType();
@@ -91,8 +91,8 @@ public class AtomicMapType<K, V> implements PrimitiveType<AtomicMap.Builder<K, V
   }
 
   @Override
-  public AtomicMapConfig newConfig() {
-    return new AtomicMapConfig();
+  public AtomicMap.Config newConfig() {
+    return new AtomicMap.Config();
   }
 
   @Override
@@ -102,8 +102,8 @@ public class AtomicMapType<K, V> implements PrimitiveType<AtomicMap.Builder<K, V
   }
 
   @Override
-  public AtomicMap.Builder<K, V> newBuilder(String name, AtomicMapConfig config, PrimitiveManagementService managementService) {
-    return new AtomicMapProxyBuilder<>(name, config, managementService);
+  public AtomicMap.Builder<K, V> newBuilder(String name, AtomicMap.Config config, PrimitiveManagementService managementService) {
+    return new DefaultAtomicMapBuilder<>(name, config, managementService);
   }
 
   @Override

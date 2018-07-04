@@ -18,6 +18,7 @@ package io.atomix.core.transaction;
 import io.atomix.core.map.AtomicMapType;
 import io.atomix.primitive.DistributedPrimitive;
 import io.atomix.primitive.PrimitiveManagementService;
+import io.atomix.primitive.PrimitiveType;
 import io.atomix.primitive.SyncPrimitive;
 
 /**
@@ -100,10 +101,20 @@ public interface TransactionalMap<K, V> extends SyncPrimitive {
   AsyncTransactionalMap<K, V> async();
 
   /**
+   * Transactional map configuration.
+   */
+  class Config extends DistributedPrimitive.Config {
+    @Override
+    public PrimitiveType getType() {
+      return AtomicMapType.instance();
+    }
+  }
+
+  /**
    * Transactional map builder.
    */
-  abstract class Builder<K, V> extends DistributedPrimitive.Builder<Builder<K, V>, TransactionalMapConfig, TransactionalMap<K, V>> {
-    protected Builder(String name, TransactionalMapConfig config, PrimitiveManagementService managementService) {
+  abstract class Builder<K, V> extends DistributedPrimitive.Builder<Builder<K, V>, Config, TransactionalMap<K, V>> {
+    protected Builder(String name, Config config, PrimitiveManagementService managementService) {
       super(AtomicMapType.instance(), name, config, managementService);
     }
   }

@@ -17,7 +17,6 @@ package io.atomix.core.treemap.impl;
 
 import io.atomix.core.treemap.AsyncAtomicTreeMap;
 import io.atomix.core.treemap.AtomicTreeMap;
-import io.atomix.core.treemap.AtomicTreeMapConfig;
 import io.atomix.primitive.PrimitiveManagementService;
 import io.atomix.primitive.proxy.ProxyClient;
 import io.atomix.primitive.service.ServiceConfig;
@@ -30,8 +29,8 @@ import java.util.concurrent.CompletableFuture;
  *
  * @param <V> type for map value
  */
-public class AtomicTreeMapProxyBuilder<V> extends AtomicTreeMap.Builder<V> {
-  public AtomicTreeMapProxyBuilder(String name, AtomicTreeMapConfig config, PrimitiveManagementService managementService) {
+public class DefaultAtomicTreeMapBuilder<V> extends AtomicTreeMap.Builder<V> {
+  public DefaultAtomicTreeMapBuilder(String name, AtomicTreeMap.Config config, PrimitiveManagementService managementService) {
     super(name, config, managementService);
   }
 

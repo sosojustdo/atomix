@@ -15,7 +15,7 @@
  */
 package io.atomix.core.countermap;
 
-import io.atomix.core.countermap.impl.AtomicCounterMapProxyBuilder;
+import io.atomix.core.countermap.impl.DefaultAtomicCounterMapBuilder;
 import io.atomix.core.countermap.impl.DefaultAtomicCounterMapService;
 import io.atomix.primitive.PrimitiveManagementService;
 import io.atomix.primitive.PrimitiveType;
@@ -27,7 +27,7 @@ import static com.google.common.base.MoreObjects.toStringHelper;
 /**
  * Atomic counter map primitive type.
  */
-public class AtomicCounterMapType<K> implements PrimitiveType<AtomicCounterMap.Builder<K>, AtomicCounterMapConfig, AtomicCounterMap<K>> {
+public class AtomicCounterMapType<K> implements PrimitiveType<AtomicCounterMap.Builder<K>, AtomicCounterMap.Config, AtomicCounterMap<K>> {
   private static final String NAME = "counter-map";
   private static final AtomicCounterMapType INSTANCE = new AtomicCounterMapType();
 
@@ -53,13 +53,13 @@ public class AtomicCounterMapType<K> implements PrimitiveType<AtomicCounterMap.B
   }
 
   @Override
-  public AtomicCounterMapConfig newConfig() {
-    return new AtomicCounterMapConfig();
+  public AtomicCounterMap.Config newConfig() {
+    return new AtomicCounterMap.Config();
   }
 
   @Override
-  public AtomicCounterMap.Builder<K> newBuilder(String name, AtomicCounterMapConfig config, PrimitiveManagementService managementService) {
-    return new AtomicCounterMapProxyBuilder<>(name, config, managementService);
+  public AtomicCounterMap.Builder<K> newBuilder(String name, AtomicCounterMap.Config config, PrimitiveManagementService managementService) {
+    return new DefaultAtomicCounterMapBuilder<>(name, config, managementService);
   }
 
   @Override

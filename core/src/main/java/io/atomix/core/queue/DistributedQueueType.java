@@ -17,9 +17,9 @@ package io.atomix.core.queue;
 
 import io.atomix.core.collection.CollectionEvent;
 import io.atomix.core.collection.impl.CollectionUpdateResult;
-import io.atomix.core.queue.impl.DefaultDistributedQueueService;
 import io.atomix.core.collection.impl.DistributedCollectionService;
-import io.atomix.core.queue.impl.DistributedQueueProxyBuilder;
+import io.atomix.core.queue.impl.DefaultDistributedQueueBuilder;
+import io.atomix.core.queue.impl.DefaultDistributedQueueService;
 import io.atomix.core.queue.impl.DistributedQueueResource;
 import io.atomix.primitive.PrimitiveManagementService;
 import io.atomix.primitive.PrimitiveType;
@@ -34,7 +34,7 @@ import static com.google.common.base.MoreObjects.toStringHelper;
 /**
  * Distributed queue primitive type.
  */
-public class DistributedQueueType<E> implements PrimitiveType<DistributedQueue.Builder<E>, DistributedQueueConfig, DistributedQueue<E>> {
+public class DistributedQueueType<E> implements PrimitiveType<DistributedQueue.Builder<E>, DistributedQueue.Config, DistributedQueue<E>> {
   private static final String NAME = "queue";
   private static final DistributedQueueType INSTANCE = new DistributedQueueType();
 
@@ -80,13 +80,13 @@ public class DistributedQueueType<E> implements PrimitiveType<DistributedQueue.B
   }
 
   @Override
-  public DistributedQueueConfig newConfig() {
-    return new DistributedQueueConfig();
+  public DistributedQueue.Config newConfig() {
+    return new DistributedQueue.Config();
   }
 
   @Override
-  public DistributedQueue.Builder<E> newBuilder(String name, DistributedQueueConfig config, PrimitiveManagementService managementService) {
-    return new DistributedQueueProxyBuilder<>(name, config, managementService);
+  public DistributedQueue.Builder<E> newBuilder(String name, DistributedQueue.Config config, PrimitiveManagementService managementService) {
+    return new DefaultDistributedQueueBuilder<>(name, config, managementService);
   }
 
   @Override

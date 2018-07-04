@@ -18,7 +18,6 @@ package io.atomix.core.list.impl;
 import com.google.common.io.BaseEncoding;
 import io.atomix.core.list.AsyncDistributedList;
 import io.atomix.core.list.DistributedList;
-import io.atomix.core.list.DistributedListConfig;
 import io.atomix.primitive.PrimitiveManagementService;
 import io.atomix.primitive.proxy.ProxyClient;
 import io.atomix.primitive.service.ServiceConfig;
@@ -31,8 +30,8 @@ import java.util.concurrent.CompletableFuture;
  *
  * @param <E> type for list elements
  */
-public class DistributedListProxyBuilder<E> extends DistributedList.Builder<E> {
-  public DistributedListProxyBuilder(String name, DistributedListConfig config, PrimitiveManagementService managementService) {
+public class DefaultDistributedListBuilder<E> extends DistributedList.Builder<E> {
+  public DefaultDistributedListBuilder(String name, DistributedList.Config config, PrimitiveManagementService managementService) {
     super(name, config, managementService);
   }
 

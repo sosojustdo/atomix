@@ -18,6 +18,7 @@ package io.atomix.core.leadership;
 import io.atomix.cluster.MemberId;
 import io.atomix.primitive.DistributedPrimitive;
 import io.atomix.primitive.PrimitiveManagementService;
+import io.atomix.primitive.PrimitiveType;
 import io.atomix.primitive.SyncPrimitive;
 import io.atomix.utils.serializer.Namespace;
 import io.atomix.utils.serializer.NamespaceConfig;
@@ -133,10 +134,20 @@ public interface LeaderElector<T> extends SyncPrimitive {
   AsyncLeaderElector<T> async();
 
   /**
+   * Leader elector configuration.
+   */
+  class Config extends DistributedPrimitive.Config<Config> {
+    @Override
+    public PrimitiveType getType() {
+      return LeaderElectorType.instance();
+    }
+  }
+
+  /**
    * Builder for constructing new {@link AsyncLeaderElector} instances.
    */
-  abstract class Builder<T> extends DistributedPrimitive.Builder<Builder<T>, LeaderElectorConfig, LeaderElector<T>> {
-    public Builder(String name, LeaderElectorConfig config, PrimitiveManagementService managementService) {
+  abstract class Builder<T> extends DistributedPrimitive.Builder<Builder<T>, Config, LeaderElector<T>> {
+    public Builder(String name, Config config, PrimitiveManagementService managementService) {
       super(LeaderElectorType.instance(), name, config, managementService);
     }
 

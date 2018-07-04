@@ -21,6 +21,7 @@ import io.atomix.core.collection.DistributedCollection;
 import io.atomix.core.set.DistributedSet;
 import io.atomix.primitive.DistributedPrimitive;
 import io.atomix.primitive.PrimitiveManagementService;
+import io.atomix.primitive.PrimitiveType;
 import io.atomix.primitive.SyncPrimitive;
 import io.atomix.utils.time.Versioned;
 
@@ -377,13 +378,54 @@ public interface AtomicMap<K, V> extends SyncPrimitive {
   AsyncAtomicMap<K, V> async();
 
   /**
+   * Consistent map configuration.
+   */
+  class Config extends DistributedPrimitive.Config<Config> {
+    private boolean nullValues = false;
+
+    @Override
+    public PrimitiveType getType() {
+      return AtomicMapType.instance();
+    }
+
+    /**
+     * Enables null values in the map.
+     *
+     * @return the map configuration
+     */
+    public Config setNullValues() {
+      return setNullValues(true);
+    }
+
+    /**
+     * Enables null values in the map.
+     *
+     * @param nullValues whether null values are allowed
+     * @return the map configuration
+     */
+    public Config setNullValues(boolean nullValues) {
+      this.nullValues = nullValues;
+      return this;
+    }
+
+    /**
+     * Returns whether null values are supported by the map.
+     *
+     * @return {@code true} if null values are supported; {@code false} otherwise
+     */
+    public boolean isNullValues() {
+      return nullValues;
+    }
+  }
+
+  /**
    * Builder for {@link AtomicMap} instances.
    *
    * @param <K> type for map key
    * @param <V> type for map value
    */
-  abstract class Builder<K, V> extends DistributedPrimitive.Builder<Builder<K, V>, AtomicMapConfig, AtomicMap<K, V>> {
-    protected Builder(String name, AtomicMapConfig config, PrimitiveManagementService managementService) {
+  abstract class Builder<K, V> extends DistributedPrimitive.Builder<Builder<K, V>, Config, AtomicMap<K, V>> {
+    protected Builder(String name, Config config, PrimitiveManagementService managementService) {
       super(AtomicMapType.instance(), name, config, managementService);
     }
 

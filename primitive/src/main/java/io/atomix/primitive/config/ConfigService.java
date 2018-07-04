@@ -15,6 +15,8 @@
  */
 package io.atomix.primitive.config;
 
+import io.atomix.primitive.DistributedPrimitive;
+
 /**
  * Configuration service.
  */
@@ -27,7 +29,7 @@ public interface ConfigService {
    * @param <C>           the configuration type
    * @return the primitive configuration
    */
-  <C extends PrimitiveConfig<C>> C getConfig(String primitiveName);
+  <C extends DistributedPrimitive.Config<C>> C getConfig(String primitiveName);
 
   /**
    * Adds a primitive configuration.
@@ -38,6 +40,6 @@ public interface ConfigService {
    * @param config the configuration to add
    * @return the registered primitive configuration
    */
-  PrimitiveConfig addConfig(PrimitiveConfig config);
+  DistributedPrimitive.Config addConfig(DistributedPrimitive.Config config);
 
 }

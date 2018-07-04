@@ -16,10 +16,8 @@
 package io.atomix.core.transaction.impl;
 
 import io.atomix.core.set.DistributedSet;
-import io.atomix.core.set.DistributedSetConfig;
 import io.atomix.core.set.DistributedSetType;
 import io.atomix.core.transaction.TransactionalSet;
-import io.atomix.core.transaction.TransactionalSetConfig;
 import io.atomix.primitive.PrimitiveManagementService;
 import io.atomix.primitive.protocol.PrimitiveProtocol;
 import io.atomix.utils.serializer.Serializer;
@@ -33,9 +31,9 @@ public class DefaultTransactionalSetBuilder<E> extends TransactionalSet.Builder<
   private final DistributedSet.Builder<E> setBuilder;
   private final DefaultTransaction transaction;
 
-  public DefaultTransactionalSetBuilder(String name, TransactionalSetConfig config, PrimitiveManagementService managementService, DefaultTransaction transaction) {
+  public DefaultTransactionalSetBuilder(String name, TransactionalSet.Config config, PrimitiveManagementService managementService, DefaultTransaction transaction) {
     super(name, config, managementService);
-    this.setBuilder = DistributedSetType.<E>instance().newBuilder(name, new DistributedSetConfig(), managementService);
+    this.setBuilder = DistributedSetType.<E>instance().newBuilder(name, new DistributedSet.Config(), managementService);
     this.transaction = transaction;
   }
 

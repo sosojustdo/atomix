@@ -16,7 +16,6 @@
 package io.atomix.core.transaction.impl;
 
 import io.atomix.core.transaction.Transaction;
-import io.atomix.core.transaction.TransactionConfig;
 import io.atomix.core.transaction.TransactionService;
 import io.atomix.primitive.PrimitiveManagementService;
 
@@ -32,7 +31,7 @@ public class DefaultTransactionBuilder extends Transaction.Builder {
 
   public DefaultTransactionBuilder(
       String name,
-      TransactionConfig config,
+      Transaction.Config config,
       PrimitiveManagementService managementService,
       TransactionService transactionService) {
     super(name, config, managementService);

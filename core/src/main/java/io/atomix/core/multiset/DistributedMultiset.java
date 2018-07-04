@@ -20,6 +20,7 @@ import io.atomix.core.collection.DistributedCollection;
 import io.atomix.core.set.DistributedSet;
 import io.atomix.primitive.DistributedPrimitive;
 import io.atomix.primitive.PrimitiveManagementService;
+import io.atomix.primitive.PrimitiveType;
 
 import java.util.Spliterator;
 import java.util.Spliterators;
@@ -44,12 +45,22 @@ public interface DistributedMultiset<E> extends DistributedCollection<E>, Multis
   AsyncDistributedMultiset<E> async();
 
   /**
+   * Distributed multiset configuration.
+   */
+  class Config extends DistributedPrimitive.Config<Config> {
+    @Override
+    public PrimitiveType getType() {
+      return DistributedMultisetType.instance();
+    }
+  }
+
+  /**
    * Builder for distributed multiset.
    *
    * @param <E> multiset element type
    */
-  abstract class Builder<E> extends DistributedPrimitive.Builder<Builder<E>, DistributedMultisetConfig, DistributedMultiset<E>> {
-    protected Builder(String name, DistributedMultisetConfig config, PrimitiveManagementService managementService) {
+  abstract class Builder<E> extends DistributedPrimitive.Builder<Builder<E>, Config, DistributedMultiset<E>> {
+    protected Builder(String name, Config config, PrimitiveManagementService managementService) {
       super(DistributedMultisetType.instance(), name, config, managementService);
     }
   }

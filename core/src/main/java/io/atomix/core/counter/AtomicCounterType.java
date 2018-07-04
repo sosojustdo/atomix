@@ -15,8 +15,8 @@
  */
 package io.atomix.core.counter;
 
-import io.atomix.core.counter.impl.AtomicCounterProxyBuilder;
 import io.atomix.core.counter.impl.AtomicCounterResource;
+import io.atomix.core.counter.impl.DefaultAtomicCounterBuilder;
 import io.atomix.core.counter.impl.DefaultAtomicCounterService;
 import io.atomix.primitive.PrimitiveManagementService;
 import io.atomix.primitive.PrimitiveType;
@@ -29,7 +29,7 @@ import static com.google.common.base.MoreObjects.toStringHelper;
 /**
  * Atomic counter primitive type.
  */
-public class AtomicCounterType implements PrimitiveType<AtomicCounter.Builder, AtomicCounterConfig, AtomicCounter> {
+public class AtomicCounterType implements PrimitiveType<AtomicCounter.Builder, AtomicCounter.Config, AtomicCounter> {
   private static final String NAME = "counter";
   private static final AtomicCounterType INSTANCE = new AtomicCounterType();
 
@@ -58,13 +58,13 @@ public class AtomicCounterType implements PrimitiveType<AtomicCounter.Builder, A
   }
 
   @Override
-  public AtomicCounterConfig newConfig() {
-    return new AtomicCounterConfig();
+  public AtomicCounter.Config newConfig() {
+    return new AtomicCounter.Config();
   }
 
   @Override
-  public AtomicCounter.Builder newBuilder(String name, AtomicCounterConfig config, PrimitiveManagementService managementService) {
-    return new AtomicCounterProxyBuilder(name, config, managementService);
+  public AtomicCounter.Builder newBuilder(String name, AtomicCounter.Config config, PrimitiveManagementService managementService) {
+    return new DefaultAtomicCounterBuilder(name, config, managementService);
   }
 
   @Override

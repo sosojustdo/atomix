@@ -16,8 +16,8 @@
 package io.atomix.core.multimap;
 
 import com.google.common.collect.Maps;
-import io.atomix.core.multimap.impl.AtomicMultimapProxyBuilder;
 import io.atomix.core.multimap.impl.AtomicMultimapService;
+import io.atomix.core.multimap.impl.DefaultAtomicMultimapBuilder;
 import io.atomix.core.multimap.impl.DefaultAtomicMultimapService;
 import io.atomix.primitive.PrimitiveManagementService;
 import io.atomix.primitive.PrimitiveType;
@@ -34,7 +34,7 @@ import static com.google.common.base.MoreObjects.toStringHelper;
 /**
  * Consistent multimap primitive type.
  */
-public class AtomicMultimapType<K, V> implements PrimitiveType<AtomicMultimap.Builder<K, V>, AtomicMultimapConfig, AtomicMultimap<K, V>> {
+public class AtomicMultimapType<K, V> implements PrimitiveType<AtomicMultimap.Builder<K, V>, AtomicMultimap.Config, AtomicMultimap<K, V>> {
   private static final String NAME = "atomic-multimap";
   private static final AtomicMultimapType INSTANCE = new AtomicMultimapType();
 
@@ -73,13 +73,13 @@ public class AtomicMultimapType<K, V> implements PrimitiveType<AtomicMultimap.Bu
   }
 
   @Override
-  public AtomicMultimapConfig newConfig() {
-    return new AtomicMultimapConfig();
+  public AtomicMultimap.Config newConfig() {
+    return new AtomicMultimap.Config();
   }
 
   @Override
-  public AtomicMultimap.Builder<K, V> newBuilder(String name, AtomicMultimapConfig config, PrimitiveManagementService managementService) {
-    return new AtomicMultimapProxyBuilder<>(name, config, managementService);
+  public AtomicMultimap.Builder<K, V> newBuilder(String name, AtomicMultimap.Config config, PrimitiveManagementService managementService) {
+    return new DefaultAtomicMultimapBuilder<>(name, config, managementService);
   }
 
   @Override

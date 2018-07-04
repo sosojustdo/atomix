@@ -21,7 +21,7 @@ import io.atomix.cluster.ClusterMembershipEvent;
 import io.atomix.cluster.ClusterMembershipEventListener;
 import io.atomix.cluster.MemberId;
 import io.atomix.core.map.AsyncAtomicMap;
-import io.atomix.core.map.AtomicMapConfig;
+import io.atomix.core.map.AtomicMap;
 import io.atomix.core.map.AtomicMapType;
 import io.atomix.core.transaction.ManagedTransactionService;
 import io.atomix.core.transaction.ParticipantInfo;
@@ -357,7 +357,7 @@ public class CoreTransactionService implements ManagedTransactionService {
   public CompletableFuture<TransactionService> start() {
     managementService.getMembershipService().addListener(clusterEventListener);
     return AtomicMapType.<TransactionId, TransactionInfo>instance()
-        .newBuilder("atomix-transactions", new AtomicMapConfig(), managementService)
+        .newBuilder("atomix-transactions", new AtomicMap.Config(), managementService)
         .withProtocol(managementService.getPartitionService().getSystemPartitionGroup().newProtocol())
         .withSerializer(SERIALIZER)
         .withCacheEnabled()

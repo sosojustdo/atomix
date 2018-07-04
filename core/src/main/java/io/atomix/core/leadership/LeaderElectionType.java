@@ -15,8 +15,8 @@
  */
 package io.atomix.core.leadership;
 
+import io.atomix.core.leadership.impl.DefaultLeaderElectionBuilder;
 import io.atomix.core.leadership.impl.DefaultLeaderElectionService;
-import io.atomix.core.leadership.impl.LeaderElectionProxyBuilder;
 import io.atomix.core.leadership.impl.LeaderElectionResource;
 import io.atomix.primitive.PrimitiveManagementService;
 import io.atomix.primitive.PrimitiveType;
@@ -30,7 +30,7 @@ import static com.google.common.base.MoreObjects.toStringHelper;
 /**
  * Leader elector primitive type.
  */
-public class LeaderElectionType<T> implements PrimitiveType<LeaderElection.Builder<T>, LeaderElectionConfig, LeaderElection<T>> {
+public class LeaderElectionType<T> implements PrimitiveType<LeaderElection.Builder<T>, LeaderElection.Config, LeaderElection<T>> {
   private static final String NAME = "leader-election";
   private static final LeaderElectionType INSTANCE = new LeaderElectionType();
 
@@ -71,13 +71,13 @@ public class LeaderElectionType<T> implements PrimitiveType<LeaderElection.Build
   }
 
   @Override
-  public LeaderElectionConfig newConfig() {
-    return new LeaderElectionConfig();
+  public LeaderElection.Config newConfig() {
+    return new LeaderElection.Config();
   }
 
   @Override
-  public LeaderElection.Builder<T> newBuilder(String name, LeaderElectionConfig config, PrimitiveManagementService managementService) {
-    return new LeaderElectionProxyBuilder<>(name, config, managementService);
+  public LeaderElection.Builder<T> newBuilder(String name, LeaderElection.Config config, PrimitiveManagementService managementService) {
+    return new DefaultLeaderElectionBuilder<>(name, config, managementService);
   }
 
   @Override

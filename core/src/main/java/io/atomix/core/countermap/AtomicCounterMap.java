@@ -17,6 +17,7 @@ package io.atomix.core.countermap;
 
 import io.atomix.primitive.DistributedPrimitive;
 import io.atomix.primitive.PrimitiveManagementService;
+import io.atomix.primitive.PrimitiveType;
 import io.atomix.primitive.SyncPrimitive;
 
 /**
@@ -159,10 +160,20 @@ public interface AtomicCounterMap<K> extends SyncPrimitive {
   AsyncAtomicCounterMap<K> async();
 
   /**
+   * Atomic counter map configuration.
+   */
+  class Config extends DistributedPrimitive.Config<Config> {
+    @Override
+    public PrimitiveType getType() {
+      return AtomicCounterMapType.instance();
+    }
+  }
+
+  /**
    * Builder for AtomicCounterMap.
    */
-  abstract class Builder<K> extends DistributedPrimitive.Builder<Builder<K>, AtomicCounterMapConfig, AtomicCounterMap<K>> {
-    public Builder(String name, AtomicCounterMapConfig config, PrimitiveManagementService managementService) {
+  abstract class Builder<K> extends DistributedPrimitive.Builder<Builder<K>, Config, AtomicCounterMap<K>> {
+    public Builder(String name, Config config, PrimitiveManagementService managementService) {
       super(AtomicCounterMapType.instance(), name, config, managementService);
     }
   }

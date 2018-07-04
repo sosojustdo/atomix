@@ -18,6 +18,7 @@ package io.atomix.core.transaction;
 import io.atomix.core.set.DistributedSetType;
 import io.atomix.primitive.DistributedPrimitive;
 import io.atomix.primitive.PrimitiveManagementService;
+import io.atomix.primitive.PrimitiveType;
 import io.atomix.primitive.SyncPrimitive;
 
 /**
@@ -76,10 +77,20 @@ public interface TransactionalSet<E> extends SyncPrimitive {
   AsyncTransactionalSet<E> async();
 
   /**
+   * Transactional set configuration.
+   */
+  class Config extends DistributedPrimitive.Config {
+    @Override
+    public PrimitiveType getType() {
+      return DistributedSetType.instance();
+    }
+  }
+
+  /**
    * Transactional set builder.
    */
-  abstract class Builder<E> extends DistributedPrimitive.Builder<Builder<E>, TransactionalSetConfig, TransactionalSet<E>> {
-    protected Builder(String name, TransactionalSetConfig config, PrimitiveManagementService managementService) {
+  abstract class Builder<E> extends DistributedPrimitive.Builder<Builder<E>, Config, TransactionalSet<E>> {
+    protected Builder(String name, Config config, PrimitiveManagementService managementService) {
       super(DistributedSetType.instance(), name, config, managementService);
     }
   }

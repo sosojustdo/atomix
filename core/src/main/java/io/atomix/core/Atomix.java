@@ -49,7 +49,6 @@ import io.atomix.primitive.DistributedPrimitive;
 import io.atomix.primitive.PrimitiveInfo;
 import io.atomix.primitive.PrimitiveType;
 import io.atomix.primitive.config.ConfigService;
-import io.atomix.primitive.config.PrimitiveConfig;
 import io.atomix.primitive.config.impl.DefaultConfigService;
 import io.atomix.primitive.impl.DefaultPrimitiveTypeRegistry;
 import io.atomix.primitive.partition.ManagedPartitionGroup;
@@ -156,7 +155,7 @@ public class Atomix extends AtomixCluster implements PrimitivesService {
         classLoader,
         registry,
         new PolymorphicTypeMapper(PartitionGroup.Config.class, PartitionGroup.Type.class),
-        new PolymorphicTypeMapper(PrimitiveConfig.class, PrimitiveType.class),
+        new PolymorphicTypeMapper(DistributedPrimitive.Config.class, PrimitiveType.class),
         new PolymorphicTypeMapper(PrimitiveProtocol.Config.class, PrimitiveProtocol.Type.class),
         new PolymorphicTypeMapper(Profile.Config.class, Profile.Type.class),
         new PolymorphicTypeMapper(NodeDiscoveryProvider.Config.class, NodeDiscoveryProvider.Type.class));
@@ -334,7 +333,7 @@ public class Atomix extends AtomixCluster implements PrimitivesService {
   }
 
   @Override
-  public <B extends DistributedPrimitive.Builder<B, C, P>, C extends PrimitiveConfig<C>, P extends DistributedPrimitive> B primitiveBuilder(
+  public <B extends DistributedPrimitive.Builder<B, C, P>, C extends DistributedPrimitive.Config<C>, P extends DistributedPrimitive> B primitiveBuilder(
       String name,
       PrimitiveType<B, C, P> primitiveType) {
     return primitives.primitiveBuilder(name, primitiveType);
@@ -436,7 +435,7 @@ public class Atomix extends AtomixCluster implements PrimitivesService {
   }
 
   @Override
-  public <C extends PrimitiveConfig<C>, P extends DistributedPrimitive> P getPrimitive(String name, PrimitiveType<?, C, P> primitiveType, C primitiveConfig) {
+  public <C extends DistributedPrimitive.Config<C>, P extends DistributedPrimitive> P getPrimitive(String name, PrimitiveType<?, C, P> primitiveType, C primitiveConfig) {
     return primitives.getPrimitive(name, primitiveType, primitiveConfig);
   }
 

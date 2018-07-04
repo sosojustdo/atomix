@@ -18,7 +18,6 @@ package io.atomix.core.set.impl;
 import com.google.common.io.BaseEncoding;
 import io.atomix.core.set.AsyncDistributedSet;
 import io.atomix.core.set.DistributedSet;
-import io.atomix.core.set.DistributedSetConfig;
 import io.atomix.primitive.PrimitiveManagementService;
 import io.atomix.primitive.proxy.ProxyClient;
 import io.atomix.primitive.service.ServiceConfig;
@@ -31,8 +30,8 @@ import java.util.concurrent.CompletableFuture;
  *
  * @param <E> type for set elements
  */
-public class DistributedSetProxyBuilder<E> extends DistributedSet.Builder<E> {
-  public DistributedSetProxyBuilder(String name, DistributedSetConfig config, PrimitiveManagementService managementService) {
+public class DefaultDistributedSetBuilder<E> extends DistributedSet.Builder<E> {
+  public DefaultDistributedSetBuilder(String name, DistributedSet.Config config, PrimitiveManagementService managementService) {
     super(name, config, managementService);
   }
 

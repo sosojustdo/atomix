@@ -15,7 +15,6 @@
  */
 package io.atomix.primitive;
 
-import io.atomix.primitive.config.PrimitiveConfig;
 import io.atomix.primitive.resource.PrimitiveResource;
 import io.atomix.primitive.service.PrimitiveService;
 import io.atomix.primitive.service.ServiceConfig;
@@ -26,7 +25,7 @@ import io.atomix.utils.serializer.Namespaces;
 /**
  * Primitive type.
  */
-public interface PrimitiveType<B extends DistributedPrimitive.Builder, C extends PrimitiveConfig, P extends DistributedPrimitive> extends ConfiguredType<C> {
+public interface PrimitiveType<B extends DistributedPrimitive.Builder, C extends DistributedPrimitive.Config, P extends DistributedPrimitive> extends ConfiguredType<C> {
 
   /**
    * Returns the primitive type namespace.

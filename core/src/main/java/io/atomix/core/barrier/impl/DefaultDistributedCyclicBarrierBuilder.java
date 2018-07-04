@@ -17,7 +17,6 @@ package io.atomix.core.barrier.impl;
 
 import io.atomix.core.barrier.AsyncDistributedCyclicBarrier;
 import io.atomix.core.barrier.DistributedCyclicBarrier;
-import io.atomix.core.barrier.DistributedCyclicBarrierConfig;
 import io.atomix.primitive.PrimitiveManagementService;
 import io.atomix.primitive.proxy.ProxyClient;
 import io.atomix.primitive.service.ServiceConfig;
@@ -27,8 +26,8 @@ import java.util.concurrent.CompletableFuture;
 /**
  * Default distributed cyclic barrier builder implementation.
  */
-public class DistributedCyclicBarrierProxyBuilder extends DistributedCyclicBarrier.Builder {
-  public DistributedCyclicBarrierProxyBuilder(String name, DistributedCyclicBarrierConfig config, PrimitiveManagementService managementService) {
+public class DefaultDistributedCyclicBarrierBuilder extends DistributedCyclicBarrier.Builder {
+  public DefaultDistributedCyclicBarrierBuilder(String name, DistributedCyclicBarrier.Config config, PrimitiveManagementService managementService) {
     super(name, config, managementService);
   }
 

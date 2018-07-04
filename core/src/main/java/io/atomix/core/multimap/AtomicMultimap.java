@@ -22,6 +22,7 @@ import io.atomix.core.multiset.DistributedMultiset;
 import io.atomix.core.set.DistributedSet;
 import io.atomix.primitive.DistributedPrimitive;
 import io.atomix.primitive.PrimitiveManagementService;
+import io.atomix.primitive.PrimitiveType;
 import io.atomix.primitive.SyncPrimitive;
 import io.atomix.utils.time.Versioned;
 
@@ -231,10 +232,20 @@ public interface AtomicMultimap<K, V> extends SyncPrimitive {
   AsyncAtomicMultimap<K, V> async();
 
   /**
+   * Consistent multimap configuration.
+   */
+  class Config extends DistributedPrimitive.Config<Config> {
+    @Override
+    public PrimitiveType getType() {
+      return AtomicMultimapType.instance();
+    }
+  }
+
+  /**
    * A builder class for {@code AsyncConsistentMultimap}.
    */
-  abstract class Builder<K, V> extends DistributedPrimitive.Builder<Builder<K, V>, AtomicMultimapConfig, AtomicMultimap<K, V>> {
-    protected Builder(String name, AtomicMultimapConfig config, PrimitiveManagementService managementService) {
+  abstract class Builder<K, V> extends DistributedPrimitive.Builder<Builder<K, V>, Config, AtomicMultimap<K, V>> {
+    protected Builder(String name, Config config, PrimitiveManagementService managementService) {
       super(AtomicMultimapType.instance(), name, config, managementService);
     }
   }

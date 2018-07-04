@@ -18,8 +18,8 @@ package io.atomix.core.set;
 import io.atomix.core.collection.CollectionEvent;
 import io.atomix.core.collection.impl.CollectionUpdateResult;
 import io.atomix.core.collection.impl.DistributedCollectionService;
+import io.atomix.core.set.impl.DefaultDistributedSetBuilder;
 import io.atomix.core.set.impl.DefaultDistributedSetService;
-import io.atomix.core.set.impl.DistributedSetProxyBuilder;
 import io.atomix.core.set.impl.DistributedSetResource;
 import io.atomix.core.set.impl.SetUpdate;
 import io.atomix.core.transaction.TransactionId;
@@ -40,7 +40,7 @@ import static com.google.common.base.MoreObjects.toStringHelper;
 /**
  * Distributed set primitive type.
  */
-public class DistributedSetType<E> implements PrimitiveType<DistributedSet.Builder<E>, DistributedSetConfig, DistributedSet<E>> {
+public class DistributedSetType<E> implements PrimitiveType<DistributedSet.Builder<E>, DistributedSet.Config, DistributedSet<E>> {
   private static final String NAME = "set";
   private static final DistributedSetType INSTANCE = new DistributedSetType();
 
@@ -93,13 +93,13 @@ public class DistributedSetType<E> implements PrimitiveType<DistributedSet.Build
   }
 
   @Override
-  public DistributedSetConfig newConfig() {
-    return new DistributedSetConfig();
+  public DistributedSet.Config newConfig() {
+    return new DistributedSet.Config();
   }
 
   @Override
-  public DistributedSet.Builder<E> newBuilder(String name, DistributedSetConfig config, PrimitiveManagementService managementService) {
-    return new DistributedSetProxyBuilder<>(name, config, managementService);
+  public DistributedSet.Builder<E> newBuilder(String name, DistributedSet.Config config, PrimitiveManagementService managementService) {
+    return new DefaultDistributedSetBuilder<>(name, config, managementService);
   }
 
   @Override

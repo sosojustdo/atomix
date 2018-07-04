@@ -17,7 +17,9 @@
 package io.atomix.core.tree;
 
 import io.atomix.primitive.DistributedPrimitive;
+import io.atomix.primitive.Ordering;
 import io.atomix.primitive.PrimitiveManagementService;
+import io.atomix.primitive.PrimitiveType;
 import io.atomix.primitive.SyncPrimitive;
 import io.atomix.utils.time.Versioned;
 
@@ -146,10 +148,45 @@ public interface AtomicDocumentTree<V> extends SyncPrimitive {
   AsyncAtomicDocumentTree<V> async();
 
   /**
+   * Document tree configuration.
+   */
+  class Config extends DistributedPrimitive.Config<Config> {
+    private Ordering ordering;
+
+    @Override
+    public PrimitiveType getType() {
+      return AtomicDocumentTreeType.instance();
+    }
+
+    /**
+     * Sets the ordering of the tree nodes.
+     * <p>
+     * When {@link AsyncAtomicDocumentTree#getChildren(DocumentPath)} is called, children will be returned according to
+     * the specified sort order.
+     *
+     * @param ordering ordering of the tree nodes
+     * @return this builder
+     */
+    public Config setOrdering(Ordering ordering) {
+      this.ordering = ordering;
+      return this;
+    }
+
+    /**
+     * Returns the document tree ordering.
+     *
+     * @return the document tree ordering
+     */
+    public Ordering getOrdering() {
+      return ordering;
+    }
+  }
+
+  /**
    * Builder for {@link AtomicDocumentTree}.
    */
-  abstract class Builder<V> extends DistributedPrimitive.Builder<Builder<V>, AtomicDocumentTreeConfig, AtomicDocumentTree<V>> {
-    protected Builder(String name, AtomicDocumentTreeConfig config, PrimitiveManagementService managementService) {
+  abstract class Builder<V> extends DistributedPrimitive.Builder<Builder<V>, Config, AtomicDocumentTree<V>> {
+    protected Builder(String name, Config config, PrimitiveManagementService managementService) {
       super(AtomicDocumentTreeType.instance(), name, config, managementService);
     }
   }

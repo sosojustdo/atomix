@@ -18,7 +18,6 @@ package io.atomix.core.idgenerator.impl;
 import io.atomix.core.counter.impl.AtomicCounterProxy;
 import io.atomix.core.counter.impl.AtomicCounterService;
 import io.atomix.core.idgenerator.AtomicIdGenerator;
-import io.atomix.core.idgenerator.AtomicIdGeneratorConfig;
 import io.atomix.primitive.PrimitiveManagementService;
 import io.atomix.primitive.proxy.ProxyClient;
 import io.atomix.primitive.service.ServiceConfig;
@@ -28,8 +27,8 @@ import java.util.concurrent.CompletableFuture;
 /**
  * Default implementation of AtomicIdGeneratorBuilder.
  */
-public class DelegatingAtomicIdGeneratorBuilder extends AtomicIdGenerator.Builder {
-  public DelegatingAtomicIdGeneratorBuilder(String name, AtomicIdGeneratorConfig config, PrimitiveManagementService managementService) {
+public class DefaultAtomicIdGeneratorBuilder extends AtomicIdGenerator.Builder {
+  public DefaultAtomicIdGeneratorBuilder(String name, AtomicIdGenerator.Config config, PrimitiveManagementService managementService) {
     super(name, config, managementService);
   }
 

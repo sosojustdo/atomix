@@ -16,10 +16,8 @@
 package io.atomix.core.transaction.impl;
 
 import io.atomix.core.map.AtomicMap;
-import io.atomix.core.map.AtomicMapConfig;
 import io.atomix.core.map.AtomicMapType;
 import io.atomix.core.transaction.TransactionalMap;
-import io.atomix.core.transaction.TransactionalMapConfig;
 import io.atomix.primitive.PrimitiveManagementService;
 import io.atomix.primitive.protocol.PrimitiveProtocol;
 import io.atomix.utils.serializer.Serializer;
@@ -33,9 +31,9 @@ public class DefaultTransactionalMapBuilder<K, V> extends TransactionalMap.Build
   private final AtomicMap.Builder<K, V> mapBuilder;
   private final DefaultTransaction transaction;
 
-  public DefaultTransactionalMapBuilder(String name, TransactionalMapConfig config, PrimitiveManagementService managementService, DefaultTransaction transaction) {
+  public DefaultTransactionalMapBuilder(String name, TransactionalMap.Config config, PrimitiveManagementService managementService, DefaultTransaction transaction) {
     super(name, config, managementService);
-    this.mapBuilder = AtomicMapType.<K, V>instance().newBuilder(name, new AtomicMapConfig(), managementService);
+    this.mapBuilder = AtomicMapType.<K, V>instance().newBuilder(name, new AtomicMap.Config(), managementService);
     this.transaction = transaction;
   }
 

@@ -17,7 +17,7 @@ package io.atomix.core;
 
 import io.atomix.cluster.ClusterConfig;
 import io.atomix.core.profile.Profile;
-import io.atomix.primitive.config.PrimitiveConfig;
+import io.atomix.primitive.DistributedPrimitive;
 import io.atomix.primitive.partition.PartitionGroup;
 import io.atomix.utils.config.Config;
 
@@ -38,7 +38,7 @@ public class AtomixConfig implements Config {
   private boolean enableShutdownHook;
   private PartitionGroup.Config managementGroup;
   private Map<String, PartitionGroup.Config<?>> partitionGroups = new HashMap<>();
-  private Map<String, PrimitiveConfig> primitives = new HashMap<>();
+  private Map<String, DistributedPrimitive.Config> primitives = new HashMap<>();
   private List<Profile.Config> profiles = new ArrayList<>();
 
   /**
@@ -139,7 +139,7 @@ public class AtomixConfig implements Config {
    *
    * @return the primitive configurations
    */
-  public Map<String, PrimitiveConfig> getPrimitives() {
+  public Map<String, DistributedPrimitive.Config> getPrimitives() {
     return primitives;
   }
 
@@ -149,7 +149,7 @@ public class AtomixConfig implements Config {
    * @param primitives the primitive configurations
    * @return the primitive configuration holder
    */
-  public AtomixConfig setPrimitives(Map<String, PrimitiveConfig> primitives) {
+  public AtomixConfig setPrimitives(Map<String, DistributedPrimitive.Config> primitives) {
     this.primitives = checkNotNull(primitives);
     return this;
   }
@@ -161,7 +161,7 @@ public class AtomixConfig implements Config {
    * @param config the primitive configuration
    * @return the primitive configuration holder
    */
-  public AtomixConfig addPrimitive(String name, PrimitiveConfig config) {
+  public AtomixConfig addPrimitive(String name, DistributedPrimitive.Config config) {
     primitives.put(name, config);
     return this;
   }
@@ -174,7 +174,7 @@ public class AtomixConfig implements Config {
    * @return the primitive configuration
    */
   @SuppressWarnings("unchecked")
-  public <C extends PrimitiveConfig<C>> C getPrimitive(String name) {
+  public <C extends DistributedPrimitive.Config<C>> C getPrimitive(String name) {
     return (C) primitives.get(name);
   }
 

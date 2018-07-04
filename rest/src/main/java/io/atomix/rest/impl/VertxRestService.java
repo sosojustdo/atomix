@@ -25,7 +25,7 @@ import io.atomix.cluster.messaging.ClusterEventService;
 import io.atomix.core.Atomix;
 import io.atomix.core.PrimitivesService;
 import io.atomix.core.utils.EventManager;
-import io.atomix.primitive.config.PrimitiveConfig;
+import io.atomix.primitive.DistributedPrimitive;
 import io.atomix.primitive.partition.PartitionGroup;
 import io.atomix.primitive.protocol.PrimitiveProtocol;
 import io.atomix.rest.ManagedRestService;
@@ -149,7 +149,7 @@ public class VertxRestService implements ManagedRestService {
     SimpleModule module = new SimpleModule("PolymorphicTypes");
     module.addDeserializer(PartitionGroup.Config.class, new PartitionGroupDeserializer(atomix.getRegistry()));
     module.addDeserializer(PrimitiveProtocol.Config.class, new PrimitiveProtocolDeserializer(atomix.getRegistry()));
-    module.addDeserializer(PrimitiveConfig.class, new PrimitiveConfigDeserializer(atomix.getRegistry()));
+    module.addDeserializer(DistributedPrimitive.Config.class, new PrimitiveConfigDeserializer(atomix.getRegistry()));
     mapper.registerModule(module);
 
     return mapper;

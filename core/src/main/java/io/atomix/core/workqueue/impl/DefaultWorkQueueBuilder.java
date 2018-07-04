@@ -16,7 +16,6 @@
 package io.atomix.core.workqueue.impl;
 
 import io.atomix.core.workqueue.WorkQueue;
-import io.atomix.core.workqueue.WorkQueueConfig;
 import io.atomix.primitive.PrimitiveManagementService;
 import io.atomix.primitive.proxy.ProxyClient;
 import io.atomix.primitive.service.ServiceConfig;
@@ -27,8 +26,8 @@ import java.util.concurrent.CompletableFuture;
 /**
  * Default work queue builder implementation.
  */
-public class WorkQueueProxyBuilder<E> extends WorkQueue.Builder<E> {
-  public WorkQueueProxyBuilder(String name, WorkQueueConfig config, PrimitiveManagementService managementService) {
+public class DefaultWorkQueueBuilder<E> extends WorkQueue.Builder<E> {
+  public DefaultWorkQueueBuilder(String name, WorkQueue.Config config, PrimitiveManagementService managementService) {
     super(name, config, managementService);
   }
 

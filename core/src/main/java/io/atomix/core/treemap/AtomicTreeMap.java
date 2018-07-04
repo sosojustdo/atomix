@@ -19,6 +19,7 @@ package io.atomix.core.treemap;
 import io.atomix.core.map.AtomicMap;
 import io.atomix.primitive.DistributedPrimitive;
 import io.atomix.primitive.PrimitiveManagementService;
+import io.atomix.primitive.PrimitiveType;
 import io.atomix.utils.time.Versioned;
 
 import java.util.Map;
@@ -153,10 +154,20 @@ public interface AtomicTreeMap<V> extends AtomicMap<String, V> {
   AsyncAtomicTreeMap<V> async();
 
   /**
+   * Consistent tree-map configuration.
+   */
+  class Config extends DistributedPrimitive.Config<Config> {
+    @Override
+    public PrimitiveType getType() {
+      return AtomicTreeMapType.instance();
+    }
+  }
+
+  /**
    * Builder for {@link AtomicTreeMap}.
    */
-  abstract class Builder<V> extends DistributedPrimitive.Builder<Builder<V>, AtomicTreeMapConfig, AtomicTreeMap<V>> {
-    protected Builder(String name, AtomicTreeMapConfig config, PrimitiveManagementService managementService) {
+  abstract class Builder<V> extends DistributedPrimitive.Builder<Builder<V>, Config, AtomicTreeMap<V>> {
+    protected Builder(String name, Config config, PrimitiveManagementService managementService) {
       super(AtomicTreeMapType.instance(), name, config, managementService);
     }
   }

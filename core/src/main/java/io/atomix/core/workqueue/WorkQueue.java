@@ -18,6 +18,7 @@ package io.atomix.core.workqueue;
 import com.google.common.collect.ImmutableList;
 import io.atomix.primitive.DistributedPrimitive;
 import io.atomix.primitive.PrimitiveManagementService;
+import io.atomix.primitive.PrimitiveType;
 import io.atomix.primitive.SyncPrimitive;
 
 import java.util.Arrays;
@@ -132,10 +133,20 @@ public interface WorkQueue<E> extends SyncPrimitive {
   AsyncWorkQueue<E> async();
 
   /**
+   * Work queue configuration.
+   */
+  class Config extends DistributedPrimitive.Config<Config> {
+    @Override
+    public PrimitiveType getType() {
+      return WorkQueueType.instance();
+    }
+  }
+
+  /**
    * Work queue builder.
    */
-  abstract class Builder<E> extends DistributedPrimitive.Builder<Builder<E>, WorkQueueConfig, WorkQueue<E>> {
-    protected Builder(String name, WorkQueueConfig config, PrimitiveManagementService managementService) {
+  abstract class Builder<E> extends DistributedPrimitive.Builder<Builder<E>, Config, WorkQueue<E>> {
+    protected Builder(String name, Config config, PrimitiveManagementService managementService) {
       super(WorkQueueType.instance(), name, config, managementService);
     }
   }

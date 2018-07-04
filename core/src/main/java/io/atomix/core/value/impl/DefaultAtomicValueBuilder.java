@@ -16,7 +16,6 @@
 package io.atomix.core.value.impl;
 
 import io.atomix.core.value.AtomicValue;
-import io.atomix.core.value.AtomicValueConfig;
 import io.atomix.primitive.PrimitiveManagementService;
 import io.atomix.primitive.proxy.ProxyClient;
 import io.atomix.primitive.service.ServiceConfig;
@@ -29,8 +28,8 @@ import java.util.concurrent.CompletableFuture;
  *
  * @param <V> value type
  */
-public class AtomicValueProxyBuilder<V> extends AtomicValue.Builder<V> {
-  public AtomicValueProxyBuilder(String name, AtomicValueConfig config, PrimitiveManagementService managementService) {
+public class DefaultAtomicValueBuilder<V> extends AtomicValue.Builder<V> {
+  public DefaultAtomicValueBuilder(String name, AtomicValue.Config config, PrimitiveManagementService managementService) {
     super(name, config, managementService);
   }
 

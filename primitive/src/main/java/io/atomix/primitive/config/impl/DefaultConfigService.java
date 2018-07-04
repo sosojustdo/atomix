@@ -16,8 +16,8 @@
 package io.atomix.primitive.config.impl;
 
 import com.google.common.collect.Maps;
+import io.atomix.primitive.DistributedPrimitive;
 import io.atomix.primitive.config.ConfigService;
-import io.atomix.primitive.config.PrimitiveConfig;
 
 import java.util.Collection;
 import java.util.Map;
@@ -28,22 +28,22 @@ import static com.google.common.base.Preconditions.checkNotNull;
  * Default configuration service.
  */
 public class DefaultConfigService implements ConfigService {
-  private final Map<String, PrimitiveConfig> configs = Maps.newConcurrentMap();
+  private final Map<String, DistributedPrimitive.Config> configs = Maps.newConcurrentMap();
 
-  public DefaultConfigService(Collection<PrimitiveConfig> configs) {
+  public DefaultConfigService(Collection<DistributedPrimitive.Config> configs) {
     configs.forEach(config -> this.configs.put(config.getName(), config));
   }
 
   @Override
   @SuppressWarnings("unchecked")
-  public <C extends PrimitiveConfig<C>> C getConfig(String primitiveName) {
+  public <C extends DistributedPrimitive.Config<C>> C getConfig(String primitiveName) {
     return (C) configs.get(primitiveName);
   }
 
   @Override
-  public PrimitiveConfig addConfig(PrimitiveConfig config) {
+  public DistributedPrimitive.Config addConfig(DistributedPrimitive.Config config) {
     checkNotNull(config, "config cannot be null");
-    PrimitiveConfig previous = configs.putIfAbsent(config.getName(), config);
+    DistributedPrimitive.Config previous = configs.putIfAbsent(config.getName(), config);
     return previous != null ? previous : config;
   }
 }

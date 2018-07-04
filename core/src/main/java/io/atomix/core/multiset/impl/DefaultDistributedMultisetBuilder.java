@@ -18,7 +18,6 @@ package io.atomix.core.multiset.impl;
 import com.google.common.io.BaseEncoding;
 import io.atomix.core.multiset.AsyncDistributedMultiset;
 import io.atomix.core.multiset.DistributedMultiset;
-import io.atomix.core.multiset.DistributedMultisetConfig;
 import io.atomix.primitive.PrimitiveManagementService;
 import io.atomix.primitive.proxy.ProxyClient;
 import io.atomix.primitive.service.ServiceConfig;
@@ -31,8 +30,8 @@ import java.util.concurrent.CompletableFuture;
  *
  * @param <E> type for multiset elements
  */
-public class DistributedMultisetProxyBuilder<E> extends DistributedMultiset.Builder<E> {
-  public DistributedMultisetProxyBuilder(String name, DistributedMultisetConfig config, PrimitiveManagementService managementService) {
+public class DefaultDistributedMultisetBuilder<E> extends DistributedMultiset.Builder<E> {
+  public DefaultDistributedMultisetBuilder(String name, DistributedMultiset.Config config, PrimitiveManagementService managementService) {
     super(name, config, managementService);
   }
 

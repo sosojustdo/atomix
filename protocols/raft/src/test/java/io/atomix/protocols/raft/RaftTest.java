@@ -27,7 +27,6 @@ import io.atomix.primitive.PrimitiveRegistry;
 import io.atomix.primitive.PrimitiveState;
 import io.atomix.primitive.PrimitiveType;
 import io.atomix.primitive.SyncPrimitive;
-import io.atomix.primitive.config.PrimitiveConfig;
 import io.atomix.primitive.event.Event;
 import io.atomix.primitive.operation.Command;
 import io.atomix.primitive.operation.OperationType;
@@ -1351,12 +1350,12 @@ public class RaftTest extends ConcurrentTestCase {
     }
 
     @Override
-    public PrimitiveConfig newConfig() {
+    public DistributedPrimitive.Config newConfig() {
       throw new UnsupportedOperationException();
     }
 
     @Override
-    public DistributedPrimitive.Builder newBuilder(String primitiveName, PrimitiveConfig config, PrimitiveManagementService managementService) {
+    public DistributedPrimitive.Builder newBuilder(String primitiveName, DistributedPrimitive.Config config, PrimitiveManagementService managementService) {
       throw new UnsupportedOperationException();
     }
 

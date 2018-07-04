@@ -17,7 +17,6 @@ package io.atomix.core.countermap.impl;
 
 import com.google.common.io.BaseEncoding;
 import io.atomix.core.countermap.AtomicCounterMap;
-import io.atomix.core.countermap.AtomicCounterMapConfig;
 import io.atomix.primitive.PrimitiveManagementService;
 import io.atomix.primitive.proxy.ProxyClient;
 import io.atomix.primitive.service.ServiceConfig;
@@ -28,8 +27,8 @@ import java.util.concurrent.CompletableFuture;
 /**
  * Default {@code AtomicCounterMapBuilder}.
  */
-public class AtomicCounterMapProxyBuilder<K> extends AtomicCounterMap.Builder<K> {
-  public AtomicCounterMapProxyBuilder(String name, AtomicCounterMapConfig config, PrimitiveManagementService managementService) {
+public class DefaultAtomicCounterMapBuilder<K> extends AtomicCounterMap.Builder<K> {
+  public DefaultAtomicCounterMapBuilder(String name, AtomicCounterMap.Config config, PrimitiveManagementService managementService) {
     super(name, config, managementService);
   }
 

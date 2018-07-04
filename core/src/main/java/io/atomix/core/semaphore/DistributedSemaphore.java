@@ -17,6 +17,7 @@ package io.atomix.core.semaphore;
 
 import io.atomix.primitive.DistributedPrimitive;
 import io.atomix.primitive.PrimitiveManagementService;
+import io.atomix.primitive.PrimitiveType;
 import io.atomix.primitive.SyncPrimitive;
 import io.atomix.utils.time.Version;
 
@@ -134,10 +135,38 @@ public interface DistributedSemaphore extends SyncPrimitive {
   AsyncDistributedSemaphore async();
 
   /**
+   * Semaphore configuration.
+   */
+  class Config extends DistributedPrimitive.Config<Config> {
+    private int initialCapacity;
+
+    @Override
+    public PrimitiveType getType() {
+      return DistributedSemaphoreType.instance();
+    }
+
+    /**
+     * Initialize this semaphore with the given permit count.
+     * Only the first initialization will be accepted.
+     *
+     * @param permits initial permits
+     * @return configuration
+     */
+    public Config setInitialCapacity(int permits) {
+      initialCapacity = permits;
+      return this;
+    }
+
+    public int initialCapacity() {
+      return initialCapacity;
+    }
+  }
+
+  /**
    * Distributed semaphore builder.
    */
-  abstract class Builder extends DistributedPrimitive.Builder<Builder, DistributedSemaphoreConfig, DistributedSemaphore> {
-    protected Builder(String name, DistributedSemaphoreConfig config, PrimitiveManagementService managementService) {
+  abstract class Builder extends DistributedPrimitive.Builder<Builder, Config, DistributedSemaphore> {
+    protected Builder(String name, Config config, PrimitiveManagementService managementService) {
       super(DistributedSemaphoreType.instance(), name, config, managementService);
     }
 

@@ -18,6 +18,7 @@ package io.atomix.core.queue;
 import io.atomix.core.collection.DistributedCollection;
 import io.atomix.primitive.DistributedPrimitive;
 import io.atomix.primitive.PrimitiveManagementService;
+import io.atomix.primitive.PrimitiveType;
 
 import java.util.Queue;
 
@@ -25,13 +26,24 @@ import java.util.Queue;
  * Distributed queue.
  */
 public interface DistributedQueue<E> extends DistributedCollection<E>, Queue<E> {
+
+  /**
+   * Distributed queue configuration.
+   */
+  class Config extends DistributedPrimitive.Config<Config> {
+    @Override
+    public PrimitiveType getType() {
+      return DistributedQueueType.instance();
+    }
+  }
+
   /**
    * Builder for distributed queue.
    *
    * @param <E> queue element type
    */
-  abstract class Builder<E> extends DistributedPrimitive.Builder<Builder<E>, DistributedQueueConfig, DistributedQueue<E>> {
-    protected Builder(String name, DistributedQueueConfig config, PrimitiveManagementService managementService) {
+  abstract class Builder<E> extends DistributedPrimitive.Builder<Builder<E>, Config, DistributedQueue<E>> {
+    protected Builder(String name, Config config, PrimitiveManagementService managementService) {
       super(DistributedQueueType.instance(), name, config, managementService);
     }
   }

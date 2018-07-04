@@ -15,8 +15,8 @@
  */
 package io.atomix.core.lock;
 
+import io.atomix.core.lock.impl.DefaultDistributedLockBuilder;
 import io.atomix.core.lock.impl.DefaultDistributedLockService;
-import io.atomix.core.lock.impl.DistributedLockProxyBuilder;
 import io.atomix.core.lock.impl.DistributedLockResource;
 import io.atomix.primitive.PrimitiveManagementService;
 import io.atomix.primitive.PrimitiveType;
@@ -29,7 +29,7 @@ import static com.google.common.base.MoreObjects.toStringHelper;
 /**
  * Distributed lock primitive type.
  */
-public class DistributedLockType implements PrimitiveType<DistributedLock.Builder, DistributedLockConfig, DistributedLock> {
+public class DistributedLockType implements PrimitiveType<DistributedLock.Builder, DistributedLock.Config, DistributedLock> {
   private static final String NAME = "lock";
   private static final DistributedLockType INSTANCE = new DistributedLockType();
 
@@ -59,13 +59,13 @@ public class DistributedLockType implements PrimitiveType<DistributedLock.Builde
   }
 
   @Override
-  public DistributedLockConfig newConfig() {
-    return new DistributedLockConfig();
+  public DistributedLock.Config newConfig() {
+    return new DistributedLock.Config();
   }
 
   @Override
-  public DistributedLock.Builder newBuilder(String name, DistributedLockConfig config, PrimitiveManagementService managementService) {
-    return new DistributedLockProxyBuilder(name, config, managementService);
+  public DistributedLock.Builder newBuilder(String name, DistributedLock.Config config, PrimitiveManagementService managementService) {
+    return new DefaultDistributedLockBuilder(name, config, managementService);
   }
 
   @Override

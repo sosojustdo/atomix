@@ -17,7 +17,6 @@ package io.atomix.core.tree.impl;
 
 import io.atomix.core.tree.AsyncAtomicDocumentTree;
 import io.atomix.core.tree.AtomicDocumentTree;
-import io.atomix.core.tree.AtomicDocumentTreeConfig;
 import io.atomix.primitive.PrimitiveManagementService;
 import io.atomix.primitive.proxy.ProxyClient;
 import io.atomix.primitive.service.ServiceConfig;
@@ -30,8 +29,8 @@ import java.util.concurrent.CompletableFuture;
  *
  * @param <V> type for document tree value
  */
-public class AtomicDocumentTreeProxyBuilder<V> extends AtomicDocumentTree.Builder<V> {
-  public AtomicDocumentTreeProxyBuilder(String name, AtomicDocumentTreeConfig config, PrimitiveManagementService managementService) {
+public class DefaultAtomicDocumentTreeBuilder<V> extends AtomicDocumentTree.Builder<V> {
+  public DefaultAtomicDocumentTreeBuilder(String name, AtomicDocumentTree.Config config, PrimitiveManagementService managementService) {
     super(name, config, managementService);
   }
 

@@ -20,11 +20,11 @@ import io.atomix.cluster.MemberConfig;
 import io.atomix.cluster.MembershipConfig;
 import io.atomix.cluster.MulticastConfig;
 import io.atomix.cluster.MulticastDiscoveryProvider;
-import io.atomix.core.map.AtomicMapConfig;
+import io.atomix.core.map.AtomicMap;
 import io.atomix.core.profile.ConsensusProfile;
 import io.atomix.core.profile.DataGridProfile;
-import io.atomix.core.set.DistributedSetConfig;
-import io.atomix.core.value.AtomicValueConfig;
+import io.atomix.core.set.DistributedSet;
+import io.atomix.core.value.AtomicValue;
 import io.atomix.primitive.Recovery;
 import io.atomix.primitive.Replication;
 import io.atomix.protocols.backup.MultiPrimaryProtocol;
@@ -112,11 +112,11 @@ public class AtomixConfigTest {
     assertEquals("data", dataGridProfile.getDataGroup());
     assertEquals(32, dataGridProfile.getPartitions());
 
-    AtomicMapConfig foo = config.getPrimitive("foo");
+    AtomicMap.Config foo = config.getPrimitive("foo");
     assertEquals("atomic-map", foo.getType().name());
     assertTrue(foo.isNullValues());
 
-    DistributedSetConfig bar = config.getPrimitive("bar");
+    DistributedSet.Config bar = config.getPrimitive("bar");
     assertTrue(bar.isCacheEnabled());
 
     MultiPrimaryProtocol.Config multiPrimary = (MultiPrimaryProtocol.Config) bar.getProtocolConfig();
@@ -124,7 +124,7 @@ public class AtomixConfigTest {
     assertEquals(Replication.SYNCHRONOUS, multiPrimary.getReplication());
     assertEquals(Duration.ofSeconds(1), multiPrimary.getRetryDelay());
 
-    AtomicValueConfig baz = config.getPrimitive("baz");
+    AtomicValue.Config baz = config.getPrimitive("baz");
 
     MultiRaftProtocol.Config multiRaft = (MultiRaftProtocol.Config) baz.getProtocolConfig();
     assertEquals(ReadConsistency.SEQUENTIAL, multiRaft.getReadConsistency());

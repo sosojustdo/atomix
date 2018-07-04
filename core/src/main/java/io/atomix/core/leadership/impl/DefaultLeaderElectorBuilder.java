@@ -16,7 +16,6 @@
 package io.atomix.core.leadership.impl;
 
 import io.atomix.core.leadership.LeaderElector;
-import io.atomix.core.leadership.LeaderElectorConfig;
 import io.atomix.primitive.PrimitiveManagementService;
 import io.atomix.primitive.proxy.ProxyClient;
 import io.atomix.primitive.service.ServiceConfig;
@@ -27,8 +26,8 @@ import java.util.concurrent.CompletableFuture;
 /**
  * Default implementation of {@code LeaderElectorBuilder}.
  */
-public class LeaderElectorProxyBuilder<T> extends LeaderElector.Builder<T> {
-  public LeaderElectorProxyBuilder(String name, LeaderElectorConfig config, PrimitiveManagementService managementService) {
+public class DefaultLeaderElectorBuilder<T> extends LeaderElector.Builder<T> {
+  public DefaultLeaderElectorBuilder(String name, LeaderElector.Config config, PrimitiveManagementService managementService) {
     super(name, config, managementService);
   }
 

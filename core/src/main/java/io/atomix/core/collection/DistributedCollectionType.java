@@ -15,8 +15,6 @@
  */
 package io.atomix.core.collection;
 
-import io.atomix.core.set.DistributedSet;
-import io.atomix.core.set.DistributedSetConfig;
 import io.atomix.primitive.PrimitiveManagementService;
 import io.atomix.primitive.PrimitiveType;
 import io.atomix.primitive.service.PrimitiveService;
@@ -27,7 +25,7 @@ import static com.google.common.base.MoreObjects.toStringHelper;
 /**
  * Distributed collection primitive type.
  */
-public class DistributedCollectionType<E> implements PrimitiveType<DistributedCollection.Builder<E>, DistributedSetConfig, DistributedSet<E>> {
+public class DistributedCollectionType<E> implements PrimitiveType<DistributedCollection.Builder<E>, DistributedCollection.Config, DistributedCollection<E>> {
   private static final String NAME = "collection";
   private static final DistributedCollectionType INSTANCE = new DistributedCollectionType();
 
@@ -53,12 +51,12 @@ public class DistributedCollectionType<E> implements PrimitiveType<DistributedCo
   }
 
   @Override
-  public DistributedSetConfig newConfig() {
+  public DistributedCollection.Config newConfig() {
     throw new UnsupportedOperationException();
   }
 
   @Override
-  public DistributedCollection.Builder<E> newBuilder(String primitiveName, DistributedSetConfig config, PrimitiveManagementService managementService) {
+  public DistributedCollection.Builder<E> newBuilder(String primitiveName, DistributedCollection.Config config, PrimitiveManagementService managementService) {
     throw new UnsupportedOperationException();
   }
 

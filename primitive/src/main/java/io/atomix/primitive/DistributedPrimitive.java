@@ -16,10 +16,11 @@
 package io.atomix.primitive;
 
 import com.google.common.base.Joiner;
-import io.atomix.primitive.config.PrimitiveConfig;
 import io.atomix.primitive.partition.PartitionGroup;
 import io.atomix.primitive.protocol.PrimitiveProtocol;
 import io.atomix.utils.config.ConfigurationException;
+import io.atomix.utils.config.NamedConfig;
+import io.atomix.utils.config.TypedConfig;
 import io.atomix.utils.serializer.Namespace;
 import io.atomix.utils.serializer.NamespaceConfig;
 import io.atomix.utils.serializer.Namespaces;
@@ -80,12 +81,161 @@ public interface DistributedPrimitive {
   }
 
   /**
+   * Primitive configuration.
+   */
+  abstract class Config<C extends Config<C>> implements TypedConfig<PrimitiveType>, NamedConfig<C> {
+    private static final int DEFAULT_CACHE_SIZE = 1000;
+
+    private String name;
+    private NamespaceConfig namespaceConfig;
+    private PrimitiveProtocol.Config protocolConfig;
+    private boolean cacheEnabled = false;
+    private int cacheSize = DEFAULT_CACHE_SIZE;
+    private boolean readOnly = false;
+
+    @Override
+    public String getName() {
+      return name;
+    }
+
+    @Override
+    @SuppressWarnings("unchecked")
+    public C setName(String name) {
+      this.name = name;
+      return (C) this;
+    }
+
+    /**
+     * Returns the serializer configuration.
+     *
+     * @return the serializer configuration
+     */
+    public NamespaceConfig getNamespaceConfig() {
+      return namespaceConfig;
+    }
+
+    /**
+     * Sets the serializer configuration.
+     *
+     * @param namespaceConfig the serializer configuration
+     * @return the primitive configuration
+     */
+    @SuppressWarnings("unchecked")
+    public C setNamespaceConfig(NamespaceConfig namespaceConfig) {
+      this.namespaceConfig = namespaceConfig;
+      return (C) this;
+    }
+
+    /**
+     * Returns the protocol configuration.
+     *
+     * @return the protocol configuration
+     */
+    public PrimitiveProtocol.Config getProtocolConfig() {
+      return protocolConfig;
+    }
+
+    /**
+     * Sets the protocol configuration.
+     *
+     * @param protocolConfig the protocol configuration
+     * @return the primitive configuration
+     */
+    @SuppressWarnings("unchecked")
+    public C setProtocolConfig(PrimitiveProtocol.Config protocolConfig) {
+      this.protocolConfig = protocolConfig;
+      return (C) this;
+    }
+
+    /**
+     * Enables caching for the primitive.
+     *
+     * @return the primitive configuration
+     */
+    public C setCacheEnabled() {
+      return setCacheEnabled(true);
+    }
+
+    /**
+     * Sets whether caching is enabled.
+     *
+     * @param cacheEnabled whether caching is enabled
+     * @return the primitive configuration
+     */
+    @SuppressWarnings("unchecked")
+    public C setCacheEnabled(boolean cacheEnabled) {
+      this.cacheEnabled = cacheEnabled;
+      return (C) this;
+    }
+
+    /**
+     * Returns whether caching is enabled.
+     *
+     * @return whether caching is enabled
+     */
+    public boolean isCacheEnabled() {
+      return cacheEnabled;
+    }
+
+    /**
+     * Sets the cache size.
+     *
+     * @param cacheSize the cache size
+     * @return the primitive configuration
+     */
+    @SuppressWarnings("unchecked")
+    public C setCacheSize(int cacheSize) {
+      this.cacheSize = cacheSize;
+      return (C) this;
+    }
+
+    /**
+     * Returns the cache size.
+     *
+     * @return the cache size
+     */
+    public int getCacheSize() {
+      return cacheSize;
+    }
+
+    /**
+     * Sets the primitive to read-only.
+     *
+     * @return the primitive configuration
+     */
+    public C setReadOnly() {
+      return setReadOnly(true);
+    }
+
+    /**
+     * Sets whether the primitive is read-only.
+     *
+     * @param readOnly whether the primitive is read-only
+     * @return the primitive configuration
+     */
+    @SuppressWarnings("unchecked")
+    public C setReadOnly(boolean readOnly) {
+      this.readOnly = readOnly;
+      return (C) this;
+    }
+
+    /**
+     * Returns whether the primitive is read-only.
+     *
+     * @return whether the primitive is read-only
+     */
+    public boolean isReadOnly() {
+      return readOnly;
+    }
+  }
+
+  /**
    * Abstract builder for distributed primitives.
    *
    * @param <B> builder type
    * @param <P> primitive type
    */
-  abstract class Builder<B extends Builder<B, C, P>, C extends PrimitiveConfig, P extends DistributedPrimitive> implements io.atomix.utils.Builder<P> {
+  abstract class Builder<B extends Builder<B, C, P>, C extends Config, P extends DistributedPrimitive> implements io.atomix.utils.Builder<P> {
     protected final PrimitiveType type;
     protected final String name;
     protected final C config;

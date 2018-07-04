@@ -20,8 +20,8 @@ import io.atomix.core.transaction.TransactionLog;
 import io.atomix.core.transaction.impl.CommitResult;
 import io.atomix.core.transaction.impl.PrepareResult;
 import io.atomix.core.transaction.impl.RollbackResult;
+import io.atomix.core.tree.impl.DefaultAtomicDocumentTreeBuilder;
 import io.atomix.core.tree.impl.DefaultDocumentTreeService;
-import io.atomix.core.tree.impl.AtomicDocumentTreeProxyBuilder;
 import io.atomix.core.tree.impl.DocumentTreeResource;
 import io.atomix.core.tree.impl.DocumentTreeResult;
 import io.atomix.core.tree.impl.NodeUpdate;
@@ -42,7 +42,7 @@ import static com.google.common.base.MoreObjects.toStringHelper;
 /**
  * Document tree primitive type.
  */
-public class AtomicDocumentTreeType<V> implements PrimitiveType<AtomicDocumentTree.Builder<V>, AtomicDocumentTreeConfig, AtomicDocumentTree<V>> {
+public class AtomicDocumentTreeType<V> implements PrimitiveType<AtomicDocumentTree.Builder<V>, AtomicDocumentTree.Config, AtomicDocumentTree<V>> {
   private static final String NAME = "document-tree";
   private static final AtomicDocumentTreeType INSTANCE = new AtomicDocumentTreeType();
 
@@ -97,13 +97,13 @@ public class AtomicDocumentTreeType<V> implements PrimitiveType<AtomicDocumentTr
   }
 
   @Override
-  public AtomicDocumentTreeConfig newConfig() {
-    return new AtomicDocumentTreeConfig();
+  public AtomicDocumentTree.Config newConfig() {
+    return new AtomicDocumentTree.Config();
   }
 
   @Override
-  public AtomicDocumentTree.Builder<V> newBuilder(String name, AtomicDocumentTreeConfig config, PrimitiveManagementService managementService) {
-    return new AtomicDocumentTreeProxyBuilder<>(name, config, managementService);
+  public AtomicDocumentTree.Builder<V> newBuilder(String name, AtomicDocumentTree.Config config, PrimitiveManagementService managementService) {
+    return new DefaultAtomicDocumentTreeBuilder<>(name, config, managementService);
   }
 
   @Override

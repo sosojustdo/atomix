@@ -17,8 +17,11 @@ package io.atomix.core.transaction;
 
 import io.atomix.primitive.DistributedPrimitive;
 import io.atomix.primitive.PrimitiveManagementService;
+import io.atomix.primitive.PrimitiveType;
 import io.atomix.primitive.SyncPrimitive;
 import io.atomix.primitive.protocol.PrimitiveProtocol;
+
+import static com.google.common.base.Preconditions.checkNotNull;
 
 /**
  * Transaction primitive.
@@ -112,10 +115,42 @@ public interface Transaction extends SyncPrimitive {
   AsyncTransaction async();
 
   /**
+   * Transaction configuration.
+   */
+  class Config extends DistributedPrimitive.Config<Config> {
+    private Isolation isolation = Isolation.READ_COMMITTED;
+
+    @Override
+    public PrimitiveType getType() {
+      return TransactionType.instance();
+    }
+
+    /**
+     * Sets the transaction isolation level.
+     *
+     * @param isolation the transaction isolation level
+     * @return the transaction configuration
+     */
+    public Config setIsolation(Isolation isolation) {
+      this.isolation = checkNotNull(isolation, "isolation cannot be null");
+      return this;
+    }
+
+    /**
+     * Returns the transaction isolation level.
+     *
+     * @return the transaction isolation level
+     */
+    public Isolation getIsolation() {
+      return isolation;
+    }
+  }
+
+  /**
    * Transaction builder.
    */
-  abstract class Builder extends DistributedPrimitive.Builder<Builder, TransactionConfig, Transaction> {
-    protected Builder(String name, TransactionConfig config, PrimitiveManagementService managementService) {
+  abstract class Builder extends DistributedPrimitive.Builder<Builder, Config, Transaction> {
+    protected Builder(String name, Config config, PrimitiveManagementService managementService) {
       super(TransactionType.instance(), name, config, managementService);
     }
 

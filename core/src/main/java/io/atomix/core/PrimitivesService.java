@@ -55,7 +55,6 @@ import io.atomix.core.workqueue.WorkQueueType;
 import io.atomix.primitive.DistributedPrimitive;
 import io.atomix.primitive.PrimitiveInfo;
 import io.atomix.primitive.PrimitiveType;
-import io.atomix.primitive.config.PrimitiveConfig;
 import io.atomix.primitive.protocol.PrimitiveProtocol;
 
 import java.util.Collection;
@@ -672,7 +671,7 @@ public interface PrimitivesService {
    * @param <P>             the primitive type
    * @return the primitive instance
    */
-  <C extends PrimitiveConfig<C>, P extends DistributedPrimitive> P getPrimitive(
+  <C extends DistributedPrimitive.Config<C>, P extends DistributedPrimitive> P getPrimitive(
       String name,
       PrimitiveType<?, C, P> primitiveType,
       C primitiveConfig);
@@ -686,7 +685,7 @@ public interface PrimitivesService {
    * @param <P>           the primitive type
    * @return the primitive builder
    */
-  <B extends DistributedPrimitive.Builder<B, C, P>, C extends PrimitiveConfig<C>, P extends DistributedPrimitive> B primitiveBuilder(
+  <B extends DistributedPrimitive.Builder<B, C, P>, C extends DistributedPrimitive.Config<C>, P extends DistributedPrimitive> B primitiveBuilder(
       String name,
       PrimitiveType<B, C, P> primitiveType);
 
@@ -700,7 +699,7 @@ public interface PrimitivesService {
    * @param <P>           the primitive type
    * @return the primitive builder
    */
-  default <B extends DistributedPrimitive.Builder<B, C, P>, C extends PrimitiveConfig<C>, P extends DistributedPrimitive> B primitiveBuilder(
+  default <B extends DistributedPrimitive.Builder<B, C, P>, C extends DistributedPrimitive.Config<C>, P extends DistributedPrimitive> B primitiveBuilder(
       String name,
       PrimitiveType<B, C, P> primitiveType,
       PrimitiveProtocol protocol) {

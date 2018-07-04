@@ -15,8 +15,8 @@
  */
 package io.atomix.core.semaphore;
 
+import io.atomix.core.semaphore.impl.DefaultDistributedSemaphoreBuilder;
 import io.atomix.core.semaphore.impl.DefaultDistributedSemaphoreService;
-import io.atomix.core.semaphore.impl.DistributedSemaphoreProxyBuilder;
 import io.atomix.core.semaphore.impl.DistributedSemaphoreResource;
 import io.atomix.core.semaphore.impl.DistributedSemaphoreServiceConfig;
 import io.atomix.primitive.PrimitiveManagementService;
@@ -33,7 +33,7 @@ import static com.google.common.base.MoreObjects.toStringHelper;
 /**
  * Distributed semaphore primitive type.
  */
-public class DistributedSemaphoreType implements PrimitiveType<DistributedSemaphore.Builder, DistributedSemaphoreConfig, DistributedSemaphore> {
+public class DistributedSemaphoreType implements PrimitiveType<DistributedSemaphore.Builder, DistributedSemaphore.Config, DistributedSemaphore> {
   private static final String NAME = "semaphore";
   private static final DistributedSemaphoreType INSTANCE = new DistributedSemaphoreType();
 
@@ -67,13 +67,13 @@ public class DistributedSemaphoreType implements PrimitiveType<DistributedSemaph
   }
 
   @Override
-  public DistributedSemaphoreConfig newConfig() {
-    return new DistributedSemaphoreConfig();
+  public DistributedSemaphore.Config newConfig() {
+    return new DistributedSemaphore.Config();
   }
 
   @Override
-  public DistributedSemaphore.Builder newBuilder(String name, DistributedSemaphoreConfig config, PrimitiveManagementService managementService) {
-    return new DistributedSemaphoreProxyBuilder(name, config, managementService);
+  public DistributedSemaphore.Builder newBuilder(String name, DistributedSemaphore.Config config, PrimitiveManagementService managementService) {
+    return new DefaultDistributedSemaphoreBuilder(name, config, managementService);
   }
 
   @Override

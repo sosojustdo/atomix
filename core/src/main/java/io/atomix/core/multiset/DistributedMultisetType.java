@@ -18,8 +18,8 @@ package io.atomix.core.multiset;
 import io.atomix.core.collection.CollectionEvent;
 import io.atomix.core.collection.impl.CollectionUpdateResult;
 import io.atomix.core.collection.impl.DistributedCollectionService;
+import io.atomix.core.multiset.impl.DefaultDistributedMultisetBuilder;
 import io.atomix.core.multiset.impl.DefaultDistributedMultisetService;
-import io.atomix.core.multiset.impl.DistributedMultisetProxyBuilder;
 import io.atomix.primitive.PrimitiveManagementService;
 import io.atomix.primitive.PrimitiveType;
 import io.atomix.primitive.service.PrimitiveService;
@@ -32,7 +32,7 @@ import static com.google.common.base.MoreObjects.toStringHelper;
 /**
  * Placeholder type for the distributed multiset primitive type.
  */
-public class DistributedMultisetType<E> implements PrimitiveType<DistributedMultiset.Builder<E>, DistributedMultisetConfig, DistributedMultiset<E>> {
+public class DistributedMultisetType<E> implements PrimitiveType<DistributedMultiset.Builder<E>, DistributedMultiset.Config, DistributedMultiset<E>> {
   private static final String NAME = "multiset";
   private static final DistributedMultisetType INSTANCE = new DistributedMultisetType();
 
@@ -72,13 +72,13 @@ public class DistributedMultisetType<E> implements PrimitiveType<DistributedMult
   }
 
   @Override
-  public DistributedMultisetConfig newConfig() {
-    return new DistributedMultisetConfig();
+  public DistributedMultiset.Config newConfig() {
+    return new DistributedMultiset.Config();
   }
 
   @Override
-  public DistributedMultiset.Builder<E> newBuilder(String name, DistributedMultisetConfig config, PrimitiveManagementService managementService) {
-    return new DistributedMultisetProxyBuilder<E>(name, config, managementService);
+  public DistributedMultiset.Builder<E> newBuilder(String name, DistributedMultiset.Config config, PrimitiveManagementService managementService) {
+    return new DefaultDistributedMultisetBuilder<E>(name, config, managementService);
   }
 
   @Override
