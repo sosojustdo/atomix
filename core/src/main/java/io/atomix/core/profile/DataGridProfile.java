@@ -17,7 +17,7 @@ package io.atomix.core.profile;
 
 import io.atomix.core.AtomixConfig;
 import io.atomix.primitive.partition.MemberGroupStrategy;
-import io.atomix.protocols.backup.partition.PrimaryBackupPartitionGroupConfig;
+import io.atomix.protocols.backup.partition.PrimaryBackupPartitionGroup;
 
 import static com.google.common.base.Preconditions.checkNotNull;
 
@@ -202,12 +202,12 @@ public class DataGridProfile implements Profile {
   @Override
   public void configure(AtomixConfig config) {
     if (config.getManagementGroup() == null) {
-      config.setManagementGroup(new PrimaryBackupPartitionGroupConfig()
+      config.setManagementGroup(new PrimaryBackupPartitionGroup.Config()
           .setName(this.config.getManagementGroup())
           .setPartitions(1)
           .setMemberGroupStrategy(MemberGroupStrategy.RACK_AWARE));
     }
-    config.addPartitionGroup(new PrimaryBackupPartitionGroupConfig()
+    config.addPartitionGroup(new PrimaryBackupPartitionGroup.Config()
         .setName(this.config.getDataGroup())
         .setPartitions(this.config.getPartitions())
         .setMemberGroupStrategy(MemberGroupStrategy.RACK_AWARE));

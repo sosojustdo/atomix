@@ -30,11 +30,9 @@ import io.atomix.primitive.Replication;
 import io.atomix.protocols.backup.MultiPrimaryProtocol;
 import io.atomix.protocols.backup.MultiPrimaryProtocolConfig;
 import io.atomix.protocols.backup.partition.PrimaryBackupPartitionGroup;
-import io.atomix.protocols.backup.partition.PrimaryBackupPartitionGroupConfig;
 import io.atomix.protocols.raft.MultiRaftProtocolConfig;
 import io.atomix.protocols.raft.ReadConsistency;
 import io.atomix.protocols.raft.partition.RaftPartitionGroup;
-import io.atomix.protocols.raft.partition.RaftPartitionGroupConfig;
 import io.atomix.utils.memory.MemorySize;
 import org.junit.Test;
 
@@ -87,17 +85,17 @@ public class AtomixConfigTest {
     assertEquals(12, discovery.getFailureThreshold());
     assertEquals(Duration.ofSeconds(15), discovery.getFailureTimeout());
 
-    RaftPartitionGroupConfig managementGroup = (RaftPartitionGroupConfig) config.getManagementGroup();
+    RaftPartitionGroup.Config managementGroup = (RaftPartitionGroup.Config) config.getManagementGroup();
     assertEquals(RaftPartitionGroup.TYPE, managementGroup.getType());
     assertEquals(1, managementGroup.getPartitions());
     assertEquals(new MemorySize(1024 * 1024 * 16), managementGroup.getSegmentSize());
 
-    RaftPartitionGroupConfig groupOne = (RaftPartitionGroupConfig) config.getPartitionGroups().get("one");
+    RaftPartitionGroup.Config groupOne = (RaftPartitionGroup.Config) config.getPartitionGroups().get("one");
     assertEquals(RaftPartitionGroup.TYPE, groupOne.getType());
     assertEquals("one", groupOne.getName());
     assertEquals(7, groupOne.getPartitions());
 
-    PrimaryBackupPartitionGroupConfig groupTwo = (PrimaryBackupPartitionGroupConfig) config.getPartitionGroups().get("two");
+    PrimaryBackupPartitionGroup.Config groupTwo = (PrimaryBackupPartitionGroup.Config) config.getPartitionGroups().get("two");
     assertEquals(PrimaryBackupPartitionGroup.TYPE, groupTwo.getType());
     assertEquals("two", groupTwo.getName());
     assertEquals(32, groupTwo.getPartitions());

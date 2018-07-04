@@ -24,13 +24,13 @@ import io.atomix.primitive.Recovery;
 import io.atomix.primitive.partition.ManagedPartitionGroup;
 import io.atomix.primitive.partition.Partition;
 import io.atomix.primitive.partition.PartitionGroup;
-import io.atomix.primitive.partition.PartitionGroupConfig;
 import io.atomix.primitive.partition.PartitionId;
 import io.atomix.primitive.partition.PartitionManagementService;
 import io.atomix.primitive.partition.PartitionMetadata;
 import io.atomix.primitive.protocol.PrimitiveProtocol;
 import io.atomix.protocols.raft.MultiRaftProtocol;
 import io.atomix.storage.StorageLevel;
+import io.atomix.utils.memory.MemorySize;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
@@ -63,13 +63,13 @@ public class RaftPartitionGroup implements ManagedPartitionGroup {
    * @return a new partition group builder
    */
   public static Builder builder(String name) {
-    return new Builder(new RaftPartitionGroupConfig().setName(name));
+    return new Builder(new Config().setName(name));
   }
 
   /**
    * Raft partition group type.
    */
-  public static class Type implements PartitionGroup.Type<RaftPartitionGroupConfig> {
+  public static class Type implements PartitionGroup.Type<Config> {
     private static final String NAME = "raft";
 
     @Override
@@ -78,19 +78,165 @@ public class RaftPartitionGroup implements ManagedPartitionGroup {
     }
 
     @Override
-    public RaftPartitionGroupConfig newConfig() {
-      return new RaftPartitionGroupConfig();
+    public Config newConfig() {
+      return new Config();
     }
 
     @Override
-    public ManagedPartitionGroup newPartitionGroup(RaftPartitionGroupConfig config) {
+    public ManagedPartitionGroup newPartitionGroup(Config config) {
       return new RaftPartitionGroup(config);
+    }
+  }
+
+  /**
+   * Raft partition group configuration.
+   */
+  public static class Config extends PartitionGroup.Config<Config> {
+    private static final int DEFAULT_PARTITIONS = 7;
+    private static final String DATA_PREFIX = ".data";
+
+    private Set<String> members = new HashSet<>();
+    private int partitionSize;
+    private String storageLevel = StorageLevel.MAPPED.name();
+    private long segmentSize = 1024 * 1024 * 32;
+    private boolean flushOnCommit = true;
+    private String dataDirectory;
+
+    @Override
+    public PartitionGroup.Type getType() {
+      return RaftPartitionGroup.TYPE;
+    }
+
+    @Override
+    protected int getDefaultPartitions() {
+      return DEFAULT_PARTITIONS;
+    }
+
+    /**
+     * Returns the set of members in the partition group.
+     *
+     * @return the set of members in the partition group
+     */
+    public Set<String> getMembers() {
+      return members;
+    }
+
+    /**
+     * Sets the set of members in the partition group.
+     *
+     * @param members the set of members in the partition group
+     * @return the Raft partition group configuration
+     */
+    public Config setMembers(Set<String> members) {
+      this.members = members;
+      return this;
+    }
+
+    /**
+     * Returns the partition size.
+     *
+     * @return the partition size
+     */
+    public int getPartitionSize() {
+      return partitionSize;
+    }
+
+    /**
+     * Sets the partition size.
+     *
+     * @param partitionSize the partition size
+     * @return the Raft partition group configuration
+     */
+    public Config setPartitionSize(int partitionSize) {
+      this.partitionSize = partitionSize;
+      return this;
+    }
+
+    /**
+     * Returns the partition storage level.
+     *
+     * @return the partition storage level
+     */
+    public String getStorageLevel() {
+      return storageLevel;
+    }
+
+    /**
+     * Sets the partition storage level.
+     *
+     * @param storageLevel the partition storage level
+     * @return the Raft partition group configuration
+     */
+    public Config setStorageLevel(String storageLevel) {
+      StorageLevel.valueOf(storageLevel.toUpperCase());
+      this.storageLevel = storageLevel;
+      return this;
+    }
+
+    /**
+     * Returns the Raft log segment size.
+     *
+     * @return the Raft log segment size
+     */
+    public MemorySize getSegmentSize() {
+      return MemorySize.from(segmentSize);
+    }
+
+    /**
+     * Sets the Raft log segment size.
+     *
+     * @param segmentSize the Raft log segment size
+     * @return the partition group configuration
+     */
+    public Config setSegmentSize(MemorySize segmentSize) {
+      this.segmentSize = segmentSize.bytes();
+      return this;
+    }
+
+    /**
+     * Returns whether to flush logs to disk on commit.
+     *
+     * @return whether to flush logs to disk on commit
+     */
+    public boolean isFlushOnCommit() {
+      return flushOnCommit;
+    }
+
+    /**
+     * Sets whether to flush logs to disk on commit.
+     *
+     * @param flushOnCommit whether to flush logs to disk on commit
+     * @return the Raft partition group configuration
+     */
+    public Config setFlushOnCommit(boolean flushOnCommit) {
+      this.flushOnCommit = flushOnCommit;
+      return this;
+    }
+
+    /**
+     * Returns the partition data directory.
+     *
+     * @return the partition data directory
+     */
+    public String getDataDirectory() {
+      return dataDirectory != null ? dataDirectory : DATA_PREFIX + "/" + getName();
+    }
+
+    /**
+     * Sets the partition data directory.
+     *
+     * @param dataDirectory the partition data directory
+     * @return the Raft partition group configuration
+     */
+    public Config setDataDirectory(String dataDirectory) {
+      this.dataDirectory = dataDirectory;
+      return this;
     }
   }
 
   private static final Logger LOGGER = LoggerFactory.getLogger(RaftPartitionGroup.class);
 
-  private static Collection<RaftPartition> buildPartitions(RaftPartitionGroupConfig config) {
+  private static Collection<RaftPartition> buildPartitions(Config config) {
     File partitionsDir = new File(config.getDataDirectory(), "partitions");
     List<RaftPartition> partitions = new ArrayList<>(config.getPartitions());
     for (int i = 0; i < config.getPartitions(); i++) {
@@ -105,13 +251,13 @@ public class RaftPartitionGroup implements ManagedPartitionGroup {
   }
 
   private final String name;
-  private final RaftPartitionGroupConfig config;
+  private final Config config;
   private final int partitionSize;
   private final Map<PartitionId, RaftPartition> partitions = Maps.newConcurrentMap();
   private final List<PartitionId> sortedPartitionIds = Lists.newCopyOnWriteArrayList();
   private Collection<PartitionMetadata> metadata;
 
-  public RaftPartitionGroup(RaftPartitionGroupConfig config) {
+  public RaftPartitionGroup(Config config) {
     this.name = config.getName();
     this.config = config;
     this.partitionSize = config.getPartitionSize();
@@ -138,7 +284,7 @@ public class RaftPartitionGroup implements ManagedPartitionGroup {
   }
 
   @Override
-  public PartitionGroupConfig config() {
+  public Config config() {
     return config;
   }
 
@@ -233,8 +379,8 @@ public class RaftPartitionGroup implements ManagedPartitionGroup {
   /**
    * Raft partition group builder.
    */
-  public static class Builder extends PartitionGroup.Builder<RaftPartitionGroupConfig> {
-    protected Builder(RaftPartitionGroupConfig config) {
+  public static class Builder extends PartitionGroup.Builder<Config> {
+    protected Builder(Config config) {
       super(config);
     }
 

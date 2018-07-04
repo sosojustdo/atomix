@@ -31,7 +31,6 @@ import io.atomix.primitive.partition.ManagedPartitionGroup;
 import io.atomix.primitive.partition.ManagedPartitionGroupMembershipService;
 import io.atomix.primitive.partition.MemberGroupStrategy;
 import io.atomix.primitive.partition.PartitionGroup;
-import io.atomix.primitive.partition.PartitionGroupConfig;
 import io.atomix.primitive.partition.PartitionGroupMembership;
 import io.atomix.primitive.partition.PartitionGroupMembershipEvent;
 import io.atomix.primitive.partition.PartitionGroupMembershipEventListener;
@@ -109,7 +108,7 @@ public class DefaultPartitionGroupMembershipService
         .register(MemberId.class)
         .register(PartitionGroupMembership.class)
         .register(PartitionGroupInfo.class)
-        .register(PartitionGroupConfig.class)
+        .register(PartitionGroup.Config.class)
         .register(MemberGroupStrategy.class);
 
     List<PartitionGroup.Type> groupTypes = Lists.newArrayList(groupTypeRegistry.getGroupTypes());

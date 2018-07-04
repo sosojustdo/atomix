@@ -19,6 +19,8 @@ import com.google.common.hash.Hashing;
 import io.atomix.primitive.protocol.PrimitiveProtocol;
 import io.atomix.utils.ConfiguredType;
 import io.atomix.utils.config.Configured;
+import io.atomix.utils.config.NamedConfig;
+import io.atomix.utils.config.TypedConfig;
 
 import java.nio.charset.StandardCharsets;
 import java.util.Collection;
@@ -27,12 +29,12 @@ import java.util.List;
 /**
  * Primitive partition group.
  */
-public interface PartitionGroup extends Configured<PartitionGroupConfig> {
+public interface PartitionGroup extends Configured<PartitionGroup.Config> {
 
   /**
    * Partition group type.
    */
-  interface Type<C extends PartitionGroupConfig<C>> extends ConfiguredType<C> {
+  interface Type<C extends Config<C>> extends ConfiguredType<C> {
 
     /**
      * Creates a new partition group instance.
@@ -41,6 +43,58 @@ public interface PartitionGroup extends Configured<PartitionGroupConfig> {
      * @return the partition group
      */
     ManagedPartitionGroup newPartitionGroup(C config);
+  }
+
+  /**
+   * Partition group configuration.
+   */
+  abstract class Config<C extends Config<C>> implements TypedConfig<Type>, NamedConfig<C> {
+    private String name;
+    private int partitions = getDefaultPartitions();
+
+    @Override
+    public String getName() {
+      return name;
+    }
+
+    @Override
+    @SuppressWarnings("unchecked")
+    public C setName(String name) {
+      this.name = name;
+      return (C) this;
+    }
+
+    /**
+     * Returns the number of partitions in the group.
+     *
+     * @return the number of partitions in the group.
+     */
+    public int getPartitions() {
+      return partitions;
+    }
+
+    /**
+     * Sets the number of partitions in the group.
+     *
+     * @param partitions the number of partitions in the group
+     * @return the partition group configuration
+     */
+    @SuppressWarnings("unchecked")
+    public C setPartitions(int partitions) {
+      this.partitions = partitions;
+      return (C) this;
+    }
+
+    /**
+     * Returns the default number of partitions.
+     * <p>
+     * Partition group configurations should override this method to provide a default number of partitions.
+     *
+     * @return the default number of partitions
+     */
+    protected int getDefaultPartitions() {
+      return 1;
+    }
   }
 
   /**
@@ -108,7 +162,7 @@ public interface PartitionGroup extends Configured<PartitionGroupConfig> {
   /**
    * Partition group builder.
    */
-  abstract class Builder<C extends PartitionGroupConfig<C>> implements io.atomix.utils.Builder<ManagedPartitionGroup> {
+  abstract class Builder<C extends Config<C>> implements io.atomix.utils.Builder<ManagedPartitionGroup> {
     protected final C config;
 
     protected Builder(C config) {

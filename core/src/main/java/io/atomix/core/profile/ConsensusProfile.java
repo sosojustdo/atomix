@@ -17,7 +17,7 @@ package io.atomix.core.profile;
 
 import com.google.common.collect.Sets;
 import io.atomix.core.AtomixConfig;
-import io.atomix.protocols.raft.partition.RaftPartitionGroupConfig;
+import io.atomix.protocols.raft.partition.RaftPartitionGroup;
 
 import java.util.Collection;
 import java.util.Collections;
@@ -304,13 +304,13 @@ public class ConsensusProfile implements Profile {
 
   @Override
   public void configure(AtomixConfig config) {
-    config.setManagementGroup(new RaftPartitionGroupConfig()
+    config.setManagementGroup(new RaftPartitionGroup.Config()
         .setName(this.config.getManagementGroup())
         .setPartitionSize(this.config.getMembers().size())
         .setPartitions(1)
         .setMembers(this.config.getMembers())
         .setDataDirectory(String.format("%s/%s", this.config.getDataPath(), this.config.getManagementGroup())));
-    config.addPartitionGroup(new RaftPartitionGroupConfig()
+    config.addPartitionGroup(new RaftPartitionGroup.Config()
         .setName(this.config.getDataGroup())
         .setPartitionSize(this.config.getPartitionSize())
         .setPartitions(this.config.getPartitions())

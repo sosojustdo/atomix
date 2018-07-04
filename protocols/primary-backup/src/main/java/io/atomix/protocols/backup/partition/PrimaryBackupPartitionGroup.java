@@ -23,7 +23,6 @@ import io.atomix.primitive.partition.ManagedPartitionGroup;
 import io.atomix.primitive.partition.MemberGroupStrategy;
 import io.atomix.primitive.partition.Partition;
 import io.atomix.primitive.partition.PartitionGroup;
-import io.atomix.primitive.partition.PartitionGroupConfig;
 import io.atomix.primitive.partition.PartitionId;
 import io.atomix.primitive.partition.PartitionManagementService;
 import io.atomix.primitive.protocol.PrimitiveProtocol;
@@ -57,13 +56,13 @@ public class PrimaryBackupPartitionGroup implements ManagedPartitionGroup {
    * @return a new partition group builder
    */
   public static Builder builder(String name) {
-    return new Builder(new PrimaryBackupPartitionGroupConfig().setName(name));
+    return new Builder(new Config().setName(name));
   }
 
   /**
    * Primary-backup partition group type.
    */
-  public static class Type implements PartitionGroup.Type<PrimaryBackupPartitionGroupConfig> {
+  public static class Type implements PartitionGroup.Type<Config> {
     private static final String NAME = "primary-backup";
 
     @Override
@@ -72,17 +71,56 @@ public class PrimaryBackupPartitionGroup implements ManagedPartitionGroup {
     }
 
     @Override
-    public PrimaryBackupPartitionGroupConfig newConfig() {
-      return new PrimaryBackupPartitionGroupConfig();
+    public Config newConfig() {
+      return new Config();
     }
 
     @Override
-    public ManagedPartitionGroup newPartitionGroup(PrimaryBackupPartitionGroupConfig config) {
+    public ManagedPartitionGroup newPartitionGroup(Config config) {
       return new PrimaryBackupPartitionGroup(config);
     }
   }
 
-  private static Collection<PrimaryBackupPartition> buildPartitions(PrimaryBackupPartitionGroupConfig config) {
+  /**
+   * Primary-backup partition group configuration.
+   */
+  public static class Config extends PartitionGroup.Config<Config> {
+    private static final int DEFAULT_PARTITIONS = 71;
+
+    private String memberGroupStrategy = MemberGroupStrategy.NODE_AWARE.name();
+
+    @Override
+    public PartitionGroup.Type getType() {
+      return PrimaryBackupPartitionGroup.TYPE;
+    }
+
+    @Override
+    protected int getDefaultPartitions() {
+      return DEFAULT_PARTITIONS;
+    }
+
+    /**
+     * Returns the member group provider.
+     *
+     * @return the member group provider
+     */
+    public MemberGroupStrategy getMemberGroupProvider() {
+      return MemberGroupStrategy.valueOf(memberGroupStrategy);
+    }
+
+    /**
+     * Sets the member group strategy.
+     *
+     * @param memberGroupStrategy the member group strategy
+     * @return the partition group configuration
+     */
+    public Config setMemberGroupStrategy(MemberGroupStrategy memberGroupStrategy) {
+      this.memberGroupStrategy = memberGroupStrategy.name();
+      return this;
+    }
+  }
+
+  private static Collection<PrimaryBackupPartition> buildPartitions(Config config) {
     List<PrimaryBackupPartition> partitions = new ArrayList<>(config.getPartitions());
     for (int i = 0; i < config.getPartitions(); i++) {
       partitions.add(new PrimaryBackupPartition(PartitionId.from(config.getName(), i + 1), config.getMemberGroupProvider()));
@@ -93,12 +131,12 @@ public class PrimaryBackupPartitionGroup implements ManagedPartitionGroup {
   private static final Logger LOGGER = LoggerFactory.getLogger(PrimaryBackupPartitionGroup.class);
 
   private final String name;
-  private final PrimaryBackupPartitionGroupConfig config;
+  private final Config config;
   private final Map<PartitionId, PrimaryBackupPartition> partitions = Maps.newConcurrentMap();
   private final List<PartitionId> sortedPartitionIds = Lists.newCopyOnWriteArrayList();
   private ThreadContextFactory threadFactory;
 
-  public PrimaryBackupPartitionGroup(PrimaryBackupPartitionGroupConfig config) {
+  public PrimaryBackupPartitionGroup(Config config) {
     this.config = config;
     this.name = checkNotNull(config.getName());
     buildPartitions(config).forEach(p -> {
@@ -124,7 +162,7 @@ public class PrimaryBackupPartitionGroup implements ManagedPartitionGroup {
   }
 
   @Override
-  public PartitionGroupConfig config() {
+  public Config config() {
     return config;
   }
 
@@ -205,8 +243,8 @@ public class PrimaryBackupPartitionGroup implements ManagedPartitionGroup {
   /**
    * Primary-backup partition group builder.
    */
-  public static class Builder extends PartitionGroup.Builder<PrimaryBackupPartitionGroupConfig> {
-    protected Builder(PrimaryBackupPartitionGroupConfig config) {
+  public static class Builder extends PartitionGroup.Builder<Config> {
+    protected Builder(Config config) {
       super(config);
     }
 

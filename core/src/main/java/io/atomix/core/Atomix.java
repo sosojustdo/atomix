@@ -56,7 +56,6 @@ import io.atomix.primitive.impl.DefaultPrimitiveTypeRegistry;
 import io.atomix.primitive.partition.ManagedPartitionGroup;
 import io.atomix.primitive.partition.ManagedPartitionService;
 import io.atomix.primitive.partition.PartitionGroup;
-import io.atomix.primitive.partition.PartitionGroupConfig;
 import io.atomix.primitive.partition.PartitionService;
 import io.atomix.primitive.partition.impl.DefaultPartitionGroupTypeRegistry;
 import io.atomix.primitive.partition.impl.DefaultPartitionService;
@@ -77,7 +76,6 @@ import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.Collection;
 import java.util.List;
-import java.util.Map;
 import java.util.Properties;
 import java.util.concurrent.CompletableFuture;
 import java.util.concurrent.Executors;
@@ -159,7 +157,7 @@ public class Atomix extends AtomixCluster implements PrimitivesService {
     ConfigMapper mapper = new PolymorphicConfigMapper(
         classLoader,
         registry,
-        new PolymorphicTypeMapper(PartitionGroupConfig.class, PartitionGroup.Type.class),
+        new PolymorphicTypeMapper(PartitionGroup.Config.class, PartitionGroup.Type.class),
         new PolymorphicTypeMapper(PrimitiveConfig.class, PrimitiveType.class),
         new PolymorphicTypeMapper(PrimitiveProtocolConfig.class, PrimitiveProtocol.Type.class),
         new PolymorphicTypeMapper(Profile.Config.class, Profile.Type.class),
@@ -535,7 +533,7 @@ public class Atomix extends AtomixCluster implements PrimitivesService {
    */
   @SuppressWarnings("unchecked")
   private static ManagedPartitionGroup buildSystemPartitionGroup(AtomixConfig config) {
-    PartitionGroupConfig<?> partitionGroupConfig = config.getManagementGroup();
+    PartitionGroup.Config<?> partitionGroupConfig = config.getManagementGroup();
     if (partitionGroupConfig == null) {
       return null;
     }
@@ -552,7 +550,7 @@ public class Atomix extends AtomixCluster implements PrimitivesService {
       ClusterCommunicationService messagingService,
       AtomixRegistry registry) {
     List<ManagedPartitionGroup> partitionGroups = new ArrayList<>();
-    for (PartitionGroupConfig<?> partitionGroupConfig : config.getPartitionGroups().values()) {
+    for (PartitionGroup.Config<?> partitionGroupConfig : config.getPartitionGroups().values()) {
       partitionGroups.add(partitionGroupConfig.getType().newPartitionGroup(partitionGroupConfig));
     }
 

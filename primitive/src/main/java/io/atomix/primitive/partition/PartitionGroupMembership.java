@@ -26,11 +26,11 @@ import static com.google.common.base.MoreObjects.toStringHelper;
  */
 public final class PartitionGroupMembership {
   private final String group;
-  private final PartitionGroupConfig config;
+  private final PartitionGroup.Config config;
   private final Set<MemberId> members;
   private final boolean system;
 
-  public PartitionGroupMembership(String group, PartitionGroupConfig config, Set<MemberId> members, boolean system) {
+  public PartitionGroupMembership(String group, PartitionGroup.Config config, Set<MemberId> members, boolean system) {
     this.group = group;
     this.config = config;
     this.members = members;
@@ -51,7 +51,7 @@ public final class PartitionGroupMembership {
    *
    * @return the partition group configuration
    */
-  public PartitionGroupConfig<?> config() {
+  public PartitionGroup.Config<?> config() {
     return config;
   }
 
