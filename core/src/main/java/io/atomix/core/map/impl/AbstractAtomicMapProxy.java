@@ -18,18 +18,18 @@ package io.atomix.core.map.impl;
 import com.google.common.collect.ImmutableMap;
 import com.google.common.collect.Lists;
 import com.google.common.collect.Maps;
-import io.atomix.core.map.AsyncAtomicMap;
-import io.atomix.core.map.AtomicMapEvent;
-import io.atomix.core.map.AtomicMapEventListener;
 import io.atomix.core.collection.AsyncDistributedCollection;
-import io.atomix.core.set.AsyncDistributedSet;
 import io.atomix.core.collection.AsyncIterator;
 import io.atomix.core.collection.CollectionEvent;
 import io.atomix.core.collection.CollectionEventListener;
 import io.atomix.core.collection.DistributedCollection;
 import io.atomix.core.collection.DistributedCollectionType;
-import io.atomix.core.set.DistributedSet;
 import io.atomix.core.collection.impl.BlockingDistributedCollection;
+import io.atomix.core.map.AsyncAtomicMap;
+import io.atomix.core.map.AtomicMapEvent;
+import io.atomix.core.map.AtomicMapEventListener;
+import io.atomix.core.set.AsyncDistributedSet;
+import io.atomix.core.set.DistributedSet;
 import io.atomix.core.set.impl.BlockingDistributedSet;
 import io.atomix.core.set.impl.SetUpdate;
 import io.atomix.core.transaction.TransactionId;
@@ -37,10 +37,10 @@ import io.atomix.core.transaction.TransactionLog;
 import io.atomix.core.transaction.impl.PrepareResult;
 import io.atomix.primitive.AbstractAsyncPrimitive;
 import io.atomix.primitive.AsyncPrimitive;
+import io.atomix.primitive.DistributedPrimitive;
 import io.atomix.primitive.PrimitiveException;
 import io.atomix.primitive.PrimitiveRegistry;
 import io.atomix.primitive.PrimitiveState;
-import io.atomix.primitive.PrimitiveType;
 import io.atomix.primitive.partition.PartitionId;
 import io.atomix.primitive.protocol.PrimitiveProtocol;
 import io.atomix.primitive.proxy.ProxyClient;
@@ -658,7 +658,7 @@ public abstract class AbstractAtomicMapProxy<P extends AsyncPrimitive, S extends
     }
 
     @Override
-    public PrimitiveType type() {
+    public DistributedPrimitive.Type type() {
       return DistributedCollectionType.instance();
     }
 

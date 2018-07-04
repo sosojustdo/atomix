@@ -15,8 +15,8 @@
  */
 package io.atomix.primitive.session;
 
+import io.atomix.primitive.DistributedPrimitive;
 import io.atomix.primitive.PrimitiveState;
-import io.atomix.primitive.PrimitiveType;
 import io.atomix.primitive.event.EventType;
 import io.atomix.primitive.event.PrimitiveEvent;
 import io.atomix.primitive.operation.PrimitiveOperation;
@@ -43,7 +43,7 @@ public interface SessionClient {
    *
    * @return The client proxy type.
    */
-  PrimitiveType type();
+  DistributedPrimitive.Type type();
 
   /**
    * Returns the session state.

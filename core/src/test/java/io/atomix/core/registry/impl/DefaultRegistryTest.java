@@ -17,7 +17,7 @@ package io.atomix.core.registry.impl;
 
 import io.atomix.core.AtomixRegistry;
 import io.atomix.core.profile.Profile;
-import io.atomix.primitive.PrimitiveType;
+import io.atomix.primitive.DistributedPrimitive;
 import io.atomix.primitive.partition.PartitionGroup;
 import io.atomix.primitive.protocol.PrimitiveProtocol;
 import org.junit.Test;
@@ -32,9 +32,8 @@ public class DefaultRegistryTest {
   @Test
   public void testRegistry() throws Exception {
     AtomixRegistry registry = AtomixRegistry.registry();
-    assertFalse(registry.getTypes(PrimitiveType.class).isEmpty());
-    assertFalse(registry.getTypes(PrimitiveType.class).isEmpty());
-    assertEquals("atomic-map", registry.getType(PrimitiveType.class, "atomic-map").name());
+    assertFalse(registry.getTypes(DistributedPrimitive.Type.class).isEmpty());
+    assertEquals("atomic-map", registry.getType(DistributedPrimitive.Type.class, "atomic-map").name());
     assertFalse(registry.getTypes(PartitionGroup.Type.class).isEmpty());
     assertEquals("raft", registry.getType(PartitionGroup.Type.class, "raft").name());
     assertFalse(registry.getTypes(PrimitiveProtocol.Type.class).isEmpty());

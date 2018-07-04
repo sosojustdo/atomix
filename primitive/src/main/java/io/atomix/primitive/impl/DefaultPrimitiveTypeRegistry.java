@@ -15,7 +15,7 @@
  */
 package io.atomix.primitive.impl;
 
-import io.atomix.primitive.PrimitiveType;
+import io.atomix.primitive.DistributedPrimitive;
 import io.atomix.primitive.PrimitiveTypeRegistry;
 import io.atomix.utils.ServiceException;
 
@@ -27,20 +27,20 @@ import java.util.concurrent.ConcurrentHashMap;
  * Primitive type registry.
  */
 public class DefaultPrimitiveTypeRegistry implements PrimitiveTypeRegistry {
-  private final Map<String, PrimitiveType> primitiveTypes = new ConcurrentHashMap<>();
+  private final Map<String, DistributedPrimitive.Type> primitiveTypes = new ConcurrentHashMap<>();
 
-  public DefaultPrimitiveTypeRegistry(Collection<PrimitiveType> primitiveTypes) {
+  public DefaultPrimitiveTypeRegistry(Collection<DistributedPrimitive.Type> primitiveTypes) {
     primitiveTypes.forEach(type -> this.primitiveTypes.put(type.name(), type));
   }
 
   @Override
-  public Collection<PrimitiveType> getPrimitiveTypes() {
+  public Collection<DistributedPrimitive.Type> getPrimitiveTypes() {
     return primitiveTypes.values();
   }
 
   @Override
-  public PrimitiveType getPrimitiveType(String typeName) {
-    PrimitiveType type = primitiveTypes.get(typeName);
+  public DistributedPrimitive.Type getPrimitiveType(String typeName) {
+    DistributedPrimitive.Type type = primitiveTypes.get(typeName);
     if (type == null) {
       throw new ServiceException("Unknown primitive type " + typeName);
     }

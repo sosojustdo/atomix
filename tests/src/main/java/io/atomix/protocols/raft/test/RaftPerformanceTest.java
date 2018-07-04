@@ -31,7 +31,6 @@ import io.atomix.cluster.messaging.MessagingService;
 import io.atomix.cluster.messaging.impl.NettyMessagingService;
 import io.atomix.primitive.DistributedPrimitive;
 import io.atomix.primitive.PrimitiveManagementService;
-import io.atomix.primitive.PrimitiveType;
 import io.atomix.primitive.operation.OperationId;
 import io.atomix.primitive.operation.OperationType;
 import io.atomix.primitive.operation.PrimitiveOperation;
@@ -557,7 +556,7 @@ public class RaftPerformanceTest implements Runnable {
   private static final OperationId REMOVE = OperationId.command("remove");
   private static final OperationId INDEX = OperationId.command("index");
 
-  public static class TestPrimitiveType implements PrimitiveType {
+  public static class TestPrimitiveType implements DistributedPrimitive.Type {
     private static final TestPrimitiveType INSTANCE = new TestPrimitiveType();
 
     @Override

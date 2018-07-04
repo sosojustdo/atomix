@@ -19,8 +19,8 @@ import com.google.common.collect.Maps;
 import io.atomix.core.multimap.impl.AtomicMultimapService;
 import io.atomix.core.multimap.impl.DefaultAtomicMultimapBuilder;
 import io.atomix.core.multimap.impl.DefaultAtomicMultimapService;
+import io.atomix.primitive.DistributedPrimitive;
 import io.atomix.primitive.PrimitiveManagementService;
-import io.atomix.primitive.PrimitiveType;
 import io.atomix.primitive.service.PrimitiveService;
 import io.atomix.primitive.service.ServiceConfig;
 import io.atomix.utils.serializer.Namespace;
@@ -34,7 +34,7 @@ import static com.google.common.base.MoreObjects.toStringHelper;
 /**
  * Consistent multimap primitive type.
  */
-public class AtomicMultimapType<K, V> implements PrimitiveType<AtomicMultimap.Builder<K, V>, AtomicMultimap.Config, AtomicMultimap<K, V>> {
+public class AtomicMultimapType<K, V> implements DistributedPrimitive.Type<AtomicMultimap.Builder<K, V>, AtomicMultimap.Config, AtomicMultimap<K, V>> {
   private static final String NAME = "atomic-multimap";
   private static final AtomicMultimapType INSTANCE = new AtomicMultimapType();
 
@@ -58,7 +58,7 @@ public class AtomicMultimapType<K, V> implements PrimitiveType<AtomicMultimap.Bu
   @Override
   public Namespace namespace() {
     return Namespace.builder()
-        .register(PrimitiveType.super.namespace())
+        .register(DistributedPrimitive.Type.super.namespace())
         .nextId(Namespaces.BEGIN_USER_CUSTOM_ID)
         .register(Versioned.class)
         .register(ArrayList.class)

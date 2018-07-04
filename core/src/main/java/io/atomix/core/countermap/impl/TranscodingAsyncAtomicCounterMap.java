@@ -17,7 +17,7 @@ package io.atomix.core.countermap.impl;
 
 import io.atomix.core.countermap.AsyncAtomicCounterMap;
 import io.atomix.core.countermap.AtomicCounterMap;
-import io.atomix.primitive.PrimitiveType;
+import io.atomix.primitive.DistributedPrimitive;
 import io.atomix.primitive.protocol.PrimitiveProtocol;
 import io.atomix.utils.concurrent.Futures;
 
@@ -46,7 +46,7 @@ public class TranscodingAsyncAtomicCounterMap<K1, K2> implements AsyncAtomicCoun
   }
 
   @Override
-  public PrimitiveType type() {
+  public DistributedPrimitive.Type type() {
     return backingMap.type();
   }
 

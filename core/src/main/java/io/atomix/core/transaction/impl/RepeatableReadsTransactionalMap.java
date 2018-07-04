@@ -17,10 +17,8 @@ package io.atomix.core.transaction.impl;
 
 import com.google.common.collect.Lists;
 import com.google.common.collect.Maps;
-
 import io.atomix.core.map.AsyncAtomicMap;
 import io.atomix.core.map.impl.MapUpdate;
-import io.atomix.core.map.impl.MapUpdate.Type;
 import io.atomix.core.transaction.TransactionId;
 import io.atomix.core.transaction.TransactionLog;
 import io.atomix.primitive.protocol.PrimitiveProtocol;
@@ -54,7 +52,7 @@ public class RepeatableReadsTransactionalMap<K, V> extends TransactionalMapParti
   public CompletableFuture<V> get(K key) {
     MapUpdate<K, V> update = updates.get(key);
     if (update != null) {
-      if (update.type() == Type.REMOVE_IF_VERSION_MATCH) {
+      if (update.type() == MapUpdate.Type.REMOVE_IF_VERSION_MATCH) {
         return CompletableFuture.completedFuture(null);
       } else {
         return CompletableFuture.completedFuture(update.value());
@@ -71,7 +69,7 @@ public class RepeatableReadsTransactionalMap<K, V> extends TransactionalMapParti
   @Override
   public CompletableFuture<V> put(K key, V value) {
     MapUpdate<K, V> update = updates.get(key);
-    if (update != null && update.type() != Type.REMOVE_IF_VERSION_MATCH) {
+    if (update != null && update.type() != MapUpdate.Type.REMOVE_IF_VERSION_MATCH) {
       updates.put(key, MapUpdate.<K, V>builder()
           .withType(update.type())
           .withKey(key)
@@ -84,14 +82,14 @@ public class RepeatableReadsTransactionalMap<K, V> extends TransactionalMapParti
         .thenApply(versioned -> {
           if (versioned == null) {
             updates.put(key, MapUpdate.<K, V>builder()
-                .withType(Type.PUT_IF_ABSENT)
+                .withType(MapUpdate.Type.PUT_IF_ABSENT)
                 .withKey(key)
                 .withValue(value)
                 .build());
             return null;
           } else {
             updates.put(key, MapUpdate.<K, V>builder()
-                .withType(Type.PUT_IF_VERSION_MATCH)
+                .withType(MapUpdate.Type.PUT_IF_VERSION_MATCH)
                 .withKey(key)
                 .withValue(value)
                 .withVersion(versioned.version())
@@ -104,7 +102,7 @@ public class RepeatableReadsTransactionalMap<K, V> extends TransactionalMapParti
   @Override
   public CompletableFuture<V> putIfAbsent(K key, V value) {
     MapUpdate<K, V> update = updates.get(key);
-    if (update != null && update.type() != Type.REMOVE_IF_VERSION_MATCH) {
+    if (update != null && update.type() != MapUpdate.Type.REMOVE_IF_VERSION_MATCH) {
       return CompletableFuture.completedFuture(update.value());
     }
 
@@ -112,7 +110,7 @@ public class RepeatableReadsTransactionalMap<K, V> extends TransactionalMapParti
         .thenApply(versioned -> {
           if (versioned == null) {
             updates.put(key, MapUpdate.<K, V>builder()
-                .withType(Type.PUT_IF_ABSENT)
+                .withType(MapUpdate.Type.PUT_IF_ABSENT)
                 .withKey(key)
                 .withValue(value)
                 .build());
@@ -129,7 +127,7 @@ public class RepeatableReadsTransactionalMap<K, V> extends TransactionalMapParti
         .thenApply(versioned -> {
           if (versioned != null) {
             updates.put(key, MapUpdate.<K, V>builder()
-                .withType(Type.REMOVE_IF_VERSION_MATCH)
+                .withType(MapUpdate.Type.REMOVE_IF_VERSION_MATCH)
                 .withKey(key)
                 .withVersion(versioned.version())
                 .build());
@@ -142,7 +140,7 @@ public class RepeatableReadsTransactionalMap<K, V> extends TransactionalMapParti
   @Override
   public CompletableFuture<Boolean> remove(K key, V value) {
     MapUpdate<K, V> update = updates.get(key);
-    if (update != null && update.type() != Type.REMOVE_IF_VERSION_MATCH && !Objects.equals(update.value(), value)) {
+    if (update != null && update.type() != MapUpdate.Type.REMOVE_IF_VERSION_MATCH && !Objects.equals(update.value(), value)) {
       return CompletableFuture.completedFuture(false);
     }
 
@@ -150,7 +148,7 @@ public class RepeatableReadsTransactionalMap<K, V> extends TransactionalMapParti
         .thenApply(versioned -> {
           if (versioned != null && Objects.equals(versioned.value(), value)) {
             updates.put(key, MapUpdate.<K, V>builder()
-                .withType(Type.REMOVE_IF_VERSION_MATCH)
+                .withType(MapUpdate.Type.REMOVE_IF_VERSION_MATCH)
                 .withKey(key)
                 .withVersion(versioned.version())
                 .build());
@@ -163,7 +161,7 @@ public class RepeatableReadsTransactionalMap<K, V> extends TransactionalMapParti
   @Override
   public CompletableFuture<Boolean> replace(K key, V oldValue, V newValue) {
     MapUpdate<K, V> update = updates.get(key);
-    if (update != null && update.type() != Type.REMOVE_IF_VERSION_MATCH) {
+    if (update != null && update.type() != MapUpdate.Type.REMOVE_IF_VERSION_MATCH) {
       if (Objects.equals(update.value(), oldValue)) {
         updates.put(key, MapUpdate.<K, V>builder()
             .withType(update.type())
@@ -180,7 +178,7 @@ public class RepeatableReadsTransactionalMap<K, V> extends TransactionalMapParti
         .thenApply(versioned -> {
           if (versioned != null && Objects.equals(versioned.value(), oldValue)) {
             updates.put(key, MapUpdate.<K, V>builder()
-                .withType(Type.PUT_IF_VERSION_MATCH)
+                .withType(MapUpdate.Type.PUT_IF_VERSION_MATCH)
                 .withKey(key)
                 .withValue(newValue)
                 .withVersion(versioned.version())

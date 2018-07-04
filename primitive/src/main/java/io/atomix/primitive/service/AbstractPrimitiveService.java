@@ -16,9 +16,9 @@
 package io.atomix.primitive.service;
 
 import com.google.common.collect.Maps;
+import io.atomix.primitive.DistributedPrimitive;
 import io.atomix.primitive.PrimitiveException;
 import io.atomix.primitive.PrimitiveId;
-import io.atomix.primitive.PrimitiveType;
 import io.atomix.primitive.operation.OperationId;
 import io.atomix.primitive.operation.Operations;
 import io.atomix.primitive.service.impl.DefaultServiceExecutor;
@@ -45,7 +45,7 @@ import java.util.function.Consumer;
  * Raft service.
  */
 public abstract class AbstractPrimitiveService<C> implements PrimitiveService {
-  private final PrimitiveType primitiveType;
+  private final DistributedPrimitive.Type primitiveType;
   private final Class<C> clientInterface;
   private final Serializer serializer;
   private Logger log;
@@ -53,11 +53,11 @@ public abstract class AbstractPrimitiveService<C> implements PrimitiveService {
   private ServiceExecutor executor;
   private final Map<SessionId, Session<C>> sessions = Maps.newHashMap();
 
-  protected AbstractPrimitiveService(PrimitiveType primitiveType) {
+  protected AbstractPrimitiveService(DistributedPrimitive.Type primitiveType) {
     this(primitiveType, null);
   }
 
-  protected AbstractPrimitiveService(PrimitiveType primitiveType, Class<C> clientInterface) {
+  protected AbstractPrimitiveService(DistributedPrimitive.Type primitiveType, Class<C> clientInterface) {
     this.primitiveType = primitiveType;
     this.clientInterface = clientInterface;
     this.serializer = Serializer.using(primitiveType.namespace());
@@ -177,7 +177,7 @@ public abstract class AbstractPrimitiveService<C> implements PrimitiveService {
    *
    * @return the primitive type
    */
-  protected PrimitiveType getPrimitiveType() {
+  protected DistributedPrimitive.Type getPrimitiveType() {
     return primitiveType;
   }
 

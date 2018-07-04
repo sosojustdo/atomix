@@ -16,7 +16,7 @@
 package io.atomix.protocols.raft;
 
 import io.atomix.cluster.MemberId;
-import io.atomix.primitive.PrimitiveType;
+import io.atomix.primitive.DistributedPrimitive;
 import io.atomix.primitive.partition.PartitionId;
 import io.atomix.primitive.service.ServiceConfig;
 import io.atomix.protocols.raft.impl.DefaultRaftClient;
@@ -117,7 +117,7 @@ public interface RaftClient {
    * @param serviceConfig the service configuration
    * @return the Raft proxy session builder
    */
-  RaftSessionClient.Builder sessionBuilder(String primitiveName, PrimitiveType primitiveType, ServiceConfig serviceConfig);
+  RaftSessionClient.Builder sessionBuilder(String primitiveName, DistributedPrimitive.Type primitiveType, ServiceConfig serviceConfig);
 
   /**
    * Connects the client to Raft cluster via the default server address.

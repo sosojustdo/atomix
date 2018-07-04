@@ -18,8 +18,8 @@ package io.atomix.core.treemap;
 import io.atomix.core.map.AtomicMapType;
 import io.atomix.core.treemap.impl.DefaultAtomicTreeMapBuilder;
 import io.atomix.core.treemap.impl.DefaultAtomicTreeMapService;
+import io.atomix.primitive.DistributedPrimitive;
 import io.atomix.primitive.PrimitiveManagementService;
-import io.atomix.primitive.PrimitiveType;
 import io.atomix.primitive.service.PrimitiveService;
 import io.atomix.primitive.service.ServiceConfig;
 import io.atomix.utils.serializer.Namespace;
@@ -30,7 +30,7 @@ import static com.google.common.base.MoreObjects.toStringHelper;
  * Consistent tree map primitive type.
  */
 public class AtomicTreeMapType<V>
-    implements PrimitiveType<AtomicTreeMap.Builder<V>, AtomicTreeMap.Config, AtomicTreeMap<V>> {
+    implements DistributedPrimitive.Type<AtomicTreeMap.Builder<V>, AtomicTreeMap.Config, AtomicTreeMap<V>> {
   private static final String NAME = "atomic-tree-map";
   private static final AtomicTreeMapType INSTANCE = new AtomicTreeMapType();
 

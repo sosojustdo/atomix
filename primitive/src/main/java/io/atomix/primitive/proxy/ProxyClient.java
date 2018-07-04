@@ -15,8 +15,8 @@
  */
 package io.atomix.primitive.proxy;
 
+import io.atomix.primitive.DistributedPrimitive;
 import io.atomix.primitive.PrimitiveState;
-import io.atomix.primitive.PrimitiveType;
 import io.atomix.primitive.operation.PrimitiveOperation;
 import io.atomix.primitive.partition.PartitionId;
 import io.atomix.primitive.protocol.PrimitiveProtocol;
@@ -45,7 +45,7 @@ public interface ProxyClient<S> {
    *
    * @return The client proxy type.
    */
-  PrimitiveType type();
+  DistributedPrimitive.Type type();
 
   /**
    * Returns the client proxy protocol.

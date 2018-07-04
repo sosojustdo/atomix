@@ -18,8 +18,8 @@ package io.atomix.core.leadership;
 import io.atomix.core.leadership.impl.DefaultLeaderElectionBuilder;
 import io.atomix.core.leadership.impl.DefaultLeaderElectionService;
 import io.atomix.core.leadership.impl.LeaderElectionResource;
+import io.atomix.primitive.DistributedPrimitive;
 import io.atomix.primitive.PrimitiveManagementService;
-import io.atomix.primitive.PrimitiveType;
 import io.atomix.primitive.resource.PrimitiveResource;
 import io.atomix.primitive.service.PrimitiveService;
 import io.atomix.primitive.service.ServiceConfig;
@@ -30,7 +30,7 @@ import static com.google.common.base.MoreObjects.toStringHelper;
 /**
  * Leader elector primitive type.
  */
-public class LeaderElectionType<T> implements PrimitiveType<LeaderElection.Builder<T>, LeaderElection.Config, LeaderElection<T>> {
+public class LeaderElectionType<T> implements DistributedPrimitive.Type<LeaderElection.Builder<T>, LeaderElection.Config, LeaderElection<T>> {
   private static final String NAME = "leader-election";
   private static final LeaderElectionType INSTANCE = new LeaderElectionType();
 
@@ -53,7 +53,7 @@ public class LeaderElectionType<T> implements PrimitiveType<LeaderElection.Build
   @Override
   public Namespace namespace() {
     return Namespace.builder()
-        .register(PrimitiveType.super.namespace())
+        .register(DistributedPrimitive.Type.super.namespace())
         .register(Leadership.class)
         .register(Leader.class)
         .build();

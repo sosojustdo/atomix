@@ -15,8 +15,8 @@
  */
 package io.atomix.primitive.session.impl;
 
+import io.atomix.primitive.DistributedPrimitive;
 import io.atomix.primitive.PrimitiveState;
-import io.atomix.primitive.PrimitiveType;
 import io.atomix.primitive.event.EventType;
 import io.atomix.primitive.event.PrimitiveEvent;
 import io.atomix.primitive.operation.PrimitiveOperation;
@@ -61,7 +61,7 @@ public class DelegatingSessionClient implements SessionClient {
   }
 
   @Override
-  public PrimitiveType type() {
+  public DistributedPrimitive.Type type() {
     return session.type();
   }
 

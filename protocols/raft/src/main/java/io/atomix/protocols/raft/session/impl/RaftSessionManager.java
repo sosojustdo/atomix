@@ -19,8 +19,8 @@ import com.google.common.collect.Lists;
 import com.google.common.collect.Sets;
 import com.google.common.primitives.Longs;
 import io.atomix.cluster.MemberId;
+import io.atomix.primitive.DistributedPrimitive;
 import io.atomix.primitive.PrimitiveState;
-import io.atomix.primitive.PrimitiveType;
 import io.atomix.primitive.service.ServiceConfig;
 import io.atomix.primitive.session.SessionId;
 import io.atomix.protocols.raft.RaftClient;
@@ -154,7 +154,7 @@ public class RaftSessionManager {
    */
   public CompletableFuture<RaftSessionState> openSession(
       String serviceName,
-      PrimitiveType primitiveType,
+      DistributedPrimitive.Type primitiveType,
       ServiceConfig config,
       ReadConsistency readConsistency,
       CommunicationStrategy communicationStrategy,

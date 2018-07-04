@@ -16,7 +16,7 @@
 package io.atomix.protocols.raft;
 
 import io.atomix.cluster.MemberId;
-import io.atomix.primitive.PrimitiveType;
+import io.atomix.primitive.DistributedPrimitive;
 import io.atomix.primitive.session.SessionMetadata;
 
 import java.util.Collection;
@@ -64,7 +64,7 @@ public interface RaftMetadataClient {
    * @param primitiveType the service type for which to return sessions
    * @return A completable future to be completed with a list of open sessions of the given type.
    */
-  CompletableFuture<Set<SessionMetadata>> getSessions(PrimitiveType primitiveType);
+  CompletableFuture<Set<SessionMetadata>> getSessions(DistributedPrimitive.Type primitiveType);
 
   /**
    * Returns a list of open sessions for the given service.
@@ -73,6 +73,6 @@ public interface RaftMetadataClient {
    * @param serviceName the service for which to return sessions
    * @return A completable future to be completed with a list of open sessions of the given type.
    */
-  CompletableFuture<Set<SessionMetadata>> getSessions(PrimitiveType primitiveType, String serviceName);
+  CompletableFuture<Set<SessionMetadata>> getSessions(DistributedPrimitive.Type primitiveType, String serviceName);
 
 }

@@ -16,7 +16,7 @@
 package io.atomix.protocols.backup;
 
 import io.atomix.cluster.ClusterMembershipService;
-import io.atomix.primitive.PrimitiveType;
+import io.atomix.primitive.DistributedPrimitive;
 import io.atomix.primitive.Recovery;
 import io.atomix.primitive.partition.PartitionId;
 import io.atomix.primitive.partition.PrimaryElection;
@@ -96,7 +96,7 @@ public class PrimaryBackupClient {
    * @param serviceConfig the service configuration
    * @return a new primary-backup proxy session builder
    */
-  public PrimaryBackupSessionClient.Builder sessionBuilder(String primitiveName, PrimitiveType primitiveType, ServiceConfig serviceConfig) {
+  public PrimaryBackupSessionClient.Builder sessionBuilder(String primitiveName, DistributedPrimitive.Type primitiveType, ServiceConfig serviceConfig) {
     byte[] configBytes = Serializer.using(primitiveType.namespace()).encode(serviceConfig);
     return new PrimaryBackupSessionClient.Builder() {
       @Override

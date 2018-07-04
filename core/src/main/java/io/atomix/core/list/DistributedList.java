@@ -18,7 +18,6 @@ package io.atomix.core.list;
 import io.atomix.core.collection.DistributedCollection;
 import io.atomix.primitive.DistributedPrimitive;
 import io.atomix.primitive.PrimitiveManagementService;
-import io.atomix.primitive.PrimitiveType;
 
 import java.util.List;
 
@@ -32,7 +31,7 @@ public interface DistributedList<E> extends DistributedCollection<E>, List<E> {
    */
   class Config extends DistributedPrimitive.Config<Config> {
     @Override
-    public PrimitiveType getType() {
+    public DistributedPrimitive.Type getType() {
       return DistributedListType.instance();
     }
   }

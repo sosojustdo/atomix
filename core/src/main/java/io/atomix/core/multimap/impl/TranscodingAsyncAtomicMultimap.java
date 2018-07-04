@@ -20,17 +20,17 @@ import com.google.common.collect.ImmutableMultiset;
 import com.google.common.collect.Maps;
 import com.google.common.collect.Multiset;
 import io.atomix.core.collection.AsyncDistributedCollection;
-import io.atomix.core.multiset.AsyncDistributedMultiset;
-import io.atomix.core.set.AsyncDistributedSet;
 import io.atomix.core.collection.impl.TranscodingAsyncDistributedCollection;
-import io.atomix.core.multiset.impl.TranscodingAsyncDistributedMultiset;
-import io.atomix.core.set.impl.TranscodingAsyncDistributedSet;
 import io.atomix.core.multimap.AsyncAtomicMultimap;
 import io.atomix.core.multimap.AtomicMultimap;
 import io.atomix.core.multimap.AtomicMultimapEvent;
 import io.atomix.core.multimap.AtomicMultimapEventListener;
+import io.atomix.core.multiset.AsyncDistributedMultiset;
+import io.atomix.core.multiset.impl.TranscodingAsyncDistributedMultiset;
+import io.atomix.core.set.AsyncDistributedSet;
+import io.atomix.core.set.impl.TranscodingAsyncDistributedSet;
+import io.atomix.primitive.DistributedPrimitive;
 import io.atomix.primitive.PrimitiveState;
-import io.atomix.primitive.PrimitiveType;
 import io.atomix.primitive.protocol.PrimitiveProtocol;
 import io.atomix.utils.concurrent.Futures;
 import io.atomix.utils.time.Versioned;
@@ -111,7 +111,7 @@ public class TranscodingAsyncAtomicMultimap<K1, V1, K2, V2> implements AsyncAtom
   }
 
   @Override
-  public PrimitiveType type() {
+  public DistributedPrimitive.Type type() {
     return backingMap.type();
   }
 

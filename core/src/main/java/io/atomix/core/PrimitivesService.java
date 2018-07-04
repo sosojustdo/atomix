@@ -54,7 +54,6 @@ import io.atomix.core.workqueue.WorkQueue;
 import io.atomix.core.workqueue.WorkQueueType;
 import io.atomix.primitive.DistributedPrimitive;
 import io.atomix.primitive.PrimitiveInfo;
-import io.atomix.primitive.PrimitiveType;
 import io.atomix.primitive.protocol.PrimitiveProtocol;
 
 import java.util.Collection;
@@ -659,7 +658,7 @@ public interface PrimitivesService {
    * @param <P>           the primitive type
    * @return the primitive instance
    */
-  <P extends DistributedPrimitive> P getPrimitive(String name, PrimitiveType<?, ?, P> primitiveType);
+  <P extends DistributedPrimitive> P getPrimitive(String name, DistributedPrimitive.Type<?, ?, P> primitiveType);
 
   /**
    * Returns a cached primitive.
@@ -673,7 +672,7 @@ public interface PrimitivesService {
    */
   <C extends DistributedPrimitive.Config<C>, P extends DistributedPrimitive> P getPrimitive(
       String name,
-      PrimitiveType<?, C, P> primitiveType,
+      DistributedPrimitive.Type<?, C, P> primitiveType,
       C primitiveConfig);
 
   /**
@@ -687,7 +686,7 @@ public interface PrimitivesService {
    */
   <B extends DistributedPrimitive.Builder<B, C, P>, C extends DistributedPrimitive.Config<C>, P extends DistributedPrimitive> B primitiveBuilder(
       String name,
-      PrimitiveType<B, C, P> primitiveType);
+      DistributedPrimitive.Type<B, C, P> primitiveType);
 
   /**
    * Returns a primitive builder of the given type.
@@ -701,7 +700,7 @@ public interface PrimitivesService {
    */
   default <B extends DistributedPrimitive.Builder<B, C, P>, C extends DistributedPrimitive.Config<C>, P extends DistributedPrimitive> B primitiveBuilder(
       String name,
-      PrimitiveType<B, C, P> primitiveType,
+      DistributedPrimitive.Type<B, C, P> primitiveType,
       PrimitiveProtocol protocol) {
     return primitiveBuilder(name, primitiveType).withProtocol(protocol);
   }
@@ -719,6 +718,6 @@ public interface PrimitivesService {
    * @param primitiveType the primitive type
    * @return a collection of open primitives of the given type
    */
-  Collection<PrimitiveInfo> getPrimitives(PrimitiveType primitiveType);
+  Collection<PrimitiveInfo> getPrimitives(DistributedPrimitive.Type primitiveType);
 
 }

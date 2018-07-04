@@ -22,9 +22,9 @@ import io.atomix.cluster.ClusterMembershipEvent;
 import io.atomix.cluster.ClusterMembershipEventListener;
 import io.atomix.cluster.ClusterMembershipService;
 import io.atomix.primitive.Consistency;
+import io.atomix.primitive.DistributedPrimitive;
 import io.atomix.primitive.PrimitiveException;
 import io.atomix.primitive.PrimitiveState;
-import io.atomix.primitive.PrimitiveType;
 import io.atomix.primitive.Recovery;
 import io.atomix.primitive.Replication;
 import io.atomix.primitive.event.EventType;
@@ -66,7 +66,7 @@ public class PrimaryBackupSessionClient implements SessionClient {
   private static final int MAX_ATTEMPTS = 50;
   private static final int RETRY_DELAY = 100;
   private Logger log;
-  private final PrimitiveType primitiveType;
+  private final DistributedPrimitive.Type primitiveType;
   private final PrimitiveDescriptor descriptor;
   private final ClusterMembershipService clusterMembershipService;
   private final PrimaryBackupClientProtocol protocol;
@@ -85,7 +85,7 @@ public class PrimaryBackupSessionClient implements SessionClient {
       String clientName,
       PartitionId partitionId,
       SessionId sessionId,
-      PrimitiveType primitiveType,
+      DistributedPrimitive.Type primitiveType,
       PrimitiveDescriptor descriptor,
       ClusterMembershipService clusterMembershipService,
       PrimaryBackupClientProtocol protocol,
@@ -114,7 +114,7 @@ public class PrimaryBackupSessionClient implements SessionClient {
   }
 
   @Override
-  public PrimitiveType type() {
+  public DistributedPrimitive.Type type() {
     return primitiveType;
   }
 

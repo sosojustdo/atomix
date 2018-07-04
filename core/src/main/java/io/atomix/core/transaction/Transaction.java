@@ -17,7 +17,6 @@ package io.atomix.core.transaction;
 
 import io.atomix.primitive.DistributedPrimitive;
 import io.atomix.primitive.PrimitiveManagementService;
-import io.atomix.primitive.PrimitiveType;
 import io.atomix.primitive.SyncPrimitive;
 import io.atomix.primitive.protocol.PrimitiveProtocol;
 
@@ -121,7 +120,7 @@ public interface Transaction extends SyncPrimitive {
     private Isolation isolation = Isolation.READ_COMMITTED;
 
     @Override
-    public PrimitiveType getType() {
+    public DistributedPrimitive.Type getType() {
       return TransactionType.instance();
     }
 

@@ -16,15 +16,15 @@
 package io.atomix.primitive.proxy.impl;
 
 import com.google.common.base.Defaults;
+import io.atomix.primitive.DistributedPrimitive;
 import io.atomix.primitive.PrimitiveException;
 import io.atomix.primitive.PrimitiveState;
-import io.atomix.primitive.PrimitiveType;
-import io.atomix.primitive.session.SessionClient;
 import io.atomix.primitive.event.Events;
 import io.atomix.primitive.operation.OperationId;
 import io.atomix.primitive.operation.Operations;
 import io.atomix.primitive.operation.PrimitiveOperation;
 import io.atomix.primitive.proxy.ProxySession;
+import io.atomix.primitive.session.SessionClient;
 import io.atomix.utils.concurrent.ThreadContext;
 import io.atomix.utils.serializer.Serializer;
 import org.slf4j.Logger;
@@ -64,7 +64,7 @@ public class DefaultProxySession<S> implements ProxySession<S> {
   }
 
   @Override
-  public PrimitiveType type() {
+  public DistributedPrimitive.Type type() {
     return session.type();
   }
 

@@ -19,7 +19,6 @@ import io.atomix.cluster.MemberId;
 import io.atomix.cluster.TestClusterMembershipService;
 import io.atomix.primitive.DistributedPrimitive;
 import io.atomix.primitive.PrimitiveManagementService;
-import io.atomix.primitive.PrimitiveType;
 import io.atomix.primitive.Replication;
 import io.atomix.primitive.event.EventType;
 import io.atomix.primitive.operation.OperationId;
@@ -488,7 +487,7 @@ public class PrimaryBackupTest extends ConcurrentTestCase {
   private static final EventType EXPIRE_EVENT = EventType.from("expire");
   private static final EventType CLOSE_EVENT = EventType.from("close");
 
-  public static class TestPrimitiveType implements PrimitiveType {
+  public static class TestPrimitiveType implements DistributedPrimitive.Type {
     private static final TestPrimitiveType INSTANCE = new TestPrimitiveType();
 
     @Override

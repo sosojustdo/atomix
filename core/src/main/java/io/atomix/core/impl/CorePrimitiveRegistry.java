@@ -25,7 +25,6 @@ import io.atomix.primitive.ManagedPrimitiveRegistry;
 import io.atomix.primitive.PrimitiveException;
 import io.atomix.primitive.PrimitiveInfo;
 import io.atomix.primitive.PrimitiveRegistry;
-import io.atomix.primitive.PrimitiveType;
 import io.atomix.primitive.PrimitiveTypeRegistry;
 import io.atomix.primitive.partition.PartitionService;
 import io.atomix.primitive.protocol.PrimitiveProtocol;
@@ -61,7 +60,7 @@ public class CorePrimitiveRegistry implements ManagedPrimitiveRegistry {
   }
 
   @Override
-  public CompletableFuture<PrimitiveInfo> createPrimitive(String name, PrimitiveType type) {
+  public CompletableFuture<PrimitiveInfo> createPrimitive(String name, DistributedPrimitive.Type type) {
     PrimitiveInfo info = new PrimitiveInfo(name, type);
     CompletableFuture<PrimitiveInfo> future = new CompletableFuture<>();
     primitives.putIfAbsent(name, type.name()).whenComplete((result, error) -> {
@@ -84,7 +83,7 @@ public class CorePrimitiveRegistry implements ManagedPrimitiveRegistry {
   }
 
   @Override
-  public Collection<PrimitiveInfo> getPrimitives(PrimitiveType primitiveType) {
+  public Collection<PrimitiveInfo> getPrimitives(DistributedPrimitive.Type primitiveType) {
     return getPrimitives()
         .stream()
         .filter(primitive -> primitive.type().equals(primitiveType))

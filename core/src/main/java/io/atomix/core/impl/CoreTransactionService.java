@@ -32,7 +32,6 @@ import io.atomix.core.transaction.TransactionState;
 import io.atomix.core.transaction.Transactional;
 import io.atomix.primitive.DistributedPrimitive;
 import io.atomix.primitive.PrimitiveManagementService;
-import io.atomix.primitive.PrimitiveType;
 import io.atomix.primitive.partition.PartitionGroup;
 import io.atomix.primitive.protocol.PrimitiveProtocol;
 import io.atomix.utils.concurrent.Futures;
@@ -322,7 +321,7 @@ public class CoreTransactionService implements ManagedTransactionService {
       ParticipantInfo participantInfo,
       Function<Transactional<?>, CompletableFuture<Void>> completionFunction) {
     // Look up the primitive type for the participant. If the primitive type is not found, return an exception.
-    PrimitiveType primitiveType = managementService.getPrimitiveTypeRegistry().getPrimitiveType(participantInfo.type());
+    DistributedPrimitive.Type primitiveType = managementService.getPrimitiveTypeRegistry().getPrimitiveType(participantInfo.type());
     if (primitiveType == null) {
       return Futures.exceptionalFuture(new TransactionException("Failed to locate primitive type " + participantInfo.type() + " for participant " + participantInfo.name()));
     }

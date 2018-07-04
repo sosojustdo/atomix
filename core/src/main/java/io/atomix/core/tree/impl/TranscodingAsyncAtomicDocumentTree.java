@@ -17,11 +17,11 @@ package io.atomix.core.tree.impl;
 
 import com.google.common.collect.Maps;
 import io.atomix.core.tree.AsyncAtomicDocumentTree;
-import io.atomix.core.tree.DocumentPath;
 import io.atomix.core.tree.AtomicDocumentTree;
+import io.atomix.core.tree.DocumentPath;
 import io.atomix.core.tree.DocumentTreeEvent;
 import io.atomix.core.tree.DocumentTreeListener;
-import io.atomix.primitive.PrimitiveType;
+import io.atomix.primitive.DistributedPrimitive;
 import io.atomix.primitive.protocol.PrimitiveProtocol;
 import io.atomix.utils.time.Versioned;
 
@@ -54,7 +54,7 @@ public class TranscodingAsyncAtomicDocumentTree<V1, V2> implements AsyncAtomicDo
   }
 
   @Override
-  public PrimitiveType type() {
+  public DistributedPrimitive.Type type() {
     return backingTree.type();
   }
 

@@ -15,8 +15,8 @@
  */
 package io.atomix.protocols.raft.session.impl;
 
+import io.atomix.primitive.DistributedPrimitive;
 import io.atomix.primitive.PrimitiveState;
-import io.atomix.primitive.PrimitiveType;
 import io.atomix.primitive.session.SessionId;
 
 import java.util.Set;
@@ -32,7 +32,7 @@ public final class RaftSessionState {
   private final String clientId;
   private final SessionId sessionId;
   private final String serviceName;
-  private final PrimitiveType primitiveType;
+  private final DistributedPrimitive.Type primitiveType;
   private final long timeout;
   private volatile PrimitiveState state = PrimitiveState.CONNECTED;
   private volatile Long suspendedTime;
@@ -42,7 +42,7 @@ public final class RaftSessionState {
   private volatile long eventIndex;
   private final Set<Consumer<PrimitiveState>> changeListeners = new CopyOnWriteArraySet<>();
 
-  RaftSessionState(String clientId, SessionId sessionId, String serviceName, PrimitiveType primitiveType, long timeout) {
+  RaftSessionState(String clientId, SessionId sessionId, String serviceName, DistributedPrimitive.Type primitiveType, long timeout) {
     this.clientId = clientId;
     this.sessionId = sessionId;
     this.serviceName = serviceName;
@@ -84,7 +84,7 @@ public final class RaftSessionState {
    *
    * @return The session type.
    */
-  public PrimitiveType getPrimitiveType() {
+  public DistributedPrimitive.Type getPrimitiveType() {
     return primitiveType;
   }
 

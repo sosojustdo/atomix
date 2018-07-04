@@ -19,7 +19,6 @@ package io.atomix.core.treemap;
 import io.atomix.core.map.AtomicMap;
 import io.atomix.primitive.DistributedPrimitive;
 import io.atomix.primitive.PrimitiveManagementService;
-import io.atomix.primitive.PrimitiveType;
 import io.atomix.utils.time.Versioned;
 
 import java.util.Map;
@@ -158,7 +157,7 @@ public interface AtomicTreeMap<V> extends AtomicMap<String, V> {
    */
   class Config extends DistributedPrimitive.Config<Config> {
     @Override
-    public PrimitiveType getType() {
+    public DistributedPrimitive.Type getType() {
       return AtomicTreeMapType.instance();
     }
   }

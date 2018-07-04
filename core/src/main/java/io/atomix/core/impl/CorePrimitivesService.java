@@ -67,7 +67,6 @@ import io.atomix.primitive.DistributedPrimitive;
 import io.atomix.primitive.ManagedPrimitiveRegistry;
 import io.atomix.primitive.PrimitiveInfo;
 import io.atomix.primitive.PrimitiveManagementService;
-import io.atomix.primitive.PrimitiveType;
 import io.atomix.primitive.config.ConfigService;
 import io.atomix.primitive.impl.DefaultPrimitiveTypeRegistry;
 import io.atomix.primitive.partition.PartitionGroup;
@@ -111,7 +110,7 @@ public class CorePrimitivesService implements ManagedPrimitivesService {
       PartitionService partitionService,
       AtomixRegistry registry,
       ConfigService configService) {
-    this.primitiveRegistry = new CorePrimitiveRegistry(partitionService, new DefaultPrimitiveTypeRegistry(registry.getTypes(PrimitiveType.class)));
+    this.primitiveRegistry = new CorePrimitiveRegistry(partitionService, new DefaultPrimitiveTypeRegistry(registry.getTypes(DistributedPrimitive.Type.class)));
     this.managementService = new CorePrimitiveManagementService(
         executorService,
         membershipService,
@@ -119,7 +118,7 @@ public class CorePrimitivesService implements ManagedPrimitivesService {
         eventService,
         partitionService,
         primitiveRegistry,
-        new DefaultPrimitiveTypeRegistry(registry.getTypes(PrimitiveType.class)),
+        new DefaultPrimitiveTypeRegistry(registry.getTypes(DistributedPrimitive.Type.class)),
         new DefaultPrimitiveProtocolTypeRegistry(registry.getTypes(PrimitiveProtocol.Type.class)),
         new DefaultPartitionGroupTypeRegistry(registry.getTypes(PartitionGroup.Type.class)));
     this.transactionService = new CoreTransactionService(managementService);
@@ -232,7 +231,7 @@ public class CorePrimitivesService implements ManagedPrimitivesService {
 
   @Override
   public <B extends DistributedPrimitive.Builder<B, C, P>, C extends DistributedPrimitive.Config<C>, P extends DistributedPrimitive> B primitiveBuilder(
-      String name, PrimitiveType<B, C, P> primitiveType) {
+      String name, DistributedPrimitive.Type<B, C, P> primitiveType) {
     return primitiveType.newBuilder(name, primitiveType.newConfig(), managementService);
   }
 
@@ -259,14 +258,14 @@ public class CorePrimitivesService implements ManagedPrimitivesService {
 
   @Override
   @SuppressWarnings("unchecked")
-  public <P extends DistributedPrimitive> P getPrimitive(String name, PrimitiveType<?, ?, P> primitiveType) {
-    return (P) getPrimitive(name, (PrimitiveType) primitiveType, (DistributedPrimitive.Config) configService.getConfig(name));
+  public <P extends DistributedPrimitive> P getPrimitive(String name, DistributedPrimitive.Type<?, ?, P> primitiveType) {
+    return (P) getPrimitive(name, (DistributedPrimitive.Type) primitiveType, (DistributedPrimitive.Config) configService.getConfig(name));
   }
 
   @Override
   @SuppressWarnings("unchecked")
   public <C extends DistributedPrimitive.Config<C>, P extends DistributedPrimitive> P getPrimitive(
-      String name, PrimitiveType<?, C, P> primitiveType, C primitiveConfig) {
+      String name, DistributedPrimitive.Type<?, C, P> primitiveType, C primitiveConfig) {
     try {
       return (P) cache.get(name, () -> {
         C config = primitiveConfig;
@@ -289,7 +288,7 @@ public class CorePrimitivesService implements ManagedPrimitivesService {
   }
 
   @Override
-  public Collection<PrimitiveInfo> getPrimitives(PrimitiveType primitiveType) {
+  public Collection<PrimitiveInfo> getPrimitives(DistributedPrimitive.Type primitiveType) {
     return managementService.getPrimitiveRegistry().getPrimitives(primitiveType);
   }
 

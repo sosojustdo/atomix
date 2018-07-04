@@ -17,8 +17,8 @@ package io.atomix.primitive.session.impl;
 
 import com.google.common.collect.Maps;
 import io.atomix.cluster.MemberId;
+import io.atomix.primitive.DistributedPrimitive;
 import io.atomix.primitive.PrimitiveException;
-import io.atomix.primitive.PrimitiveType;
 import io.atomix.primitive.event.EventType;
 import io.atomix.primitive.event.Events;
 import io.atomix.primitive.event.PrimitiveEvent;
@@ -55,7 +55,7 @@ public class ClientSession<C> implements Session<C> {
   }
 
   @Override
-  public PrimitiveType primitiveType() {
+  public DistributedPrimitive.Type primitiveType() {
     return session.primitiveType();
   }
 

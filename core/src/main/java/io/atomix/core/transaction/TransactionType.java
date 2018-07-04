@@ -17,8 +17,8 @@ package io.atomix.core.transaction;
 
 import io.atomix.core.impl.CoreTransactionService;
 import io.atomix.core.transaction.impl.DefaultTransactionBuilder;
+import io.atomix.primitive.DistributedPrimitive;
 import io.atomix.primitive.PrimitiveManagementService;
-import io.atomix.primitive.PrimitiveType;
 import io.atomix.primitive.service.PrimitiveService;
 import io.atomix.primitive.service.ServiceConfig;
 
@@ -27,7 +27,7 @@ import static com.google.common.base.MoreObjects.toStringHelper;
 /**
  * Transaction primitive type.
  */
-public class TransactionType implements PrimitiveType<Transaction.Builder, Transaction.Config, Transaction> {
+public class TransactionType implements DistributedPrimitive.Type<Transaction.Builder, Transaction.Config, Transaction> {
   private static final String NAME = "transaction";
   private static final TransactionType INSTANCE = new TransactionType();
 

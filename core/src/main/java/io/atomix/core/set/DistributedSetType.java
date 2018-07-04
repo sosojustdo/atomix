@@ -27,8 +27,8 @@ import io.atomix.core.transaction.TransactionLog;
 import io.atomix.core.transaction.impl.CommitResult;
 import io.atomix.core.transaction.impl.PrepareResult;
 import io.atomix.core.transaction.impl.RollbackResult;
+import io.atomix.primitive.DistributedPrimitive;
 import io.atomix.primitive.PrimitiveManagementService;
-import io.atomix.primitive.PrimitiveType;
 import io.atomix.primitive.resource.PrimitiveResource;
 import io.atomix.primitive.service.PrimitiveService;
 import io.atomix.primitive.service.ServiceConfig;
@@ -40,7 +40,7 @@ import static com.google.common.base.MoreObjects.toStringHelper;
 /**
  * Distributed set primitive type.
  */
-public class DistributedSetType<E> implements PrimitiveType<DistributedSet.Builder<E>, DistributedSet.Config, DistributedSet<E>> {
+public class DistributedSetType<E> implements DistributedPrimitive.Type<DistributedSet.Builder<E>, DistributedSet.Config, DistributedSet<E>> {
   private static final String NAME = "set";
   private static final DistributedSetType INSTANCE = new DistributedSetType();
 
@@ -63,7 +63,7 @@ public class DistributedSetType<E> implements PrimitiveType<DistributedSet.Build
   @Override
   public Namespace namespace() {
     return Namespace.builder()
-        .register(PrimitiveType.super.namespace())
+        .register(DistributedPrimitive.Type.super.namespace())
         .register(Namespaces.BASIC)
         .nextId(Namespaces.BEGIN_USER_CUSTOM_ID)
         .register(CollectionUpdateResult.class)

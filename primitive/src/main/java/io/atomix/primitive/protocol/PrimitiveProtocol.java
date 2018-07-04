@@ -15,7 +15,7 @@
  */
 package io.atomix.primitive.protocol;
 
-import io.atomix.primitive.PrimitiveType;
+import io.atomix.primitive.DistributedPrimitive;
 import io.atomix.primitive.partition.PartitionService;
 import io.atomix.primitive.proxy.ProxyClient;
 import io.atomix.primitive.service.ServiceConfig;
@@ -72,7 +72,7 @@ public interface PrimitiveProtocol {
    */
   <S> ProxyClient<S> newProxy(
       String primitiveName,
-      PrimitiveType primitiveType,
+      DistributedPrimitive.Type primitiveType,
       Class<S> serviceType,
       ServiceConfig serviceConfig,
       PartitionService partitionService);

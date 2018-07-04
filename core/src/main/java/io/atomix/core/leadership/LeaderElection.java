@@ -18,7 +18,6 @@ package io.atomix.core.leadership;
 import io.atomix.cluster.MemberId;
 import io.atomix.primitive.DistributedPrimitive;
 import io.atomix.primitive.PrimitiveManagementService;
-import io.atomix.primitive.PrimitiveType;
 import io.atomix.primitive.SyncPrimitive;
 import io.atomix.utils.serializer.Namespace;
 import io.atomix.utils.serializer.NamespaceConfig;
@@ -106,7 +105,7 @@ public interface LeaderElection<T> extends SyncPrimitive {
    */
   class Config extends DistributedPrimitive.Config<Config> {
     @Override
-    public PrimitiveType getType() {
+    public DistributedPrimitive.Type getType() {
       return LeaderElectionType.instance();
     }
   }

@@ -24,9 +24,9 @@ import static com.google.common.base.MoreObjects.toStringHelper;
  */
 public final class PrimitiveInfo {
   private final String name;
-  private final PrimitiveType type;
+  private final DistributedPrimitive.Type type;
 
-  public PrimitiveInfo(String name, PrimitiveType type) {
+  public PrimitiveInfo(String name, DistributedPrimitive.Type type) {
     this.name = name;
     this.type = type;
   }
@@ -45,7 +45,7 @@ public final class PrimitiveInfo {
    *
    * @return the primitive type
    */
-  public PrimitiveType type() {
+  public DistributedPrimitive.Type type() {
     return type;
   }
 

@@ -16,10 +16,10 @@
 package io.atomix.core.barrier;
 
 import io.atomix.core.barrier.impl.CyclicBarrierResult;
-import io.atomix.core.barrier.impl.DefaultDistributedCyclicBarrierService;
 import io.atomix.core.barrier.impl.DefaultDistributedCyclicBarrierBuilder;
+import io.atomix.core.barrier.impl.DefaultDistributedCyclicBarrierService;
+import io.atomix.primitive.DistributedPrimitive;
 import io.atomix.primitive.PrimitiveManagementService;
-import io.atomix.primitive.PrimitiveType;
 import io.atomix.primitive.service.PrimitiveService;
 import io.atomix.primitive.service.ServiceConfig;
 import io.atomix.utils.serializer.Namespace;
@@ -29,7 +29,7 @@ import static com.google.common.base.MoreObjects.toStringHelper;
 /**
  * Distributed cyclic barrier primitive type.
  */
-public class DistributedCyclicBarrierType implements PrimitiveType<DistributedCyclicBarrier.Builder, DistributedCyclicBarrier.Config, DistributedCyclicBarrier> {
+public class DistributedCyclicBarrierType implements DistributedPrimitive.Type<DistributedCyclicBarrier.Builder, DistributedCyclicBarrier.Config, DistributedCyclicBarrier> {
   private static final String NAME = "cyclic-barrier";
   private static final DistributedCyclicBarrierType INSTANCE = new DistributedCyclicBarrierType();
 
@@ -50,7 +50,7 @@ public class DistributedCyclicBarrierType implements PrimitiveType<DistributedCy
   @Override
   public Namespace namespace() {
     return Namespace.builder()
-        .register(PrimitiveType.super.namespace())
+        .register(DistributedPrimitive.Type.super.namespace())
         .register(CyclicBarrierResult.class)
         .register(CyclicBarrierResult.Status.class)
         .build();

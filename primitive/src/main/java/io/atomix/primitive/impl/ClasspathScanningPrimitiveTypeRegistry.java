@@ -15,7 +15,7 @@
  */
 package io.atomix.primitive.impl;
 
-import io.atomix.primitive.PrimitiveType;
+import io.atomix.primitive.DistributedPrimitive;
 import io.atomix.primitive.PrimitiveTypeRegistry;
 import io.atomix.utils.ServiceException;
 import io.github.lukehutch.fastclasspathscanner.FastClasspathScanner;
@@ -33,20 +33,20 @@ import java.util.concurrent.ConcurrentHashMap;
 public class ClasspathScanningPrimitiveTypeRegistry implements PrimitiveTypeRegistry {
   private static final Logger LOGGER = LoggerFactory.getLogger(ClasspathScanningPrimitiveTypeRegistry.class);
 
-  private final Map<String, PrimitiveType> primitiveTypes = new ConcurrentHashMap<>();
+  private final Map<String, DistributedPrimitive.Type> primitiveTypes = new ConcurrentHashMap<>();
 
   public ClasspathScanningPrimitiveTypeRegistry(ClassLoader classLoader) {
     final String scanSpec = System.getProperty("io.atomix.scanSpec");
     final FastClasspathScanner classpathScanner = scanSpec != null ?
-            new FastClasspathScanner(scanSpec).addClassLoader(classLoader) :
-            new FastClasspathScanner().addClassLoader(classLoader);
-    classpathScanner.matchClassesImplementing(PrimitiveType.class, type -> {
+        new FastClasspathScanner(scanSpec).addClassLoader(classLoader) :
+        new FastClasspathScanner().addClassLoader(classLoader);
+    classpathScanner.matchClassesImplementing(DistributedPrimitive.Type.class, type -> {
       if (!Modifier.isAbstract(type.getModifiers()) && !Modifier.isPrivate(type.getModifiers())) {
-        PrimitiveType primitiveType = newInstance(type);
-        PrimitiveType oldPrimitiveType = primitiveTypes.put(primitiveType.name(), primitiveType);
+        DistributedPrimitive.Type primitiveType = newInstance(type);
+        DistributedPrimitive.Type oldPrimitiveType = primitiveTypes.put(primitiveType.name(), primitiveType);
         if (oldPrimitiveType != null) {
           LOGGER.warn("Found multiple primitives types name={}, classes=[{}, {}]", primitiveType.name(),
-                  oldPrimitiveType.getClass().getName(), primitiveType.getClass().getName());
+              oldPrimitiveType.getClass().getName(), primitiveType.getClass().getName());
         }
       }
     }).scan();
@@ -70,13 +70,13 @@ public class ClasspathScanningPrimitiveTypeRegistry implements PrimitiveTypeRegi
   }
 
   @Override
-  public Collection<PrimitiveType> getPrimitiveTypes() {
+  public Collection<DistributedPrimitive.Type> getPrimitiveTypes() {
     return primitiveTypes.values();
   }
 
   @Override
-  public PrimitiveType getPrimitiveType(String typeName) {
-    PrimitiveType type = primitiveTypes.get(typeName);
+  public DistributedPrimitive.Type getPrimitiveType(String typeName) {
+    DistributedPrimitive.Type type = primitiveTypes.get(typeName);
     if (type == null) {
       throw new ServiceException("Unknown primitive type " + typeName);
     }

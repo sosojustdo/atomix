@@ -18,8 +18,8 @@ package io.atomix.core.workqueue;
 import io.atomix.core.workqueue.impl.DefaultWorkQueueBuilder;
 import io.atomix.core.workqueue.impl.DefaultWorkQueueService;
 import io.atomix.core.workqueue.impl.WorkQueueResource;
+import io.atomix.primitive.DistributedPrimitive;
 import io.atomix.primitive.PrimitiveManagementService;
-import io.atomix.primitive.PrimitiveType;
 import io.atomix.primitive.resource.PrimitiveResource;
 import io.atomix.primitive.service.PrimitiveService;
 import io.atomix.primitive.service.ServiceConfig;
@@ -31,7 +31,7 @@ import static com.google.common.base.MoreObjects.toStringHelper;
 /**
  * Work queue primitive type.
  */
-public class WorkQueueType<E> implements PrimitiveType<WorkQueue.Builder<E>, WorkQueue.Config, WorkQueue<E>> {
+public class WorkQueueType<E> implements DistributedPrimitive.Type<WorkQueue.Builder<E>, WorkQueue.Config, WorkQueue<E>> {
   private static final String NAME = "work-queue";
   private static final WorkQueueType INSTANCE = new WorkQueueType();
 
@@ -54,7 +54,7 @@ public class WorkQueueType<E> implements PrimitiveType<WorkQueue.Builder<E>, Wor
   @Override
   public Namespace namespace() {
     return Namespace.builder()
-        .register(PrimitiveType.super.namespace())
+        .register(DistributedPrimitive.Type.super.namespace())
         .nextId(Namespaces.BEGIN_USER_CUSTOM_ID)
         .register(Task.class)
         .register(WorkQueueStats.class)

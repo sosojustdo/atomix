@@ -18,7 +18,7 @@ package io.atomix.core.idgenerator.impl;
 import io.atomix.core.counter.AsyncAtomicCounter;
 import io.atomix.core.idgenerator.AsyncAtomicIdGenerator;
 import io.atomix.core.idgenerator.AtomicIdGenerator;
-import io.atomix.primitive.PrimitiveType;
+import io.atomix.primitive.DistributedPrimitive;
 import io.atomix.primitive.protocol.PrimitiveProtocol;
 
 import java.time.Duration;
@@ -53,7 +53,7 @@ public class DelegatingAtomicIdGenerator implements AsyncAtomicIdGenerator {
   }
 
   @Override
-  public PrimitiveType type() {
+  public DistributedPrimitive.Type type() {
     return counter.type();
   }
 

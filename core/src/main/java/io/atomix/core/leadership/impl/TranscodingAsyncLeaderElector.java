@@ -16,12 +16,12 @@
 package io.atomix.core.leadership.impl;
 
 import com.google.common.collect.Maps;
-import io.atomix.core.leadership.Leadership;
 import io.atomix.core.leadership.AsyncLeaderElector;
 import io.atomix.core.leadership.LeaderElector;
+import io.atomix.core.leadership.Leadership;
 import io.atomix.core.leadership.LeadershipEvent;
 import io.atomix.core.leadership.LeadershipEventListener;
-import io.atomix.primitive.PrimitiveType;
+import io.atomix.primitive.DistributedPrimitive;
 import io.atomix.primitive.protocol.PrimitiveProtocol;
 
 import java.time.Duration;
@@ -53,7 +53,7 @@ public class TranscodingAsyncLeaderElector<V1, V2> implements AsyncLeaderElector
   }
 
   @Override
-  public PrimitiveType type() {
+  public DistributedPrimitive.Type type() {
     return backingElector.type();
   }
 

@@ -17,7 +17,6 @@ package io.atomix.core.semaphore;
 
 import io.atomix.primitive.DistributedPrimitive;
 import io.atomix.primitive.PrimitiveManagementService;
-import io.atomix.primitive.PrimitiveType;
 import io.atomix.primitive.SyncPrimitive;
 import io.atomix.utils.time.Version;
 
@@ -141,7 +140,7 @@ public interface DistributedSemaphore extends SyncPrimitive {
     private int initialCapacity;
 
     @Override
-    public PrimitiveType getType() {
+    public DistributedPrimitive.Type getType() {
       return DistributedSemaphoreType.instance();
     }
 

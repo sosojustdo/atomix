@@ -15,7 +15,7 @@
  */
 package io.atomix.protocols.backup.partition.impl;
 
-import io.atomix.primitive.PrimitiveType;
+import io.atomix.primitive.DistributedPrimitive;
 import io.atomix.primitive.partition.PartitionClient;
 import io.atomix.primitive.partition.PartitionManagementService;
 import io.atomix.primitive.service.ServiceConfig;
@@ -51,7 +51,7 @@ public class PrimaryBackupPartitionClient implements PartitionClient, Managed<Pr
   }
 
   @Override
-  public PrimaryBackupSessionClient.Builder sessionBuilder(String primitiveName, PrimitiveType primitiveType, ServiceConfig serviceConfig) {
+  public PrimaryBackupSessionClient.Builder sessionBuilder(String primitiveName, DistributedPrimitive.Type primitiveType, ServiceConfig serviceConfig) {
     return client.sessionBuilder(primitiveName, primitiveType, serviceConfig);
   }
 

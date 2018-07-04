@@ -17,7 +17,6 @@ package io.atomix.core.collection;
 
 import io.atomix.primitive.DistributedPrimitive;
 import io.atomix.primitive.PrimitiveManagementService;
-import io.atomix.primitive.PrimitiveType;
 import io.atomix.primitive.SyncPrimitive;
 
 import java.util.Collection;
@@ -49,7 +48,7 @@ public interface DistributedCollection<E> extends SyncPrimitive, SyncIterable<E>
    */
   class Config extends DistributedPrimitive.Config<Config> {
     @Override
-    public PrimitiveType getType() {
+    public DistributedPrimitive.Type getType() {
       return DistributedCollectionType.instance();
     }
   }

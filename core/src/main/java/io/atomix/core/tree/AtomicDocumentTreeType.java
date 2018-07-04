@@ -25,8 +25,8 @@ import io.atomix.core.tree.impl.DefaultDocumentTreeService;
 import io.atomix.core.tree.impl.DocumentTreeResource;
 import io.atomix.core.tree.impl.DocumentTreeResult;
 import io.atomix.core.tree.impl.NodeUpdate;
+import io.atomix.primitive.DistributedPrimitive;
 import io.atomix.primitive.PrimitiveManagementService;
-import io.atomix.primitive.PrimitiveType;
 import io.atomix.primitive.resource.PrimitiveResource;
 import io.atomix.primitive.service.PrimitiveService;
 import io.atomix.primitive.service.ServiceConfig;
@@ -42,7 +42,7 @@ import static com.google.common.base.MoreObjects.toStringHelper;
 /**
  * Document tree primitive type.
  */
-public class AtomicDocumentTreeType<V> implements PrimitiveType<AtomicDocumentTree.Builder<V>, AtomicDocumentTree.Config, AtomicDocumentTree<V>> {
+public class AtomicDocumentTreeType<V> implements DistributedPrimitive.Type<AtomicDocumentTree.Builder<V>, AtomicDocumentTree.Config, AtomicDocumentTree<V>> {
   private static final String NAME = "document-tree";
   private static final AtomicDocumentTreeType INSTANCE = new AtomicDocumentTreeType();
 
@@ -65,7 +65,7 @@ public class AtomicDocumentTreeType<V> implements PrimitiveType<AtomicDocumentTr
   @Override
   public Namespace namespace() {
     return Namespace.builder()
-        .register(PrimitiveType.super.namespace())
+        .register(DistributedPrimitive.Type.super.namespace())
         .nextId(Namespaces.BEGIN_USER_CUSTOM_ID)
         .register(LinkedHashMap.class)
         .register(TransactionId.class)

@@ -20,7 +20,7 @@ import io.atomix.core.value.AsyncAtomicValue;
 import io.atomix.core.value.AtomicValue;
 import io.atomix.core.value.AtomicValueEvent;
 import io.atomix.core.value.AtomicValueEventListener;
-import io.atomix.primitive.PrimitiveType;
+import io.atomix.primitive.DistributedPrimitive;
 import io.atomix.primitive.protocol.PrimitiveProtocol;
 
 import java.time.Duration;
@@ -52,7 +52,7 @@ public class TranscodingAsyncAtomicValue<V1, V2> implements AsyncAtomicValue<V1>
   }
 
   @Override
-  public PrimitiveType type() {
+  public DistributedPrimitive.Type type() {
     return backingValue.type();
   }
 

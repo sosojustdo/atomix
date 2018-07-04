@@ -19,17 +19,17 @@ package io.atomix.core.map.impl;
 import com.google.common.collect.ImmutableMap;
 import com.google.common.collect.Maps;
 import io.atomix.core.collection.AsyncDistributedCollection;
-import io.atomix.core.set.AsyncDistributedSet;
 import io.atomix.core.collection.impl.TranscodingAsyncDistributedCollection;
-import io.atomix.core.set.impl.TranscodingAsyncDistributedSet;
 import io.atomix.core.map.AsyncAtomicMap;
 import io.atomix.core.map.AtomicMap;
 import io.atomix.core.map.AtomicMapEvent;
 import io.atomix.core.map.AtomicMapEventListener;
+import io.atomix.core.set.AsyncDistributedSet;
+import io.atomix.core.set.impl.TranscodingAsyncDistributedSet;
 import io.atomix.core.transaction.TransactionId;
 import io.atomix.core.transaction.TransactionLog;
+import io.atomix.primitive.DistributedPrimitive;
 import io.atomix.primitive.PrimitiveState;
-import io.atomix.primitive.PrimitiveType;
 import io.atomix.primitive.protocol.PrimitiveProtocol;
 import io.atomix.utils.concurrent.Futures;
 import io.atomix.utils.time.Versioned;
@@ -92,7 +92,7 @@ public class TranscodingAsyncAtomicMap<K1, V1, K2, V2> implements AsyncAtomicMap
   }
 
   @Override
-  public PrimitiveType type() {
+  public DistributedPrimitive.Type type() {
     return backingMap.type();
   }
 

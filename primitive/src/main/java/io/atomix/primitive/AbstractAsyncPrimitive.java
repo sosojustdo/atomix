@@ -43,7 +43,7 @@ public abstract class AbstractAsyncPrimitive<A extends AsyncPrimitive, S> implem
   }
 
   @Override
-  public PrimitiveType type() {
+  public Type type() {
     return client.type();
   }
 

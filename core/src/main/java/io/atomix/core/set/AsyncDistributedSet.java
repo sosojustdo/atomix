@@ -19,7 +19,6 @@ import io.atomix.core.collection.AsyncDistributedCollection;
 import io.atomix.core.set.impl.SetUpdate;
 import io.atomix.core.transaction.Transactional;
 import io.atomix.primitive.DistributedPrimitive;
-import io.atomix.primitive.PrimitiveType;
 
 import java.time.Duration;
 import java.util.concurrent.CompletableFuture;
@@ -35,7 +34,7 @@ import java.util.concurrent.CompletableFuture;
  */
 public interface AsyncDistributedSet<E> extends AsyncDistributedCollection<E>, Transactional<SetUpdate<E>> {
   @Override
-  default PrimitiveType type() {
+  default DistributedPrimitive.Type type() {
     return DistributedSetType.instance();
   }
 

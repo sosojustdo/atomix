@@ -17,8 +17,8 @@
 package io.atomix.protocols.raft.service;
 
 import io.atomix.cluster.MemberId;
+import io.atomix.primitive.DistributedPrimitive;
 import io.atomix.primitive.PrimitiveId;
-import io.atomix.primitive.PrimitiveType;
 import io.atomix.primitive.operation.OperationType;
 import io.atomix.primitive.operation.PrimitiveOperation;
 import io.atomix.primitive.service.Commit;
@@ -62,7 +62,7 @@ public class RaftServiceContext implements ServiceContext {
   private final Logger log;
   private final PrimitiveId primitiveId;
   private final String serviceName;
-  private final PrimitiveType primitiveType;
+  private final DistributedPrimitive.Type primitiveType;
   private final ServiceConfig config;
   private final PrimitiveService service;
   private final RaftContext raft;
@@ -88,7 +88,7 @@ public class RaftServiceContext implements ServiceContext {
   public RaftServiceContext(
       PrimitiveId primitiveId,
       String serviceName,
-      PrimitiveType primitiveType,
+      DistributedPrimitive.Type primitiveType,
       ServiceConfig config,
       PrimitiveService service,
       RaftContext raft,
@@ -120,7 +120,7 @@ public class RaftServiceContext implements ServiceContext {
   }
 
   @Override
-  public PrimitiveType serviceType() {
+  public DistributedPrimitive.Type serviceType() {
     return primitiveType;
   }
 
@@ -204,7 +204,7 @@ public class RaftServiceContext implements ServiceContext {
   public void installSnapshot(SnapshotReader reader) {
     log.debug("Installing snapshot {}", reader.snapshot().index());
     reader.skip(Bytes.LONG); // Skip the service ID
-    PrimitiveType primitiveType;
+    DistributedPrimitive.Type primitiveType;
     try {
       primitiveType = raft.getPrimitiveTypes().getPrimitiveType(reader.readString());
     } catch (ConfigurationException e) {

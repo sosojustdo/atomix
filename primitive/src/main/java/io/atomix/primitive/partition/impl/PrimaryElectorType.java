@@ -17,7 +17,6 @@ package io.atomix.primitive.partition.impl;
 
 import io.atomix.primitive.DistributedPrimitive;
 import io.atomix.primitive.PrimitiveManagementService;
-import io.atomix.primitive.PrimitiveType;
 import io.atomix.primitive.service.PrimitiveService;
 import io.atomix.primitive.service.ServiceConfig;
 
@@ -26,7 +25,7 @@ import static com.google.common.base.MoreObjects.toStringHelper;
 /**
  * Primary elector primitive type.
  */
-public class PrimaryElectorType implements PrimitiveType {
+public class PrimaryElectorType implements DistributedPrimitive.Type {
   private static final String NAME = "PRIMARY_ELECTOR";
   private static final PrimaryElectorType TYPE = new PrimaryElectorType();
 

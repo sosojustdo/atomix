@@ -18,8 +18,8 @@ package io.atomix.primitive.session.impl;
 import com.google.common.collect.HashMultimap;
 import com.google.common.collect.Multimap;
 import com.google.common.collect.Sets;
+import io.atomix.primitive.DistributedPrimitive;
 import io.atomix.primitive.PrimitiveState;
-import io.atomix.primitive.PrimitiveType;
 import io.atomix.primitive.event.EventType;
 import io.atomix.primitive.event.PrimitiveEvent;
 import io.atomix.primitive.operation.PrimitiveOperation;
@@ -49,7 +49,7 @@ public class RecoveringSessionClient implements SessionClient {
   private static final SessionId DEFAULT_SESSION_ID = SessionId.from(0);
   private final PartitionId partitionId;
   private final String name;
-  private final PrimitiveType primitiveType;
+  private final DistributedPrimitive.Type primitiveType;
   private final Supplier<CompletableFuture<SessionClient>> proxyFactory;
   private final ThreadContext context;
   private Logger log;
@@ -66,7 +66,7 @@ public class RecoveringSessionClient implements SessionClient {
       String clientId,
       PartitionId partitionId,
       String name,
-      PrimitiveType primitiveType,
+      DistributedPrimitive.Type primitiveType,
       Supplier<CompletableFuture<SessionClient>> sessionFactory,
       ThreadContext context) {
     this.partitionId = checkNotNull(partitionId);
@@ -96,7 +96,7 @@ public class RecoveringSessionClient implements SessionClient {
   }
 
   @Override
-  public PrimitiveType type() {
+  public DistributedPrimitive.Type type() {
     return primitiveType;
   }
 

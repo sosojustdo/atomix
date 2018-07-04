@@ -18,6 +18,10 @@ package io.atomix.primitive;
 import com.google.common.base.Joiner;
 import io.atomix.primitive.partition.PartitionGroup;
 import io.atomix.primitive.protocol.PrimitiveProtocol;
+import io.atomix.primitive.resource.PrimitiveResource;
+import io.atomix.primitive.service.PrimitiveService;
+import io.atomix.primitive.service.ServiceConfig;
+import io.atomix.utils.ConfiguredType;
 import io.atomix.utils.config.ConfigurationException;
 import io.atomix.utils.config.NamedConfig;
 import io.atomix.utils.config.TypedConfig;
@@ -39,6 +43,60 @@ import static com.google.common.base.Preconditions.checkNotNull;
 public interface DistributedPrimitive {
 
   /**
+   * Primitive type.
+   */
+  interface Type<B extends DistributedPrimitive.Builder, C extends DistributedPrimitive.Config, P extends DistributedPrimitive> extends ConfiguredType<C> {
+
+    /**
+     * Returns the primitive type namespace.
+     *
+     * @return the primitive type namespace
+     */
+    default Namespace namespace() {
+      return Namespace.builder()
+          .register(Namespaces.BASIC)
+          .register(ServiceConfig.class)
+          .build();
+    }
+
+    /**
+     * Returns a new instance of the primitive configuration.
+     *
+     * @return a new instance of the primitive configuration
+     */
+    @Override
+    C newConfig();
+
+    /**
+     * Returns a new primitive builder.
+     *
+     * @param primitiveName     the primitive name
+     * @param config            the primitive configuration
+     * @param managementService the primitive management service
+     * @return a new primitive builder
+     */
+    B newBuilder(String primitiveName, C config, PrimitiveManagementService managementService);
+
+    /**
+     * Creates a new service instance from the given configuration.
+     *
+     * @param config the service configuration
+     * @return the service instance
+     */
+    PrimitiveService newService(ServiceConfig config);
+
+    /**
+     * Creates a new resource for the given primitive.
+     *
+     * @param primitive the primitive instance
+     * @return a new resource for the given primitive instance
+     */
+    default PrimitiveResource newResource(P primitive) {
+      return null;
+    }
+  }
+
+  /**
    * Default timeout for primitive operations.
    */
   long DEFAULT_OPERATION_TIMEOUT_MILLIS = 5000L;
@@ -55,7 +113,7 @@ public interface DistributedPrimitive {
    *
    * @return primitive type
    */
-  PrimitiveType type();
+  Type type();
 
   /**
    * Returns the primitive protocol.
@@ -83,7 +141,7 @@ public interface DistributedPrimitive {
   /**
    * Primitive configuration.
    */
-  abstract class Config<C extends Config<C>> implements TypedConfig<PrimitiveType>, NamedConfig<C> {
+  abstract class Config<C extends Config<C>> implements TypedConfig<Type>, NamedConfig<C> {
     private static final int DEFAULT_CACHE_SIZE = 1000;
 
     private String name;
@@ -236,14 +294,14 @@ public interface DistributedPrimitive {
    * @param <P> primitive type
    */
   abstract class Builder<B extends Builder<B, C, P>, C extends Config, P extends DistributedPrimitive> implements io.atomix.utils.Builder<P> {
-    protected final PrimitiveType type;
+    protected final Type type;
     protected final String name;
     protected final C config;
     protected Serializer serializer;
     protected PrimitiveProtocol protocol;
     protected final PrimitiveManagementService managementService;
 
-    protected Builder(PrimitiveType type, String name, C config, PrimitiveManagementService managementService) {
+    protected Builder(Type type, String name, C config, PrimitiveManagementService managementService) {
       this.type = checkNotNull(type, "type cannot be null");
       this.name = checkNotNull(name, "name cannot be null");
       this.config = checkNotNull(config, "config cannot be null");
@@ -346,7 +404,7 @@ public interface DistributedPrimitive {
      *
      * @return primitive type
      */
-    public PrimitiveType primitiveType() {
+    public Type primitiveType() {
       return type;
     }
 

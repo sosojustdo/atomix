@@ -18,8 +18,8 @@ package io.atomix.core.idgenerator;
 import io.atomix.core.counter.impl.DefaultAtomicCounterService;
 import io.atomix.core.idgenerator.impl.AtomicIdGeneratorResource;
 import io.atomix.core.idgenerator.impl.DefaultAtomicIdGeneratorBuilder;
+import io.atomix.primitive.DistributedPrimitive;
 import io.atomix.primitive.PrimitiveManagementService;
-import io.atomix.primitive.PrimitiveType;
 import io.atomix.primitive.resource.PrimitiveResource;
 import io.atomix.primitive.service.PrimitiveService;
 import io.atomix.primitive.service.ServiceConfig;
@@ -29,7 +29,7 @@ import static com.google.common.base.MoreObjects.toStringHelper;
 /**
  * Atomic ID generator primitive type.
  */
-public class AtomicIdGeneratorType implements PrimitiveType<AtomicIdGenerator.Builder, AtomicIdGenerator.Config, AtomicIdGenerator> {
+public class AtomicIdGeneratorType implements DistributedPrimitive.Type<AtomicIdGenerator.Builder, AtomicIdGenerator.Config, AtomicIdGenerator> {
   private static final String NAME = "id-generator";
   private static final AtomicIdGeneratorType INSTANCE = new AtomicIdGeneratorType();
 

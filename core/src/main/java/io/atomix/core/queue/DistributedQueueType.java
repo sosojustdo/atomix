@@ -21,8 +21,8 @@ import io.atomix.core.collection.impl.DistributedCollectionService;
 import io.atomix.core.queue.impl.DefaultDistributedQueueBuilder;
 import io.atomix.core.queue.impl.DefaultDistributedQueueService;
 import io.atomix.core.queue.impl.DistributedQueueResource;
+import io.atomix.primitive.DistributedPrimitive;
 import io.atomix.primitive.PrimitiveManagementService;
-import io.atomix.primitive.PrimitiveType;
 import io.atomix.primitive.resource.PrimitiveResource;
 import io.atomix.primitive.service.PrimitiveService;
 import io.atomix.primitive.service.ServiceConfig;
@@ -34,7 +34,7 @@ import static com.google.common.base.MoreObjects.toStringHelper;
 /**
  * Distributed queue primitive type.
  */
-public class DistributedQueueType<E> implements PrimitiveType<DistributedQueue.Builder<E>, DistributedQueue.Config, DistributedQueue<E>> {
+public class DistributedQueueType<E> implements DistributedPrimitive.Type<DistributedQueue.Builder<E>, DistributedQueue.Config, DistributedQueue<E>> {
   private static final String NAME = "queue";
   private static final DistributedQueueType INSTANCE = new DistributedQueueType();
 
@@ -57,7 +57,7 @@ public class DistributedQueueType<E> implements PrimitiveType<DistributedQueue.B
   @Override
   public Namespace namespace() {
     return Namespace.builder()
-        .register(PrimitiveType.super.namespace())
+        .register(DistributedPrimitive.Type.super.namespace())
         .register(Namespaces.BASIC)
         .nextId(Namespaces.BEGIN_USER_CUSTOM_ID)
         .register(CollectionUpdateResult.class)

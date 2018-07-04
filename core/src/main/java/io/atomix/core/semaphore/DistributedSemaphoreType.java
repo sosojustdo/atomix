@@ -19,8 +19,8 @@ import io.atomix.core.semaphore.impl.DefaultDistributedSemaphoreBuilder;
 import io.atomix.core.semaphore.impl.DefaultDistributedSemaphoreService;
 import io.atomix.core.semaphore.impl.DistributedSemaphoreResource;
 import io.atomix.core.semaphore.impl.DistributedSemaphoreServiceConfig;
+import io.atomix.primitive.DistributedPrimitive;
 import io.atomix.primitive.PrimitiveManagementService;
-import io.atomix.primitive.PrimitiveType;
 import io.atomix.primitive.resource.PrimitiveResource;
 import io.atomix.primitive.service.PrimitiveService;
 import io.atomix.primitive.service.ServiceConfig;
@@ -33,7 +33,7 @@ import static com.google.common.base.MoreObjects.toStringHelper;
 /**
  * Distributed semaphore primitive type.
  */
-public class DistributedSemaphoreType implements PrimitiveType<DistributedSemaphore.Builder, DistributedSemaphore.Config, DistributedSemaphore> {
+public class DistributedSemaphoreType implements DistributedPrimitive.Type<DistributedSemaphore.Builder, DistributedSemaphore.Config, DistributedSemaphore> {
   private static final String NAME = "semaphore";
   private static final DistributedSemaphoreType INSTANCE = new DistributedSemaphoreType();
 

@@ -15,8 +15,8 @@
  */
 package io.atomix.core.collection;
 
+import io.atomix.primitive.DistributedPrimitive;
 import io.atomix.primitive.PrimitiveManagementService;
-import io.atomix.primitive.PrimitiveType;
 import io.atomix.primitive.service.PrimitiveService;
 import io.atomix.primitive.service.ServiceConfig;
 
@@ -25,7 +25,7 @@ import static com.google.common.base.MoreObjects.toStringHelper;
 /**
  * Distributed collection primitive type.
  */
-public class DistributedCollectionType<E> implements PrimitiveType<DistributedCollection.Builder<E>, DistributedCollection.Config, DistributedCollection<E>> {
+public class DistributedCollectionType<E> implements DistributedPrimitive.Type<DistributedCollection.Builder<E>, DistributedCollection.Config, DistributedCollection<E>> {
   private static final String NAME = "collection";
   private static final DistributedCollectionType INSTANCE = new DistributedCollectionType();
 

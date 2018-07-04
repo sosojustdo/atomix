@@ -16,7 +16,7 @@
 package io.atomix.protocols.raft.protocol;
 
 import io.atomix.cluster.MemberId;
-import io.atomix.primitive.PrimitiveType;
+import io.atomix.primitive.DistributedPrimitive;
 import io.atomix.protocols.raft.ReadConsistency;
 
 import java.util.Objects;
@@ -194,7 +194,7 @@ public class OpenSessionRequest extends AbstractRaftRequest {
      * @return The open session request builder.
      * @throws NullPointerException if {@code serviceType} is {@code null}
      */
-    public Builder withServiceType(PrimitiveType primitiveType) {
+    public Builder withServiceType(DistributedPrimitive.Type primitiveType) {
       this.serviceType = checkNotNull(primitiveType, "serviceType cannot be null").name();
       return this;
     }

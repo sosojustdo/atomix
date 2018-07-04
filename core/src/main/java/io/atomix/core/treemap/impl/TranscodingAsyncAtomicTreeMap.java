@@ -17,18 +17,18 @@
 package io.atomix.core.treemap.impl;
 
 import com.google.common.collect.Maps;
-import io.atomix.core.map.impl.MapUpdate;
 import io.atomix.core.collection.AsyncDistributedCollection;
-import io.atomix.core.set.AsyncDistributedSet;
 import io.atomix.core.collection.impl.TranscodingAsyncDistributedCollection;
-import io.atomix.core.set.impl.TranscodingAsyncDistributedSet;
-import io.atomix.core.treemap.AsyncAtomicTreeMap;
-import io.atomix.core.treemap.AtomicTreeMap;
 import io.atomix.core.map.AtomicMapEvent;
 import io.atomix.core.map.AtomicMapEventListener;
+import io.atomix.core.map.impl.MapUpdate;
+import io.atomix.core.set.AsyncDistributedSet;
+import io.atomix.core.set.impl.TranscodingAsyncDistributedSet;
 import io.atomix.core.transaction.TransactionId;
 import io.atomix.core.transaction.TransactionLog;
-import io.atomix.primitive.PrimitiveType;
+import io.atomix.core.treemap.AsyncAtomicTreeMap;
+import io.atomix.core.treemap.AtomicTreeMap;
+import io.atomix.primitive.DistributedPrimitive;
 import io.atomix.primitive.protocol.PrimitiveProtocol;
 import io.atomix.utils.concurrent.Futures;
 import io.atomix.utils.time.Versioned;
@@ -75,7 +75,7 @@ public class TranscodingAsyncAtomicTreeMap<V1, V2> implements AsyncAtomicTreeMap
   }
 
   @Override
-  public PrimitiveType type() {
+  public DistributedPrimitive.Type type() {
     return backingMap.type();
   }
 

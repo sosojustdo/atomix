@@ -21,7 +21,7 @@ import io.atomix.primitive.service.ServiceConfig;
 /**
  * Test primitive type.
  */
-public class TestPrimitiveType implements PrimitiveType {
+public class TestPrimitiveType implements DistributedPrimitive.Type {
   private static final TestPrimitiveType INSTANCE = new TestPrimitiveType();
 
   /**

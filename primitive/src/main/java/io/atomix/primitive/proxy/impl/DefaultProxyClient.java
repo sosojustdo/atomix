@@ -17,8 +17,8 @@ package io.atomix.primitive.proxy.impl;
 
 import com.google.common.collect.Maps;
 import com.google.common.collect.Sets;
+import io.atomix.primitive.DistributedPrimitive;
 import io.atomix.primitive.PrimitiveState;
-import io.atomix.primitive.PrimitiveType;
 import io.atomix.primitive.partition.PartitionId;
 import io.atomix.primitive.partition.Partitioner;
 import io.atomix.primitive.protocol.PrimitiveProtocol;
@@ -45,7 +45,7 @@ import static com.google.common.base.Preconditions.checkNotNull;
  */
 public class DefaultProxyClient<S> implements ProxyClient<S> {
   private final String name;
-  private final PrimitiveType type;
+  private final DistributedPrimitive.Type type;
   private final PrimitiveProtocol protocol;
   private final Serializer serializer;
   private final List<PartitionId> partitionIds = new CopyOnWriteArrayList<>();
@@ -57,7 +57,7 @@ public class DefaultProxyClient<S> implements ProxyClient<S> {
 
   public DefaultProxyClient(
       String name,
-      PrimitiveType type,
+      DistributedPrimitive.Type type,
       PrimitiveProtocol protocol,
       Class<S> serviceType,
       Collection<SessionClient> partitions,
@@ -82,7 +82,7 @@ public class DefaultProxyClient<S> implements ProxyClient<S> {
   }
 
   @Override
-  public PrimitiveType type() {
+  public DistributedPrimitive.Type type() {
     return type;
   }
 

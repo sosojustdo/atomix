@@ -19,7 +19,6 @@ package io.atomix.core.tree;
 import io.atomix.primitive.DistributedPrimitive;
 import io.atomix.primitive.Ordering;
 import io.atomix.primitive.PrimitiveManagementService;
-import io.atomix.primitive.PrimitiveType;
 import io.atomix.primitive.SyncPrimitive;
 import io.atomix.utils.time.Versioned;
 
@@ -154,7 +153,7 @@ public interface AtomicDocumentTree<V> extends SyncPrimitive {
     private Ordering ordering;
 
     @Override
-    public PrimitiveType getType() {
+    public DistributedPrimitive.Type getType() {
       return AtomicDocumentTreeType.instance();
     }
 

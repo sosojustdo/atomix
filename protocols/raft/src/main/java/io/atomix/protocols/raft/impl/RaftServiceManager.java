@@ -18,8 +18,8 @@ package io.atomix.protocols.raft.impl;
 import com.google.common.collect.Maps;
 import com.google.common.primitives.Longs;
 import io.atomix.cluster.MemberId;
+import io.atomix.primitive.DistributedPrimitive;
 import io.atomix.primitive.PrimitiveId;
-import io.atomix.primitive.PrimitiveType;
 import io.atomix.primitive.service.PrimitiveService;
 import io.atomix.primitive.service.ServiceConfig;
 import io.atomix.primitive.session.SessionId;
@@ -491,7 +491,7 @@ public class RaftServiceManager implements AutoCloseable {
   private void installService(SnapshotReader reader) {
     PrimitiveId primitiveId = PrimitiveId.from(reader.readLong());
     try {
-      PrimitiveType primitiveType = raft.getPrimitiveTypes().getPrimitiveType(reader.readString());
+      DistributedPrimitive.Type primitiveType = raft.getPrimitiveTypes().getPrimitiveType(reader.readString());
       String serviceName = reader.readString();
       byte[] serviceConfig = reader.readBytes(reader.readInt());
 
@@ -606,7 +606,7 @@ public class RaftServiceManager implements AutoCloseable {
   /**
    * Gets or initializes a service context.
    */
-  private RaftServiceContext getOrInitializeService(PrimitiveId primitiveId, PrimitiveType primitiveType, String serviceName, byte[] config) {
+  private RaftServiceContext getOrInitializeService(PrimitiveId primitiveId, DistributedPrimitive.Type primitiveType, String serviceName, byte[] config) {
     // Get the state machine executor or create one if it doesn't already exist.
     RaftServiceContext service = raft.getServices().getService(serviceName);
     if (service == null) {
@@ -619,7 +619,7 @@ public class RaftServiceManager implements AutoCloseable {
    * Initializes a new service.
    */
   @SuppressWarnings("unchecked")
-  private RaftServiceContext initializeService(PrimitiveId primitiveId, PrimitiveType primitiveType, String serviceName, byte[] config) {
+  private RaftServiceContext initializeService(PrimitiveId primitiveId, DistributedPrimitive.Type primitiveType, String serviceName, byte[] config) {
     RaftServiceContext oldService = raft.getServices().getService(serviceName);
     ServiceConfig serviceConfig = Serializer.using(primitiveType.namespace()).decode(config);
     RaftServiceContext service = new RaftServiceContext(
@@ -643,7 +643,7 @@ public class RaftServiceManager implements AutoCloseable {
    * Applies an open session entry to the state machine.
    */
   private long applyOpenSession(Indexed<OpenSessionEntry> entry) {
-    PrimitiveType primitiveType = raft.getPrimitiveTypes().getPrimitiveType(entry.entry().serviceType());
+    DistributedPrimitive.Type primitiveType = raft.getPrimitiveTypes().getPrimitiveType(entry.entry().serviceType());
 
     // Get the state machine executor or create one if it doesn't already exist.
     RaftServiceContext service = getOrInitializeService(

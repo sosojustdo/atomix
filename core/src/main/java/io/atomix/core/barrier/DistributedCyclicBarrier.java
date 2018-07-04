@@ -17,7 +17,6 @@ package io.atomix.core.barrier;
 
 import io.atomix.primitive.DistributedPrimitive;
 import io.atomix.primitive.PrimitiveManagementService;
-import io.atomix.primitive.PrimitiveType;
 import io.atomix.primitive.SyncPrimitive;
 
 import java.time.Duration;
@@ -80,7 +79,7 @@ public interface DistributedCyclicBarrier extends SyncPrimitive {
    */
   class Config extends DistributedPrimitive.Config<Config> {
     @Override
-    public PrimitiveType getType() {
+    public DistributedPrimitive.Type getType() {
       return DistributedCyclicBarrierType.instance();
     }
   }

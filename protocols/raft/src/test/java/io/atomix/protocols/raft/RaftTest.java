@@ -25,7 +25,6 @@ import io.atomix.primitive.PrimitiveInfo;
 import io.atomix.primitive.PrimitiveManagementService;
 import io.atomix.primitive.PrimitiveRegistry;
 import io.atomix.primitive.PrimitiveState;
-import io.atomix.primitive.PrimitiveType;
 import io.atomix.primitive.SyncPrimitive;
 import io.atomix.primitive.event.Event;
 import io.atomix.primitive.operation.Command;
@@ -1289,7 +1288,7 @@ public class RaftTest extends ConcurrentTestCase {
         Collections.singletonList(partition),
         (key, partitions) -> partitions.get(0));
     PrimitiveRegistry registry = mock(PrimitiveRegistry.class);
-    when(registry.createPrimitive(any(String.class), any(PrimitiveType.class))).thenReturn(CompletableFuture.completedFuture(new PrimitiveInfo("raft-test", TestPrimitiveType.INSTANCE)));
+    when(registry.createPrimitive(any(String.class), any(DistributedPrimitive.Type.class))).thenReturn(CompletableFuture.completedFuture(new PrimitiveInfo("raft-test", TestPrimitiveType.INSTANCE)));
     return new TestPrimitiveImpl(proxy, registry);
   }
 
@@ -1341,7 +1340,7 @@ public class RaftTest extends ConcurrentTestCase {
     protocolFactory = new TestRaftProtocolFactory(context);
   }
 
-  public static class TestPrimitiveType implements PrimitiveType {
+  public static class TestPrimitiveType implements DistributedPrimitive.Type {
     private static final TestPrimitiveType INSTANCE = new TestPrimitiveType();
 
     @Override

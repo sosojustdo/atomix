@@ -30,7 +30,7 @@ public interface PrimitiveRegistry {
    * @param type the primitive type
    * @return a future to be completed with the primitive info
    */
-  CompletableFuture<PrimitiveInfo> createPrimitive(String name, PrimitiveType type);
+  CompletableFuture<PrimitiveInfo> createPrimitive(String name, DistributedPrimitive.Type type);
 
   /**
    * Returns a collection of open primitives.
@@ -45,7 +45,7 @@ public interface PrimitiveRegistry {
    * @param primitiveType the primitive type
    * @return a collection of open primitives of the given type
    */
-  Collection<PrimitiveInfo> getPrimitives(PrimitiveType primitiveType);
+  Collection<PrimitiveInfo> getPrimitives(DistributedPrimitive.Type primitiveType);
 
   /**
    * Returns the info for a single primitive.

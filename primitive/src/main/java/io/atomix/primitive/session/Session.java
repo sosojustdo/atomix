@@ -16,7 +16,7 @@
 package io.atomix.primitive.session;
 
 import io.atomix.cluster.MemberId;
-import io.atomix.primitive.PrimitiveType;
+import io.atomix.primitive.DistributedPrimitive;
 import io.atomix.primitive.event.EventType;
 import io.atomix.primitive.event.PrimitiveEvent;
 
@@ -66,7 +66,7 @@ public interface Session<C> {
    *
    * @return The session's service type.
    */
-  PrimitiveType primitiveType();
+  DistributedPrimitive.Type primitiveType();
 
   /**
    * Returns the member identifier to which the session belongs.

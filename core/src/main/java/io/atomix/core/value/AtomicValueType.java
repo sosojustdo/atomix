@@ -18,8 +18,8 @@ package io.atomix.core.value;
 import io.atomix.core.value.impl.AtomicValueResource;
 import io.atomix.core.value.impl.DefaultAtomicValueBuilder;
 import io.atomix.core.value.impl.DefaultAtomicValueService;
+import io.atomix.primitive.DistributedPrimitive;
 import io.atomix.primitive.PrimitiveManagementService;
-import io.atomix.primitive.PrimitiveType;
 import io.atomix.primitive.resource.PrimitiveResource;
 import io.atomix.primitive.service.PrimitiveService;
 import io.atomix.primitive.service.ServiceConfig;
@@ -29,7 +29,7 @@ import static com.google.common.base.MoreObjects.toStringHelper;
 /**
  * Atomic value primitive type.
  */
-public class AtomicValueType<V> implements PrimitiveType<AtomicValue.Builder<V>, AtomicValue.Config, AtomicValue<V>> {
+public class AtomicValueType<V> implements DistributedPrimitive.Type<AtomicValue.Builder<V>, AtomicValue.Config, AtomicValue<V>> {
   private static final String NAME = "value";
   private static final AtomicValueType INSTANCE = new AtomicValueType();
 

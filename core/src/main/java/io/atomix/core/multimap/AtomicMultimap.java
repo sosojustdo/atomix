@@ -22,7 +22,6 @@ import io.atomix.core.multiset.DistributedMultiset;
 import io.atomix.core.set.DistributedSet;
 import io.atomix.primitive.DistributedPrimitive;
 import io.atomix.primitive.PrimitiveManagementService;
-import io.atomix.primitive.PrimitiveType;
 import io.atomix.primitive.SyncPrimitive;
 import io.atomix.utils.time.Versioned;
 
@@ -236,7 +235,7 @@ public interface AtomicMultimap<K, V> extends SyncPrimitive {
    */
   class Config extends DistributedPrimitive.Config<Config> {
     @Override
-    public PrimitiveType getType() {
+    public DistributedPrimitive.Type getType() {
       return AtomicMultimapType.instance();
     }
   }

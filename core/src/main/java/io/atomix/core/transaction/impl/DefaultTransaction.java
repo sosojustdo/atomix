@@ -27,8 +27,8 @@ import io.atomix.core.transaction.TransactionService;
 import io.atomix.core.transaction.TransactionType;
 import io.atomix.core.transaction.TransactionalMap;
 import io.atomix.core.transaction.TransactionalSet;
+import io.atomix.primitive.DistributedPrimitive;
 import io.atomix.primitive.PrimitiveManagementService;
-import io.atomix.primitive.PrimitiveType;
 import io.atomix.primitive.protocol.PrimitiveProtocol;
 import io.atomix.utils.concurrent.Futures;
 
@@ -64,7 +64,7 @@ public class DefaultTransaction implements AsyncTransaction {
   }
 
   @Override
-  public PrimitiveType type() {
+  public DistributedPrimitive.Type type() {
     return TransactionType.instance();
   }
 

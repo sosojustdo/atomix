@@ -18,7 +18,7 @@ package io.atomix.core.collection.impl;
 import com.google.common.collect.Maps;
 import com.google.common.collect.Sets;
 import io.atomix.core.collection.CollectionEvent;
-import io.atomix.primitive.PrimitiveType;
+import io.atomix.primitive.DistributedPrimitive;
 import io.atomix.primitive.service.AbstractPrimitiveService;
 import io.atomix.primitive.service.BackupInput;
 import io.atomix.primitive.service.BackupOutput;
@@ -51,7 +51,7 @@ public abstract class DefaultDistributedCollectionService<T extends Collection<S
   private Map<Long, IteratorContext> iterators = Maps.newHashMap();
   private Set<SessionId> listeners = Sets.newHashSet();
 
-  protected DefaultDistributedCollectionService(PrimitiveType primitiveType, T collection) {
+  protected DefaultDistributedCollectionService(DistributedPrimitive.Type primitiveType, T collection) {
     super(primitiveType, DistributedCollectionClient.class);
     this.collection = collection;
     this.serializer = Serializer.using(Namespace.builder()

@@ -17,11 +17,11 @@ package io.atomix.core.list;
 
 import io.atomix.core.collection.CollectionEvent;
 import io.atomix.core.collection.impl.CollectionUpdateResult;
-import io.atomix.core.list.impl.DefaultDistributedListService;
 import io.atomix.core.collection.impl.DistributedCollectionService;
 import io.atomix.core.list.impl.DefaultDistributedListBuilder;
+import io.atomix.core.list.impl.DefaultDistributedListService;
+import io.atomix.primitive.DistributedPrimitive;
 import io.atomix.primitive.PrimitiveManagementService;
-import io.atomix.primitive.PrimitiveType;
 import io.atomix.primitive.service.PrimitiveService;
 import io.atomix.primitive.service.ServiceConfig;
 import io.atomix.utils.serializer.Namespace;
@@ -32,7 +32,7 @@ import static com.google.common.base.MoreObjects.toStringHelper;
 /**
  * Distributed list primitive type.
  */
-public class DistributedListType<E> implements PrimitiveType<DistributedList.Builder<E>, DistributedList.Config, DistributedList<E>> {
+public class DistributedListType<E> implements DistributedPrimitive.Type<DistributedList.Builder<E>, DistributedList.Config, DistributedList<E>> {
   private static final String NAME = "list";
   private static final DistributedListType INSTANCE = new DistributedListType();
 
@@ -55,7 +55,7 @@ public class DistributedListType<E> implements PrimitiveType<DistributedList.Bui
   @Override
   public Namespace namespace() {
     return Namespace.builder()
-        .register(PrimitiveType.super.namespace())
+        .register(DistributedPrimitive.Type.super.namespace())
         .register(Namespaces.BASIC)
         .nextId(Namespaces.BEGIN_USER_CUSTOM_ID)
         .register(CollectionUpdateResult.class)

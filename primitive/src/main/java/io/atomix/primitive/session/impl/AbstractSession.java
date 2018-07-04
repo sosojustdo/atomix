@@ -16,7 +16,7 @@
 package io.atomix.primitive.session.impl;
 
 import io.atomix.cluster.MemberId;
-import io.atomix.primitive.PrimitiveType;
+import io.atomix.primitive.DistributedPrimitive;
 import io.atomix.primitive.event.EventType;
 import io.atomix.primitive.event.PrimitiveEvent;
 import io.atomix.primitive.session.Session;
@@ -33,7 +33,7 @@ import static com.google.common.base.Preconditions.checkNotNull;
 public abstract class AbstractSession implements Session {
   private final SessionId sessionId;
   private final String primitiveName;
-  private final PrimitiveType primitiveType;
+  private final DistributedPrimitive.Type primitiveType;
   private final MemberId memberId;
   private final Serializer serializer;
 
@@ -41,7 +41,7 @@ public abstract class AbstractSession implements Session {
   protected AbstractSession(
       SessionId sessionId,
       String primitiveName,
-      PrimitiveType primitiveType,
+      DistributedPrimitive.Type primitiveType,
       MemberId memberId,
       Serializer serializer) {
     this.sessionId = checkNotNull(sessionId);
@@ -62,7 +62,7 @@ public abstract class AbstractSession implements Session {
   }
 
   @Override
-  public PrimitiveType primitiveType() {
+  public DistributedPrimitive.Type primitiveType() {
     return primitiveType;
   }
 

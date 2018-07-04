@@ -17,7 +17,6 @@ package io.atomix.primitive.session.impl;
 
 import io.atomix.primitive.DistributedPrimitive;
 import io.atomix.primitive.PrimitiveManagementService;
-import io.atomix.primitive.PrimitiveType;
 import io.atomix.primitive.service.PrimitiveService;
 import io.atomix.primitive.service.ServiceConfig;
 
@@ -26,7 +25,7 @@ import static com.google.common.base.MoreObjects.toStringHelper;
 /**
  * Session ID generator primitive type.
  */
-public class SessionIdGeneratorType implements PrimitiveType {
+public class SessionIdGeneratorType implements DistributedPrimitive.Type {
   private static final String NAME = "SESSION_ID_GENERATOR";
   private static final SessionIdGeneratorType TYPE = new SessionIdGeneratorType();
 

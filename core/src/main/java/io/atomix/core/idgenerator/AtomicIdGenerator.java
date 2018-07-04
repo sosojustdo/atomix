@@ -17,7 +17,6 @@ package io.atomix.core.idgenerator;
 
 import io.atomix.primitive.DistributedPrimitive;
 import io.atomix.primitive.PrimitiveManagementService;
-import io.atomix.primitive.PrimitiveType;
 import io.atomix.primitive.SyncPrimitive;
 
 /**
@@ -40,7 +39,7 @@ public interface AtomicIdGenerator extends SyncPrimitive {
    */
   class Config extends DistributedPrimitive.Config<Config> {
     @Override
-    public PrimitiveType getType() {
+    public DistributedPrimitive.Type getType() {
       return AtomicIdGeneratorType.instance();
     }
   }

@@ -22,8 +22,8 @@ import io.atomix.cluster.ClusterMembershipEvent;
 import io.atomix.cluster.ClusterMembershipEventListener;
 import io.atomix.cluster.ClusterMembershipService;
 import io.atomix.cluster.MemberId;
+import io.atomix.primitive.DistributedPrimitive;
 import io.atomix.primitive.PrimitiveId;
-import io.atomix.primitive.PrimitiveType;
 import io.atomix.primitive.operation.OperationType;
 import io.atomix.primitive.partition.GroupMember;
 import io.atomix.primitive.partition.MemberGroupService;
@@ -79,7 +79,7 @@ public class PrimaryBackupServiceContext implements ServiceContext {
   private final MemberId localMemberId;
   private final String serverName;
   private final PrimitiveId primitiveId;
-  private final PrimitiveType primitiveType;
+  private final DistributedPrimitive.Type primitiveType;
   private final ServiceConfig serviceConfig;
   private final PrimitiveDescriptor descriptor;
   private final PrimitiveService service;
@@ -118,7 +118,7 @@ public class PrimaryBackupServiceContext implements ServiceContext {
   public PrimaryBackupServiceContext(
       String serverName,
       PrimitiveId primitiveId,
-      PrimitiveType primitiveType,
+      DistributedPrimitive.Type primitiveType,
       PrimitiveDescriptor descriptor,
       ThreadContext threadContext,
       ClusterMembershipService clusterMembershipService,
@@ -204,7 +204,7 @@ public class PrimaryBackupServiceContext implements ServiceContext {
   }
 
   @Override
-  public PrimitiveType serviceType() {
+  public DistributedPrimitive.Type serviceType() {
     return primitiveType;
   }
 

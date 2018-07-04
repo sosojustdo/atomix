@@ -26,8 +26,8 @@ import io.atomix.core.transaction.TransactionLog;
 import io.atomix.core.transaction.impl.CommitResult;
 import io.atomix.core.transaction.impl.PrepareResult;
 import io.atomix.core.transaction.impl.RollbackResult;
+import io.atomix.primitive.DistributedPrimitive;
 import io.atomix.primitive.PrimitiveManagementService;
-import io.atomix.primitive.PrimitiveType;
 import io.atomix.primitive.resource.PrimitiveResource;
 import io.atomix.primitive.service.PrimitiveService;
 import io.atomix.primitive.service.ServiceConfig;
@@ -40,7 +40,7 @@ import static com.google.common.base.MoreObjects.toStringHelper;
 /**
  * Consistent map primitive type.
  */
-public class AtomicMapType<K, V> implements PrimitiveType<AtomicMap.Builder<K, V>, AtomicMap.Config, AtomicMap<K, V>> {
+public class AtomicMapType<K, V> implements DistributedPrimitive.Type<AtomicMap.Builder<K, V>, AtomicMap.Config, AtomicMap<K, V>> {
   private static final String NAME = "atomic-map";
 
   private static final AtomicMapType INSTANCE = new AtomicMapType();
@@ -65,7 +65,7 @@ public class AtomicMapType<K, V> implements PrimitiveType<AtomicMap.Builder<K, V
   @Override
   public Namespace namespace() {
     return Namespace.builder()
-        .register(PrimitiveType.super.namespace())
+        .register(DistributedPrimitive.Type.super.namespace())
         .register(Namespaces.BASIC)
         .nextId(Namespaces.BEGIN_USER_CUSTOM_ID)
         .register(TransactionId.class)

@@ -16,7 +16,7 @@
 package io.atomix.protocols.raft.impl;
 
 import io.atomix.cluster.MemberId;
-import io.atomix.primitive.PrimitiveType;
+import io.atomix.primitive.DistributedPrimitive;
 import io.atomix.primitive.session.SessionMetadata;
 import io.atomix.protocols.raft.RaftClient;
 import io.atomix.protocols.raft.RaftMetadataClient;
@@ -92,7 +92,7 @@ public class DefaultRaftMetadataClient implements RaftMetadataClient {
   }
 
   @Override
-  public CompletableFuture<Set<SessionMetadata>> getSessions(PrimitiveType primitiveType) {
+  public CompletableFuture<Set<SessionMetadata>> getSessions(DistributedPrimitive.Type primitiveType) {
     return getMetadata().thenApply(response -> response.sessions()
         .stream()
         .filter(s -> s.primitiveType().equals(primitiveType.name()))
@@ -100,7 +100,7 @@ public class DefaultRaftMetadataClient implements RaftMetadataClient {
   }
 
   @Override
-  public CompletableFuture<Set<SessionMetadata>> getSessions(PrimitiveType primitiveType, String serviceName) {
+  public CompletableFuture<Set<SessionMetadata>> getSessions(DistributedPrimitive.Type primitiveType, String serviceName) {
     return getMetadata().thenApply(response -> response.sessions()
         .stream()
         .filter(s -> s.primitiveType().equals(primitiveType.name()) && s.primitiveName().equals(serviceName))

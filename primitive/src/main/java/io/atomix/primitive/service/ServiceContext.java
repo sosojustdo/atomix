@@ -16,8 +16,8 @@
 
 package io.atomix.primitive.service;
 
+import io.atomix.primitive.DistributedPrimitive;
 import io.atomix.primitive.PrimitiveId;
-import io.atomix.primitive.PrimitiveType;
 import io.atomix.primitive.operation.OperationType;
 import io.atomix.primitive.session.Session;
 import io.atomix.primitive.session.Sessions;
@@ -52,7 +52,7 @@ public interface ServiceContext {
    *
    * @return The state machine type.
    */
-  PrimitiveType serviceType();
+  DistributedPrimitive.Type serviceType();
 
   /**
    * Returns the service configuration.

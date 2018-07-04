@@ -47,7 +47,6 @@ import io.atomix.core.value.AtomicValue;
 import io.atomix.core.workqueue.WorkQueue;
 import io.atomix.primitive.DistributedPrimitive;
 import io.atomix.primitive.PrimitiveInfo;
-import io.atomix.primitive.PrimitiveType;
 import io.atomix.primitive.config.ConfigService;
 import io.atomix.primitive.config.impl.DefaultConfigService;
 import io.atomix.primitive.impl.DefaultPrimitiveTypeRegistry;
@@ -155,7 +154,7 @@ public class Atomix extends AtomixCluster implements PrimitivesService {
         classLoader,
         registry,
         new PolymorphicTypeMapper(PartitionGroup.Config.class, PartitionGroup.Type.class),
-        new PolymorphicTypeMapper(DistributedPrimitive.Config.class, PrimitiveType.class),
+        new PolymorphicTypeMapper(DistributedPrimitive.Config.class, DistributedPrimitive.Type.class),
         new PolymorphicTypeMapper(PrimitiveProtocol.Config.class, PrimitiveProtocol.Type.class),
         new PolymorphicTypeMapper(Profile.Config.class, Profile.Type.class),
         new PolymorphicTypeMapper(NodeDiscoveryProvider.Config.class, NodeDiscoveryProvider.Type.class));
@@ -335,7 +334,7 @@ public class Atomix extends AtomixCluster implements PrimitivesService {
   @Override
   public <B extends DistributedPrimitive.Builder<B, C, P>, C extends DistributedPrimitive.Config<C>, P extends DistributedPrimitive> B primitiveBuilder(
       String name,
-      PrimitiveType<B, C, P> primitiveType) {
+      DistributedPrimitive.Type<B, C, P> primitiveType) {
     return primitives.primitiveBuilder(name, primitiveType);
   }
 
@@ -430,12 +429,12 @@ public class Atomix extends AtomixCluster implements PrimitivesService {
   }
 
   @Override
-  public <P extends DistributedPrimitive> P getPrimitive(String name, PrimitiveType<?, ?, P> primitiveType) {
+  public <P extends DistributedPrimitive> P getPrimitive(String name, DistributedPrimitive.Type<?, ?, P> primitiveType) {
     return primitives.getPrimitive(name, primitiveType);
   }
 
   @Override
-  public <C extends DistributedPrimitive.Config<C>, P extends DistributedPrimitive> P getPrimitive(String name, PrimitiveType<?, C, P> primitiveType, C primitiveConfig) {
+  public <C extends DistributedPrimitive.Config<C>, P extends DistributedPrimitive> P getPrimitive(String name, DistributedPrimitive.Type<?, C, P> primitiveType, C primitiveConfig) {
     return primitives.getPrimitive(name, primitiveType, primitiveConfig);
   }
 
@@ -445,7 +444,7 @@ public class Atomix extends AtomixCluster implements PrimitivesService {
   }
 
   @Override
-  public Collection<PrimitiveInfo> getPrimitives(PrimitiveType primitiveType) {
+  public Collection<PrimitiveInfo> getPrimitives(DistributedPrimitive.Type primitiveType) {
     return primitives.getPrimitives(primitiveType);
   }
 
@@ -554,7 +553,7 @@ public class Atomix extends AtomixCluster implements PrimitivesService {
     return new DefaultPartitionService(
         clusterMembershipService,
         messagingService,
-        new DefaultPrimitiveTypeRegistry(registry.getTypes(PrimitiveType.class)),
+        new DefaultPrimitiveTypeRegistry(registry.getTypes(DistributedPrimitive.Type.class)),
         buildSystemPartitionGroup(config),
         partitionGroups,
         new DefaultPartitionGroupTypeRegistry(registry.getTypes(PartitionGroup.Type.class)));

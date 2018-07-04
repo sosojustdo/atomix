@@ -21,7 +21,6 @@ import io.atomix.core.collection.DistributedCollection;
 import io.atomix.core.set.DistributedSet;
 import io.atomix.primitive.DistributedPrimitive;
 import io.atomix.primitive.PrimitiveManagementService;
-import io.atomix.primitive.PrimitiveType;
 import io.atomix.primitive.SyncPrimitive;
 import io.atomix.utils.time.Versioned;
 
@@ -384,7 +383,7 @@ public interface AtomicMap<K, V> extends SyncPrimitive {
     private boolean nullValues = false;
 
     @Override
-    public PrimitiveType getType() {
+    public DistributedPrimitive.Type getType() {
       return AtomicMapType.instance();
     }
 

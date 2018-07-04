@@ -20,14 +20,14 @@ import com.google.common.base.Preconditions;
 import com.google.common.base.Supplier;
 import com.google.common.collect.Maps;
 import io.atomix.core.tree.AsyncAtomicDocumentTree;
-import io.atomix.core.tree.DocumentPath;
 import io.atomix.core.tree.AtomicDocumentTree;
+import io.atomix.core.tree.DocumentPath;
 import io.atomix.core.tree.DocumentTreeListener;
 import io.atomix.core.tree.DocumentTreeNode;
 import io.atomix.core.tree.IllegalDocumentModificationException;
 import io.atomix.core.tree.NoSuchDocumentPathException;
+import io.atomix.primitive.DistributedPrimitive;
 import io.atomix.primitive.Ordering;
-import io.atomix.primitive.PrimitiveType;
 import io.atomix.primitive.protocol.PrimitiveProtocol;
 import io.atomix.utils.time.Versioned;
 
@@ -69,7 +69,7 @@ public class DefaultAtomicDocumentTree<V> implements AtomicDocumentTree<V> {
   }
 
   @Override
-  public PrimitiveType type() {
+  public DistributedPrimitive.Type type() {
     return null;
   }
 

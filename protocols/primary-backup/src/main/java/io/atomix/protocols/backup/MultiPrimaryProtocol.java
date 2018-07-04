@@ -16,7 +16,7 @@
 package io.atomix.protocols.backup;
 
 import io.atomix.primitive.Consistency;
-import io.atomix.primitive.PrimitiveType;
+import io.atomix.primitive.DistributedPrimitive;
 import io.atomix.primitive.Recovery;
 import io.atomix.primitive.Replication;
 import io.atomix.primitive.partition.PartitionService;
@@ -99,7 +99,7 @@ public class MultiPrimaryProtocol implements PrimitiveProtocol {
   }
 
   @Override
-  public <S> ProxyClient<S> newProxy(String primitiveName, PrimitiveType primitiveType, Class<S> serviceType, ServiceConfig serviceConfig, PartitionService partitionService) {
+  public <S> ProxyClient<S> newProxy(String primitiveName, DistributedPrimitive.Type primitiveType, Class<S> serviceType, ServiceConfig serviceConfig, PartitionService partitionService) {
     Collection<SessionClient> partitions = partitionService.getPartitionGroup(this)
         .getPartitions()
         .stream()

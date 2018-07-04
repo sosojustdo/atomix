@@ -18,7 +18,6 @@ package io.atomix.core.set;
 import io.atomix.core.collection.DistributedCollection;
 import io.atomix.primitive.DistributedPrimitive;
 import io.atomix.primitive.PrimitiveManagementService;
-import io.atomix.primitive.PrimitiveType;
 
 import java.util.Set;
 
@@ -36,7 +35,7 @@ public interface DistributedSet<E> extends DistributedCollection<E>, Set<E> {
    */
   class Config extends DistributedPrimitive.Config<Config> {
     @Override
-    public PrimitiveType getType() {
+    public DistributedPrimitive.Type getType() {
       return DistributedSetType.instance();
     }
   }

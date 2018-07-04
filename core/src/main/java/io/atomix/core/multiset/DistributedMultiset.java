@@ -20,7 +20,6 @@ import io.atomix.core.collection.DistributedCollection;
 import io.atomix.core.set.DistributedSet;
 import io.atomix.primitive.DistributedPrimitive;
 import io.atomix.primitive.PrimitiveManagementService;
-import io.atomix.primitive.PrimitiveType;
 
 import java.util.Spliterator;
 import java.util.Spliterators;
@@ -49,7 +48,7 @@ public interface DistributedMultiset<E> extends DistributedCollection<E>, Multis
    */
   class Config extends DistributedPrimitive.Config<Config> {
     @Override
-    public PrimitiveType getType() {
+    public DistributedPrimitive.Type getType() {
       return DistributedMultisetType.instance();
     }
   }

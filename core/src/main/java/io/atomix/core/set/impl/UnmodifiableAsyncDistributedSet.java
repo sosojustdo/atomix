@@ -22,7 +22,7 @@ import io.atomix.core.set.DistributedSet;
 import io.atomix.core.set.DistributedSetType;
 import io.atomix.core.transaction.TransactionId;
 import io.atomix.core.transaction.TransactionLog;
-import io.atomix.primitive.PrimitiveType;
+import io.atomix.primitive.DistributedPrimitive;
 
 import java.time.Duration;
 import java.util.concurrent.CompletableFuture;
@@ -38,7 +38,7 @@ public class UnmodifiableAsyncDistributedSet<E> extends UnmodifiableAsyncDistrib
   }
 
   @Override
-  public PrimitiveType type() {
+  public DistributedPrimitive.Type type() {
     return DistributedSetType.instance();
   }
 

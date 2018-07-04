@@ -22,8 +22,8 @@ import io.atomix.core.collection.AsyncIterator;
 import io.atomix.core.collection.CollectionEvent;
 import io.atomix.core.collection.CollectionEventListener;
 import io.atomix.core.collection.DistributedCollection;
+import io.atomix.primitive.DistributedPrimitive;
 import io.atomix.primitive.PrimitiveState;
-import io.atomix.primitive.PrimitiveType;
 import io.atomix.primitive.protocol.PrimitiveProtocol;
 
 import java.time.Duration;
@@ -63,7 +63,7 @@ public class TranscodingAsyncDistributedCollection<E1, E2> implements AsyncDistr
   }
 
   @Override
-  public PrimitiveType type() {
+  public Type type() {
     return backingCollection.type();
   }
 

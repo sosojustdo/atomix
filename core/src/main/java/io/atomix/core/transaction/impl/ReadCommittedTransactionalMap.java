@@ -17,10 +17,8 @@ package io.atomix.core.transaction.impl;
 
 import com.google.common.collect.Lists;
 import com.google.common.collect.Maps;
-
 import io.atomix.core.map.AsyncAtomicMap;
 import io.atomix.core.map.impl.MapUpdate;
-import io.atomix.core.map.impl.MapUpdate.Type;
 import io.atomix.core.transaction.TransactionId;
 import io.atomix.core.transaction.TransactionLog;
 import io.atomix.primitive.protocol.PrimitiveProtocol;
@@ -61,14 +59,14 @@ public class ReadCommittedTransactionalMap<K, V> extends TransactionalMapPartici
         .thenApply(versioned -> {
           if (versioned == null) {
             updates.put(key, MapUpdate.<K, V>builder()
-                .withType(Type.PUT_IF_ABSENT)
+                .withType(MapUpdate.Type.PUT_IF_ABSENT)
                 .withKey(key)
                 .withValue(value)
                 .build());
             return null;
           } else {
             updates.put(key, MapUpdate.<K, V>builder()
-                .withType(Type.PUT_IF_VERSION_MATCH)
+                .withType(MapUpdate.Type.PUT_IF_VERSION_MATCH)
                 .withKey(key)
                 .withValue(value)
                 .withVersion(versioned.version())
@@ -84,7 +82,7 @@ public class ReadCommittedTransactionalMap<K, V> extends TransactionalMapPartici
         .thenApply(versioned -> {
           if (versioned == null) {
             updates.put(key, MapUpdate.<K, V>builder()
-                .withType(Type.PUT_IF_ABSENT)
+                .withType(MapUpdate.Type.PUT_IF_ABSENT)
                 .withKey(key)
                 .withValue(value)
                 .build());
@@ -101,7 +99,7 @@ public class ReadCommittedTransactionalMap<K, V> extends TransactionalMapPartici
         .thenApply(versioned -> {
           if (versioned != null) {
             updates.put(key, MapUpdate.<K, V>builder()
-                .withType(Type.REMOVE_IF_VERSION_MATCH)
+                .withType(MapUpdate.Type.REMOVE_IF_VERSION_MATCH)
                 .withKey(key)
                 .withVersion(versioned.version())
                 .build());
@@ -117,7 +115,7 @@ public class ReadCommittedTransactionalMap<K, V> extends TransactionalMapPartici
         .thenApply(versioned -> {
           if (versioned != null && Objects.equals(versioned.value(), value)) {
             updates.put(key, MapUpdate.<K, V>builder()
-                .withType(Type.REMOVE_IF_VERSION_MATCH)
+                .withType(MapUpdate.Type.REMOVE_IF_VERSION_MATCH)
                 .withKey(key)
                 .withVersion(versioned.version())
                 .build());
@@ -133,7 +131,7 @@ public class ReadCommittedTransactionalMap<K, V> extends TransactionalMapPartici
         .thenApply(versioned -> {
           if (versioned != null && Objects.equals(versioned.value(), oldValue)) {
             updates.put(key, MapUpdate.<K, V>builder()
-                .withType(Type.PUT_IF_VERSION_MATCH)
+                .withType(MapUpdate.Type.PUT_IF_VERSION_MATCH)
                 .withKey(key)
                 .withValue(newValue)
                 .withVersion(versioned.version())

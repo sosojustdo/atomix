@@ -27,7 +27,7 @@ public interface PrimitiveTypeRegistry {
    *
    * @return the collection of registered primitive types
    */
-  Collection<PrimitiveType> getPrimitiveTypes();
+  Collection<DistributedPrimitive.Type> getPrimitiveTypes();
 
   /**
    * Returns the primitive type for the given name.
@@ -35,6 +35,6 @@ public interface PrimitiveTypeRegistry {
    * @param typeName the primitive type name
    * @return the primitive type
    */
-  PrimitiveType getPrimitiveType(String typeName);
+  DistributedPrimitive.Type getPrimitiveType(String typeName);
 
 }

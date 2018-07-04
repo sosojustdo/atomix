@@ -21,7 +21,7 @@ import io.atomix.core.transaction.AsyncTransactionalMap;
 import io.atomix.core.transaction.TransactionId;
 import io.atomix.core.transaction.TransactionParticipant;
 import io.atomix.core.transaction.TransactionalMap;
-import io.atomix.primitive.PrimitiveType;
+import io.atomix.primitive.DistributedPrimitive;
 
 import java.time.Duration;
 import java.util.concurrent.CompletableFuture;
@@ -47,7 +47,7 @@ public abstract class TransactionalMapParticipant<K, V> implements AsyncTransact
   }
 
   @Override
-  public PrimitiveType type() {
+  public DistributedPrimitive.Type type() {
     return consistentMap.type();
   }
 

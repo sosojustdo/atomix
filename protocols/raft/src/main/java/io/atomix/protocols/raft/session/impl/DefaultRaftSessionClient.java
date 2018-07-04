@@ -16,14 +16,14 @@
 package io.atomix.protocols.raft.session.impl;
 
 import io.atomix.cluster.MemberId;
+import io.atomix.primitive.DistributedPrimitive;
 import io.atomix.primitive.PrimitiveState;
-import io.atomix.primitive.PrimitiveType;
-import io.atomix.primitive.session.SessionClient;
 import io.atomix.primitive.event.EventType;
 import io.atomix.primitive.event.PrimitiveEvent;
 import io.atomix.primitive.operation.PrimitiveOperation;
 import io.atomix.primitive.partition.PartitionId;
 import io.atomix.primitive.service.ServiceConfig;
+import io.atomix.primitive.session.SessionClient;
 import io.atomix.primitive.session.SessionId;
 import io.atomix.protocols.raft.ReadConsistency;
 import io.atomix.protocols.raft.protocol.RaftClientProtocol;
@@ -60,7 +60,7 @@ import static com.google.common.base.Preconditions.checkNotNull;
  */
 public class DefaultRaftSessionClient implements RaftSessionClient {
   private final String serviceName;
-  private final PrimitiveType primitiveType;
+  private final DistributedPrimitive.Type primitiveType;
   private final ServiceConfig serviceConfig;
   private final PartitionId partitionId;
   private final Duration minTimeout;
@@ -78,7 +78,7 @@ public class DefaultRaftSessionClient implements RaftSessionClient {
 
   public DefaultRaftSessionClient(
       String serviceName,
-      PrimitiveType primitiveType,
+      DistributedPrimitive.Type primitiveType,
       ServiceConfig serviceConfig,
       PartitionId partitionId,
       RaftClientProtocol protocol,
@@ -109,7 +109,7 @@ public class DefaultRaftSessionClient implements RaftSessionClient {
   }
 
   @Override
-  public PrimitiveType type() {
+  public DistributedPrimitive.Type type() {
     return primitiveType;
   }
 

@@ -16,14 +16,14 @@
 package io.atomix.protocols.raft.impl;
 
 import io.atomix.cluster.MemberId;
-import io.atomix.primitive.PrimitiveType;
+import io.atomix.primitive.DistributedPrimitive;
 import io.atomix.primitive.Recovery;
+import io.atomix.primitive.partition.PartitionId;
+import io.atomix.primitive.service.ServiceConfig;
 import io.atomix.primitive.session.SessionClient;
 import io.atomix.primitive.session.impl.BlockingAwareSessionClient;
 import io.atomix.primitive.session.impl.RecoveringSessionClient;
 import io.atomix.primitive.session.impl.RetryingSessionClient;
-import io.atomix.primitive.partition.PartitionId;
-import io.atomix.primitive.service.ServiceConfig;
 import io.atomix.protocols.raft.RaftClient;
 import io.atomix.protocols.raft.RaftMetadataClient;
 import io.atomix.protocols.raft.protocol.RaftClientProtocol;
@@ -124,7 +124,7 @@ public class DefaultRaftClient implements RaftClient {
   }
 
   @Override
-  public RaftSessionClient.Builder sessionBuilder(String primitiveName, PrimitiveType primitiveType, ServiceConfig serviceConfig) {
+  public RaftSessionClient.Builder sessionBuilder(String primitiveName, DistributedPrimitive.Type primitiveType, ServiceConfig serviceConfig) {
     return new RaftSessionClient.Builder() {
       @Override
       public SessionClient build() {

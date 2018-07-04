@@ -18,8 +18,8 @@ package io.atomix.core.counter;
 import io.atomix.core.counter.impl.AtomicCounterResource;
 import io.atomix.core.counter.impl.DefaultAtomicCounterBuilder;
 import io.atomix.core.counter.impl.DefaultAtomicCounterService;
+import io.atomix.primitive.DistributedPrimitive;
 import io.atomix.primitive.PrimitiveManagementService;
-import io.atomix.primitive.PrimitiveType;
 import io.atomix.primitive.resource.PrimitiveResource;
 import io.atomix.primitive.service.PrimitiveService;
 import io.atomix.primitive.service.ServiceConfig;
@@ -29,7 +29,7 @@ import static com.google.common.base.MoreObjects.toStringHelper;
 /**
  * Atomic counter primitive type.
  */
-public class AtomicCounterType implements PrimitiveType<AtomicCounter.Builder, AtomicCounter.Config, AtomicCounter> {
+public class AtomicCounterType implements DistributedPrimitive.Type<AtomicCounter.Builder, AtomicCounter.Config, AtomicCounter> {
   private static final String NAME = "counter";
   private static final AtomicCounterType INSTANCE = new AtomicCounterType();
 

@@ -15,8 +15,8 @@
  */
 package io.atomix.primitive.proxy;
 
+import io.atomix.primitive.DistributedPrimitive;
 import io.atomix.primitive.PrimitiveState;
-import io.atomix.primitive.PrimitiveType;
 import io.atomix.primitive.operation.PrimitiveOperation;
 import io.atomix.utils.concurrent.ThreadContext;
 
@@ -41,7 +41,7 @@ public interface ProxySession<S> {
    *
    * @return The client proxy type.
    */
-  PrimitiveType type();
+  DistributedPrimitive.Type type();
 
   /**
    * Returns the session thread context.

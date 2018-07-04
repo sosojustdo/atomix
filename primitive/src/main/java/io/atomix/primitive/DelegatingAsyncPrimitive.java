@@ -40,7 +40,7 @@ public abstract class DelegatingAsyncPrimitive implements AsyncPrimitive {
   }
 
   @Override
-  public PrimitiveType type() {
+  public Type type() {
     return primitive.type();
   }
 

@@ -17,8 +17,8 @@ package io.atomix.protocols.backup.impl;
 
 import com.google.common.collect.Maps;
 import io.atomix.cluster.ClusterMembershipService;
+import io.atomix.primitive.DistributedPrimitive;
 import io.atomix.primitive.PrimitiveId;
-import io.atomix.primitive.PrimitiveType;
 import io.atomix.primitive.PrimitiveTypeRegistry;
 import io.atomix.primitive.partition.GroupMember;
 import io.atomix.primitive.partition.ManagedMemberGroupService;
@@ -146,7 +146,7 @@ public class PrimaryBackupServerContext implements Managed<Void> {
    */
   private CompletableFuture<PrimaryBackupServiceContext> getService(PrimitiveRequest request) {
     return services.computeIfAbsent(request.primitive().name(), n -> {
-      PrimitiveType primitiveType = primitiveTypes.getPrimitiveType(request.primitive().type());
+      DistributedPrimitive.Type primitiveType = primitiveTypes.getPrimitiveType(request.primitive().type());
       PrimaryBackupServiceContext service = new PrimaryBackupServiceContext(
           serverName,
           PrimitiveId.from(request.primitive().name()),

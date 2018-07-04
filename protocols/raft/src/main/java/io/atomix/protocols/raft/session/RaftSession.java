@@ -17,7 +17,7 @@ package io.atomix.protocols.raft.session;
 
 import com.google.common.collect.Lists;
 import io.atomix.cluster.MemberId;
-import io.atomix.primitive.PrimitiveType;
+import io.atomix.primitive.DistributedPrimitive;
 import io.atomix.primitive.event.PrimitiveEvent;
 import io.atomix.primitive.operation.OperationType;
 import io.atomix.primitive.session.Session;
@@ -80,7 +80,7 @@ public class RaftSession extends AbstractSession {
       SessionId sessionId,
       MemberId member,
       String name,
-      PrimitiveType primitiveType,
+      DistributedPrimitive.Type primitiveType,
       ReadConsistency readConsistency,
       long minTimeout,
       long maxTimeout,
