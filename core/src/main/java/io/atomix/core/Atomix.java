@@ -60,7 +60,6 @@ import io.atomix.primitive.partition.PartitionService;
 import io.atomix.primitive.partition.impl.DefaultPartitionGroupTypeRegistry;
 import io.atomix.primitive.partition.impl.DefaultPartitionService;
 import io.atomix.primitive.protocol.PrimitiveProtocol;
-import io.atomix.primitive.protocol.PrimitiveProtocolConfig;
 import io.atomix.utils.concurrent.Futures;
 import io.atomix.utils.concurrent.SingleThreadContext;
 import io.atomix.utils.concurrent.ThreadContext;
@@ -159,7 +158,7 @@ public class Atomix extends AtomixCluster implements PrimitivesService {
         registry,
         new PolymorphicTypeMapper(PartitionGroup.Config.class, PartitionGroup.Type.class),
         new PolymorphicTypeMapper(PrimitiveConfig.class, PrimitiveType.class),
-        new PolymorphicTypeMapper(PrimitiveProtocolConfig.class, PrimitiveProtocol.Type.class),
+        new PolymorphicTypeMapper(PrimitiveProtocol.Config.class, PrimitiveProtocol.Type.class),
         new PolymorphicTypeMapper(Profile.Config.class, Profile.Type.class),
         new PolymorphicTypeMapper(NodeDiscoveryProvider.Config.class, NodeDiscoveryProvider.Type.class));
     return mapper.loadFile(AtomixConfig.class, file, RESOURCES);

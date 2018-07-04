@@ -46,7 +46,7 @@ public class MultiRaftProtocol implements PrimitiveProtocol {
    * @return a new multi-Raft protocol builder
    */
   public static Builder builder() {
-    return new Builder(new MultiRaftProtocolConfig());
+    return new Builder(new Config());
   }
 
   /**
@@ -56,13 +56,13 @@ public class MultiRaftProtocol implements PrimitiveProtocol {
    * @return the multi-Raft protocol builder
    */
   public static Builder builder(String group) {
-    return new Builder(new MultiRaftProtocolConfig().setGroup(group));
+    return new Builder(new Config().setGroup(group));
   }
 
   /**
    * Multi-Raft protocol type.
    */
-  public static final class Type implements PrimitiveProtocol.Type<MultiRaftProtocolConfig> {
+  public static final class Type implements PrimitiveProtocol.Type<Config> {
     private static final String NAME = "multi-raft";
 
     @Override
@@ -71,19 +71,19 @@ public class MultiRaftProtocol implements PrimitiveProtocol {
     }
 
     @Override
-    public MultiRaftProtocolConfig newConfig() {
-      return new MultiRaftProtocolConfig();
+    public Config newConfig() {
+      return new Config();
     }
 
     @Override
-    public PrimitiveProtocol newProtocol(MultiRaftProtocolConfig config) {
+    public PrimitiveProtocol newProtocol(Config config) {
       return new MultiRaftProtocol(config);
     }
   }
 
-  private final MultiRaftProtocolConfig config;
+  private final Config config;
 
-  protected MultiRaftProtocol(MultiRaftProtocolConfig config) {
+  protected MultiRaftProtocol(Config config) {
     this.config = checkNotNull(config, "config cannot be null");
   }
 
@@ -117,10 +117,199 @@ public class MultiRaftProtocol implements PrimitiveProtocol {
   }
 
   /**
+   * Raft protocol configuration.
+   */
+  public static class Config extends PrimitiveProtocol.Config<Config> {
+    private Partitioner<String> partitioner = Partitioner.MURMUR3;
+    private Duration minTimeout = Duration.ofMillis(250);
+    private Duration maxTimeout = Duration.ofSeconds(30);
+    private ReadConsistency readConsistency = ReadConsistency.SEQUENTIAL;
+    private CommunicationStrategy communicationStrategy = CommunicationStrategy.LEADER;
+    private Recovery recoveryStrategy = Recovery.RECOVER;
+    private int maxRetries = 0;
+    private Duration retryDelay = Duration.ofMillis(100);
+
+    @Override
+    public PrimitiveProtocol.Type getType() {
+      return MultiRaftProtocol.TYPE;
+    }
+
+    /**
+     * Returns the protocol partitioner.
+     *
+     * @return the protocol partitioner
+     */
+    public Partitioner<String> getPartitioner() {
+      return partitioner;
+    }
+
+    /**
+     * Sets the protocol partitioner.
+     *
+     * @param partitioner the protocol partitioner
+     * @return the protocol configuration
+     */
+    public Config setPartitioner(Partitioner<String> partitioner) {
+      this.partitioner = partitioner;
+      return this;
+    }
+
+    /**
+     * Returns the minimum session timeout.
+     *
+     * @return the minimum session timeout
+     */
+    public Duration getMinTimeout() {
+      return minTimeout;
+    }
+
+    /**
+     * Sets the minimum session timeout.
+     *
+     * @param minTimeout the minimum session timeout
+     * @return the Raft protocol configuration
+     */
+    public Config setMinTimeout(Duration minTimeout) {
+      this.minTimeout = minTimeout;
+      return this;
+    }
+
+    /**
+     * Returns the maximum session timeout.
+     *
+     * @return the maximum session timeout
+     */
+    public Duration getMaxTimeout() {
+      return maxTimeout;
+    }
+
+    /**
+     * Sets the maximum session timeout.
+     *
+     * @param maxTimeout the maximum session timeout
+     * @return the Raft protocol configuration
+     */
+    public Config setMaxTimeout(Duration maxTimeout) {
+      this.maxTimeout = maxTimeout;
+      return this;
+    }
+
+    /**
+     * Returns the read consistency level.
+     *
+     * @return the read consistency level
+     */
+    public ReadConsistency getReadConsistency() {
+      return readConsistency;
+    }
+
+    /**
+     * Sets the read consistency level.
+     *
+     * @param readConsistency the read consistency level
+     * @return the Raft protocol configuration
+     */
+    public Config setReadConsistency(ReadConsistency readConsistency) {
+      this.readConsistency = readConsistency;
+      return this;
+    }
+
+    /**
+     * Returns the client communication strategy.
+     *
+     * @return the client communication strategy
+     */
+    public CommunicationStrategy getCommunicationStrategy() {
+      return communicationStrategy;
+    }
+
+    /**
+     * Sets the client communication strategy.
+     *
+     * @param communicationStrategy the client communication strategy
+     * @return the Raft protocol configuration
+     */
+    public Config setCommunicationStrategy(CommunicationStrategy communicationStrategy) {
+      this.communicationStrategy = communicationStrategy;
+      return this;
+    }
+
+    /**
+     * Returns the client recovery strategy.
+     *
+     * @return the client recovery strategy
+     */
+    public Recovery getRecoveryStrategy() {
+      return recoveryStrategy;
+    }
+
+    /**
+     * Sets the client recovery strategy.
+     *
+     * @param recoveryStrategy the client recovery strategy
+     * @return the Raft protocol configuration
+     */
+    public Config setRecoveryStrategy(Recovery recoveryStrategy) {
+      this.recoveryStrategy = recoveryStrategy;
+      return this;
+    }
+
+    /**
+     * Returns the maximum allowed number of retries.
+     *
+     * @return the maximum allowed number of retries
+     */
+    public int getMaxRetries() {
+      return maxRetries;
+    }
+
+    /**
+     * Sets the maximum allowed number of retries.
+     *
+     * @param maxRetries the maximum allowed number of retries
+     * @return the protocol configuration
+     */
+    public Config setMaxRetries(int maxRetries) {
+      this.maxRetries = maxRetries;
+      return this;
+    }
+
+    /**
+     * Returns the retry delay.
+     *
+     * @return the retry delay
+     */
+    public Duration getRetryDelay() {
+      return retryDelay;
+    }
+
+    /**
+     * Sets the retry delay.
+     *
+     * @param retryDelayMillis the retry delay in milliseconds
+     * @return the protocol configuration
+     */
+    public Config setRetryDelayMillis(long retryDelayMillis) {
+      return setRetryDelay(Duration.ofMillis(retryDelayMillis));
+    }
+
+    /**
+     * Sets the retry delay.
+     *
+     * @param retryDelay the retry delay
+     * @return the protocol configuration
+     */
+    public Config setRetryDelay(Duration retryDelay) {
+      this.retryDelay = retryDelay;
+      return this;
+    }
+  }
+
+  /**
    * Multi-Raft protocol builder.
    */
-  public static class Builder extends PrimitiveProtocol.Builder<MultiRaftProtocolConfig, MultiRaftProtocol> {
-    protected Builder(MultiRaftProtocolConfig config) {
+  public static class Builder extends PrimitiveProtocol.Builder<Config, MultiRaftProtocol> {
+    protected Builder(Config config) {
       super(config);
     }
 

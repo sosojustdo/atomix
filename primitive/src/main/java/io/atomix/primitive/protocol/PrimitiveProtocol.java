@@ -20,6 +20,7 @@ import io.atomix.primitive.partition.PartitionService;
 import io.atomix.primitive.proxy.ProxyClient;
 import io.atomix.primitive.service.ServiceConfig;
 import io.atomix.utils.ConfiguredType;
+import io.atomix.utils.config.TypedConfig;
 
 /**
  * Primitive protocol.
@@ -29,7 +30,7 @@ public interface PrimitiveProtocol {
   /**
    * Distributed primitive protocol type.
    */
-  interface Type<C extends PrimitiveProtocolConfig<C>> extends ConfiguredType<C>, Comparable<Type<C>> {
+  interface Type<C extends Config<C>> extends ConfiguredType<C>, Comparable<Type<C>> {
 
     /**
      * Creates a new protocol instance.
@@ -77,9 +78,37 @@ public interface PrimitiveProtocol {
       PartitionService partitionService);
 
   /**
+   * Primitive protocol configuration.
+   */
+  abstract class Config<C extends Config<C>> implements TypedConfig<Type> {
+    private String group;
+
+    /**
+     * Returns the protocol group.
+     *
+     * @return the protocol group
+     */
+    public String getGroup() {
+      return group;
+    }
+
+    /**
+     * Sets the protocol group.
+     *
+     * @param group the protocol group
+     * @return the protocol configuration
+     */
+    @SuppressWarnings("unchecked")
+    public C setGroup(String group) {
+      this.group = group;
+      return (C) this;
+    }
+  }
+
+  /**
    * Primitive protocol.
    */
-  abstract class Builder<C extends PrimitiveProtocolConfig<C>, P extends PrimitiveProtocol> implements io.atomix.utils.Builder<P> {
+  abstract class Builder<C extends Config<C>, P extends PrimitiveProtocol> implements io.atomix.utils.Builder<P> {
     protected final C config;
 
     protected Builder(C config) {

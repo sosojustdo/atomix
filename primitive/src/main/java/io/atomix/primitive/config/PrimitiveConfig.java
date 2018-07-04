@@ -16,7 +16,7 @@
 package io.atomix.primitive.config;
 
 import io.atomix.primitive.PrimitiveType;
-import io.atomix.primitive.protocol.PrimitiveProtocolConfig;
+import io.atomix.primitive.protocol.PrimitiveProtocol;
 import io.atomix.utils.config.NamedConfig;
 import io.atomix.utils.config.TypedConfig;
 import io.atomix.utils.serializer.NamespaceConfig;
@@ -29,7 +29,7 @@ public abstract class PrimitiveConfig<C extends PrimitiveConfig<C>> implements T
 
   private String name;
   private NamespaceConfig namespaceConfig;
-  private PrimitiveProtocolConfig protocolConfig;
+  private PrimitiveProtocol.Config protocolConfig;
   private boolean cacheEnabled = false;
   private int cacheSize = DEFAULT_CACHE_SIZE;
   private boolean readOnly = false;
@@ -72,7 +72,7 @@ public abstract class PrimitiveConfig<C extends PrimitiveConfig<C>> implements T
    *
    * @return the protocol configuration
    */
-  public PrimitiveProtocolConfig getProtocolConfig() {
+  public PrimitiveProtocol.Config getProtocolConfig() {
     return protocolConfig;
   }
 
@@ -83,7 +83,7 @@ public abstract class PrimitiveConfig<C extends PrimitiveConfig<C>> implements T
    * @return the primitive configuration
    */
   @SuppressWarnings("unchecked")
-  public C setProtocolConfig(PrimitiveProtocolConfig protocolConfig) {
+  public C setProtocolConfig(PrimitiveProtocol.Config protocolConfig) {
     this.protocolConfig = protocolConfig;
     return (C) this;
   }

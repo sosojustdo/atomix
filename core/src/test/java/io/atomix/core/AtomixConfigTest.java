@@ -28,9 +28,8 @@ import io.atomix.core.value.AtomicValueConfig;
 import io.atomix.primitive.Recovery;
 import io.atomix.primitive.Replication;
 import io.atomix.protocols.backup.MultiPrimaryProtocol;
-import io.atomix.protocols.backup.MultiPrimaryProtocolConfig;
 import io.atomix.protocols.backup.partition.PrimaryBackupPartitionGroup;
-import io.atomix.protocols.raft.MultiRaftProtocolConfig;
+import io.atomix.protocols.raft.MultiRaftProtocol;
 import io.atomix.protocols.raft.ReadConsistency;
 import io.atomix.protocols.raft.partition.RaftPartitionGroup;
 import io.atomix.utils.memory.MemorySize;
@@ -120,14 +119,14 @@ public class AtomixConfigTest {
     DistributedSetConfig bar = config.getPrimitive("bar");
     assertTrue(bar.isCacheEnabled());
 
-    MultiPrimaryProtocolConfig multiPrimary = (MultiPrimaryProtocolConfig) bar.getProtocolConfig();
+    MultiPrimaryProtocol.Config multiPrimary = (MultiPrimaryProtocol.Config) bar.getProtocolConfig();
     assertEquals(MultiPrimaryProtocol.TYPE, multiPrimary.getType());
     assertEquals(Replication.SYNCHRONOUS, multiPrimary.getReplication());
     assertEquals(Duration.ofSeconds(1), multiPrimary.getRetryDelay());
 
     AtomicValueConfig baz = config.getPrimitive("baz");
 
-    MultiRaftProtocolConfig multiRaft = (MultiRaftProtocolConfig) baz.getProtocolConfig();
+    MultiRaftProtocol.Config multiRaft = (MultiRaftProtocol.Config) baz.getProtocolConfig();
     assertEquals(ReadConsistency.SEQUENTIAL, multiRaft.getReadConsistency());
     assertEquals(Recovery.RECOVER, multiRaft.getRecoveryStrategy());
     assertEquals(Duration.ofSeconds(2), multiRaft.getRetryDelay());

@@ -19,13 +19,12 @@ import com.google.common.base.Joiner;
 import io.atomix.primitive.config.PrimitiveConfig;
 import io.atomix.primitive.partition.PartitionGroup;
 import io.atomix.primitive.protocol.PrimitiveProtocol;
-import io.atomix.primitive.protocol.PrimitiveProtocolConfig;
 import io.atomix.utils.Builder;
 import io.atomix.utils.config.ConfigurationException;
 import io.atomix.utils.serializer.Namespace;
+import io.atomix.utils.serializer.NamespaceConfig;
 import io.atomix.utils.serializer.Namespaces;
 import io.atomix.utils.serializer.Serializer;
-import io.atomix.utils.serializer.NamespaceConfig;
 
 import java.util.Collection;
 import java.util.concurrent.CompletableFuture;
@@ -162,7 +161,7 @@ public abstract class DistributedPrimitiveBuilder<B extends DistributedPrimitive
   public PrimitiveProtocol protocol() {
     PrimitiveProtocol protocol = this.protocol;
     if (protocol == null) {
-      PrimitiveProtocolConfig<?> protocolConfig = config.getProtocolConfig();
+      PrimitiveProtocol.Config<?> protocolConfig = config.getProtocolConfig();
       if (protocolConfig == null) {
         Collection<PartitionGroup> partitionGroups = managementService.getPartitionService().getPartitionGroups();
         if (partitionGroups.size() == 1) {

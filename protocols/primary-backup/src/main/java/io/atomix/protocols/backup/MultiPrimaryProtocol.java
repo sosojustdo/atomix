@@ -47,7 +47,7 @@ public class MultiPrimaryProtocol implements PrimitiveProtocol {
    * @return a new multi-primary protocol builder
    */
   public static Builder builder() {
-    return new Builder(new MultiPrimaryProtocolConfig());
+    return new Builder(new Config());
   }
 
   /**
@@ -57,13 +57,13 @@ public class MultiPrimaryProtocol implements PrimitiveProtocol {
    * @return a new multi-primary protocol builder for the given group
    */
   public static Builder builder(String group) {
-    return new Builder(new MultiPrimaryProtocolConfig().setGroup(group));
+    return new Builder(new Config().setGroup(group));
   }
 
   /**
    * Multi-primary protocol type.
    */
-  public static final class Type implements PrimitiveProtocol.Type<MultiPrimaryProtocolConfig> {
+  public static final class Type implements PrimitiveProtocol.Type<Config> {
     private static final String NAME = "multi-primary";
 
     @Override
@@ -72,19 +72,19 @@ public class MultiPrimaryProtocol implements PrimitiveProtocol {
     }
 
     @Override
-    public MultiPrimaryProtocolConfig newConfig() {
-      return new MultiPrimaryProtocolConfig();
+    public Config newConfig() {
+      return new Config();
     }
 
     @Override
-    public PrimitiveProtocol newProtocol(MultiPrimaryProtocolConfig config) {
+    public PrimitiveProtocol newProtocol(Config config) {
       return new MultiPrimaryProtocol(config);
     }
   }
 
-  protected final MultiPrimaryProtocolConfig config;
+  protected final Config config;
 
-  protected MultiPrimaryProtocol(MultiPrimaryProtocolConfig config) {
+  protected MultiPrimaryProtocol(Config config) {
     this.config = config;
   }
 
@@ -125,10 +125,178 @@ public class MultiPrimaryProtocol implements PrimitiveProtocol {
   }
 
   /**
+   * Multi-primary protocol configuration.
+   */
+  public static class Config extends PrimitiveProtocol.Config<Config> {
+    private Partitioner<String> partitioner = Partitioner.MURMUR3;
+    private Consistency consistency = Consistency.SEQUENTIAL;
+    private Replication replication = Replication.ASYNCHRONOUS;
+    private Recovery recovery = Recovery.RECOVER;
+    private int backups = 1;
+    private int maxRetries = 0;
+    private Duration retryDelay = Duration.ofMillis(100);
+
+    @Override
+    public PrimitiveProtocol.Type getType() {
+      return MultiPrimaryProtocol.TYPE;
+    }
+
+    /**
+     * Returns the protocol partitioner.
+     *
+     * @return the protocol partitioner
+     */
+    public Partitioner<String> getPartitioner() {
+      return partitioner;
+    }
+
+    /**
+     * Sets the protocol partitioner.
+     *
+     * @param partitioner the protocol partitioner
+     * @return the protocol configuration
+     */
+    public Config setPartitioner(Partitioner<String> partitioner) {
+      this.partitioner = partitioner;
+      return this;
+    }
+
+    /**
+     * Returns the consistency level.
+     *
+     * @return the consistency level
+     */
+    public Consistency getConsistency() {
+      return consistency;
+    }
+
+    /**
+     * Sets the consistency level.
+     *
+     * @param consistency the consistency level
+     * @return the protocol configuration
+     */
+    public Config setConsistency(Consistency consistency) {
+      this.consistency = consistency;
+      return this;
+    }
+
+    /**
+     * Returns the replication level.
+     *
+     * @return the replication level
+     */
+    public Replication getReplication() {
+      return replication;
+    }
+
+    /**
+     * Sets the replication level.
+     *
+     * @param replication the replication level
+     * @return the protocol configuration
+     */
+    public Config setReplication(Replication replication) {
+      this.replication = replication;
+      return this;
+    }
+
+    /**
+     * Returns the recovery strategy.
+     *
+     * @return the recovery strategy
+     */
+    public Recovery getRecovery() {
+      return recovery;
+    }
+
+    /**
+     * Sets the recovery strategy.
+     *
+     * @param recovery the recovery strategy
+     * @return the protocol configuration
+     */
+    public Config setRecovery(Recovery recovery) {
+      this.recovery = recovery;
+      return this;
+    }
+
+    /**
+     * Returns the number of backups.
+     *
+     * @return the number of backups
+     */
+    public int getBackups() {
+      return backups;
+    }
+
+    /**
+     * Sets the number of backups.
+     *
+     * @param numBackups the number of backups
+     * @return the protocol configuration
+     */
+    public Config setBackups(int numBackups) {
+      this.backups = numBackups;
+      return this;
+    }
+
+    /**
+     * Returns the maximum allowed number of retries.
+     *
+     * @return the maximum allowed number of retries
+     */
+    public int getMaxRetries() {
+      return maxRetries;
+    }
+
+    /**
+     * Sets the maximum allowed number of retries.
+     *
+     * @param maxRetries the maximum allowed number of retries
+     * @return the protocol configuration
+     */
+    public Config setMaxRetries(int maxRetries) {
+      this.maxRetries = maxRetries;
+      return this;
+    }
+
+    /**
+     * Returns the retry delay.
+     *
+     * @return the retry delay
+     */
+    public Duration getRetryDelay() {
+      return retryDelay;
+    }
+
+    /**
+     * Sets the retry delay.
+     *
+     * @param retryDelayMillis the retry delay in milliseconds
+     * @return the protocol configuration
+     */
+    public Config setRetryDelayMillis(long retryDelayMillis) {
+      return setRetryDelay(Duration.ofMillis(retryDelayMillis));
+    }
+
+    /**
+     * Sets the retry delay.
+     *
+     * @param retryDelay the retry delay
+     * @return the protocol configuration
+     */
+    public Config setRetryDelay(Duration retryDelay) {
+      this.retryDelay = retryDelay;
+      return this;
+    }
+  }
+
+  /**
    * Multi-primary protocol builder.
    */
-  public static class Builder extends PrimitiveProtocol.Builder<MultiPrimaryProtocolConfig, MultiPrimaryProtocol> {
-    protected Builder(MultiPrimaryProtocolConfig config) {
+  public static class Builder extends PrimitiveProtocol.Builder<Config, MultiPrimaryProtocol> {
+    protected Builder(Config config) {
       super(config);
     }
 
