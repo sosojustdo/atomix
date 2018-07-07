@@ -18,6 +18,7 @@ package io.atomix.core.list;
 import io.atomix.core.AbstractPrimitiveTest;
 import io.atomix.core.collection.CollectionEvent;
 import io.atomix.core.collection.CollectionEventListener;
+import io.atomix.core.collection.list.DistributedList;
 import org.junit.Test;
 
 import java.util.Arrays;

@@ -19,7 +19,9 @@ package io.atomix.core.multimap;
 import com.google.common.collect.Lists;
 import com.google.common.collect.Maps;
 import io.atomix.core.AbstractPrimitiveTest;
-import io.atomix.core.multimap.impl.AtomicMultimapProxy;
+import io.atomix.core.atomic.multimap.AsyncAtomicMultimap;
+import io.atomix.core.atomic.multimap.AtomicMultimap;
+import io.atomix.core.atomic.map.impl.AtomicMultimapProxy;
 import org.junit.Test;
 
 import java.util.Arrays;

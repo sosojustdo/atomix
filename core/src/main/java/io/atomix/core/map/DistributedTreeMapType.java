@@ -15,6 +15,7 @@
  */
 package io.atomix.core.map;
 
+import io.atomix.core.atomic.map.AtomicTreeMapType;
 import io.atomix.core.map.impl.DefaultDistributedTreeMapBuilder;
 import io.atomix.core.map.impl.DefaultDistributedTreeMapService;
 import io.atomix.primitive.PrimitiveManagementService;

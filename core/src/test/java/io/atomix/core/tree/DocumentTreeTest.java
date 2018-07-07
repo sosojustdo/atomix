@@ -18,6 +18,12 @@ package io.atomix.core.tree;
 
 import com.google.common.base.Throwables;
 import io.atomix.core.AbstractPrimitiveTest;
+import io.atomix.core.atomic.tree.AsyncAtomicDocumentTree;
+import io.atomix.core.atomic.tree.DocumentPath;
+import io.atomix.core.atomic.tree.DocumentTreeEvent;
+import io.atomix.core.atomic.tree.DocumentTreeEventListener;
+import io.atomix.core.atomic.tree.IllegalDocumentModificationException;
+import io.atomix.core.atomic.tree.NoSuchDocumentPathException;
 import io.atomix.utils.time.Versioned;
 import org.junit.Ignore;
 import org.junit.Test;

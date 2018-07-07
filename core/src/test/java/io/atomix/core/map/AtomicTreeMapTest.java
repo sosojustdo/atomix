@@ -18,11 +18,11 @@ package io.atomix.core.map;
 import com.google.common.collect.Lists;
 import com.google.common.collect.Maps;
 import io.atomix.core.AbstractPrimitiveTest;
-import io.atomix.core.map.AsyncAtomicTreeMap;
-import io.atomix.core.map.AtomicMapEvent;
-import io.atomix.core.map.AtomicMapEventListener;
-import io.atomix.core.map.AtomicTreeMap;
-import io.atomix.core.map.impl.AtomicTreeMapProxy;
+import io.atomix.core.atomic.map.AsyncAtomicTreeMap;
+import io.atomix.core.atomic.map.AtomicMapEvent;
+import io.atomix.core.atomic.map.AtomicMapEventListener;
+import io.atomix.core.atomic.map.AtomicTreeMap;
+import io.atomix.core.atomic.map.impl.AtomicTreeMapProxy;
 import io.atomix.utils.time.Versioned;
 import org.junit.Test;
 

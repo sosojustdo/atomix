@@ -15,7 +15,7 @@
  */
 package io.atomix.core.map;
 
-import io.atomix.core.set.DistributedNavigableSet;
+import io.atomix.core.collection.set.DistributedNavigableSet;
 
 import java.util.NavigableMap;
 

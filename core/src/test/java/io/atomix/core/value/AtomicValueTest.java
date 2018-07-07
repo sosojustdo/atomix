@@ -16,6 +16,10 @@
 package io.atomix.core.value;
 
 import io.atomix.core.AbstractPrimitiveTest;
+import io.atomix.core.atomic.value.AsyncAtomicValue;
+import io.atomix.core.atomic.value.AtomicValue;
+import io.atomix.core.atomic.value.AtomicValueEvent;
+import io.atomix.core.atomic.value.AtomicValueEventListener;
 import org.junit.Test;
 
 import java.util.concurrent.BlockingQueue;

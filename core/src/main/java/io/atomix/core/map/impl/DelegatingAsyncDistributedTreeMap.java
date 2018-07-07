@@ -15,7 +15,7 @@
  */
 package io.atomix.core.map.impl;
 
-import io.atomix.core.map.AsyncAtomicTreeMap;
+import io.atomix.core.atomic.map.AsyncAtomicTreeMap;
 import io.atomix.core.map.AsyncDistributedTreeMap;
 import io.atomix.core.map.DistributedTreeMap;
 

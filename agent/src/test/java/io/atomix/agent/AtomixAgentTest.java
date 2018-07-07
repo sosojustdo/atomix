@@ -16,7 +16,7 @@
 package io.atomix.agent;
 
 import io.atomix.core.Atomix;
-import io.atomix.core.map.AtomicMap;
+import io.atomix.core.atomic.map.AtomicMap;
 import org.junit.After;
 import org.junit.Before;
 import org.junit.Ignore;

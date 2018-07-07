@@ -15,6 +15,7 @@
  */
 package io.atomix.core.map;
 
+import io.atomix.core.atomic.map.AtomicMapType;
 import io.atomix.core.map.impl.DefaultDistributedMapBuilder;
 import io.atomix.core.map.impl.DefaultDistributedMapService;
 import io.atomix.primitive.PrimitiveManagementService;

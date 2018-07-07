@@ -16,11 +16,7 @@
 package io.atomix.core.transaction;
 
 import io.atomix.core.AbstractPrimitiveTest;
-import io.atomix.core.set.DistributedSet;
-import io.atomix.core.transaction.CommitStatus;
-import io.atomix.core.transaction.Isolation;
-import io.atomix.core.transaction.Transaction;
-import io.atomix.core.transaction.TransactionalSet;
+import io.atomix.core.collection.set.DistributedSet;
 import org.junit.Test;
 
 import static org.junit.Assert.assertEquals;

@@ -17,9 +17,11 @@ package io.atomix.core.semaphore;
 
 import io.atomix.core.AbstractPrimitiveTest;
 import io.atomix.core.Atomix;
-import io.atomix.core.semaphore.impl.DistributedSemaphoreServiceConfig;
-import io.atomix.core.semaphore.impl.DefaultDistributedSemaphoreService;
-import io.atomix.core.semaphore.impl.DistributedSemaphoreProxy;
+import io.atomix.core.concurrent.semaphore.AsyncDistributedSemaphore;
+import io.atomix.core.concurrent.semaphore.DistributedSemaphore;
+import io.atomix.core.concurrent.semaphore.impl.DistributedSemaphoreServiceConfig;
+import io.atomix.core.concurrent.semaphore.impl.DefaultDistributedSemaphoreService;
+import io.atomix.core.concurrent.semaphore.impl.DistributedSemaphoreProxy;
 import io.atomix.primitive.PrimitiveException;
 import io.atomix.primitive.service.impl.DefaultBackupInput;
 import io.atomix.primitive.service.impl.DefaultBackupOutput;
@@ -427,7 +429,7 @@ public abstract class SemaphoreTest extends AbstractPrimitiveTest {
     holdersMap.put((long) 5, 6);
     holders.set(service, holdersMap);
 
-//    Class<?> waiter = Class.forName("io.atomix.core.semaphore.impl.DistributedSemaphoreService$Waiter");
+//    Class<?> waiter = Class.forName("io.atomix.core.concurrent.semaphore.impl.DistributedSemaphoreService$Waiter");
 //    LinkedList<Object> waiterLinkedList = new LinkedList<>();
 //
 //    waiterLinkedList.add(waiter.getConstructors()[0].newInstance(service,10L, 20L, 30L, 40, Long.MAX_VALUE));

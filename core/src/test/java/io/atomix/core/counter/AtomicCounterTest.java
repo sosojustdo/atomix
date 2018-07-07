@@ -17,7 +17,8 @@ package io.atomix.core.counter;
 
 import io.atomix.core.AbstractPrimitiveTest;
 
-import io.atomix.core.counter.impl.AtomicCounterProxy;
+import io.atomix.core.atomic.counter.AsyncAtomicCounter;
+import io.atomix.core.atomic.counter.impl.AtomicCounterProxy;
 import org.junit.Test;
 
 import java.util.concurrent.TimeUnit;

@@ -17,7 +17,7 @@ package io.atomix.core.map;
 
 import io.atomix.core.AbstractPrimitiveTest;
 
-import io.atomix.core.map.AsyncAtomicCounterMap;
+import io.atomix.core.atomic.countermap.AsyncAtomicCounterMap;
 import org.junit.Test;
 
 import java.util.concurrent.TimeUnit;

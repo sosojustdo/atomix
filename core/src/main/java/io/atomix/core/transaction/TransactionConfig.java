@@ -15,8 +15,8 @@
  */
 package io.atomix.core.transaction;
 
-import io.atomix.primitive.config.PrimitiveConfig;
 import io.atomix.primitive.PrimitiveType;
+import io.atomix.primitive.config.PrimitiveConfig;
 
 import static com.google.common.base.Preconditions.checkNotNull;
 

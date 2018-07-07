@@ -16,7 +16,13 @@
 package io.atomix.core.map.impl;
 
 import com.google.common.io.BaseEncoding;
-import io.atomix.core.map.AsyncAtomicMap;
+import io.atomix.core.atomic.map.AsyncAtomicMap;
+import io.atomix.core.atomic.map.impl.AtomicMapProxy;
+import io.atomix.core.atomic.map.impl.AtomicMapService;
+import io.atomix.core.atomic.map.impl.CachingAsyncAtomicMap;
+import io.atomix.core.atomic.map.impl.NotNullAsyncAtomicMap;
+import io.atomix.core.atomic.map.impl.TranscodingAsyncAtomicMap;
+import io.atomix.core.atomic.map.impl.UnmodifiableAsyncAtomicMap;
 import io.atomix.core.map.DistributedMap;
 import io.atomix.core.map.DistributedMapBuilder;
 import io.atomix.core.map.DistributedMapConfig;

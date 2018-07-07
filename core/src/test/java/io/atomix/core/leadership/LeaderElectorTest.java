@@ -17,6 +17,10 @@ package io.atomix.core.leadership;
 
 import io.atomix.cluster.MemberId;
 import io.atomix.core.AbstractPrimitiveTest;
+import io.atomix.core.coordination.election.AsyncLeaderElector;
+import io.atomix.core.coordination.election.Leadership;
+import io.atomix.core.coordination.election.LeadershipEvent;
+import io.atomix.core.coordination.election.LeadershipEventListener;
 import org.junit.Assert;
 import org.junit.Ignore;
 import org.junit.Test;

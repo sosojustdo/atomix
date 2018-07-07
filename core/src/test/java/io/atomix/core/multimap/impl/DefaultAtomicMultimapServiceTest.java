@@ -15,7 +15,8 @@
  */
 package io.atomix.core.multimap.impl;
 
-import io.atomix.core.multimap.AtomicMultimapType;
+import io.atomix.core.atomic.multimap.AtomicMultimapType;
+import io.atomix.core.atomic.map.impl.DefaultAtomicMultimapService;
 import io.atomix.primitive.PrimitiveId;
 import io.atomix.primitive.service.ServiceContext;
 import io.atomix.primitive.service.impl.DefaultBackupInput;

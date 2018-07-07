@@ -15,7 +15,8 @@
  */
 package io.atomix.core.tree.impl;
 
-import io.atomix.core.tree.DocumentPath;
+import io.atomix.core.atomic.tree.DocumentPath;
+import io.atomix.core.atomic.tree.impl.DefaultDocumentTreeService;
 import io.atomix.primitive.service.impl.DefaultBackupInput;
 import io.atomix.primitive.service.impl.DefaultBackupOutput;
 import io.atomix.storage.buffer.Buffer;

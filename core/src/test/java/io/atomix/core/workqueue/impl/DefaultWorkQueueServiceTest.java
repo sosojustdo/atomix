@@ -15,8 +15,9 @@
  */
 package io.atomix.core.workqueue.impl;
 
-import io.atomix.core.workqueue.Task;
-import io.atomix.core.workqueue.WorkQueueType;
+import io.atomix.core.coordination.workqueue.Task;
+import io.atomix.core.coordination.workqueue.WorkQueueType;
+import io.atomix.core.coordination.workqueue.impl.DefaultWorkQueueService;
 import io.atomix.primitive.PrimitiveId;
 import io.atomix.primitive.service.ServiceContext;
 import io.atomix.primitive.service.impl.DefaultBackupInput;

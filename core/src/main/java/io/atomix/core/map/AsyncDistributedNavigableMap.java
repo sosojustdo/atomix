@@ -15,7 +15,7 @@
  */
 package io.atomix.core.map;
 
-import io.atomix.core.set.AsyncDistributedNavigableSet;
+import io.atomix.core.collection.set.AsyncDistributedNavigableSet;
 
 import java.time.Duration;
 import java.util.Collections;

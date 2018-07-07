@@ -19,12 +19,12 @@ package io.atomix.core.map.impl;
 import com.google.common.collect.Maps;
 import io.atomix.core.collection.AsyncDistributedCollection;
 import io.atomix.core.collection.impl.TranscodingAsyncDistributedCollection;
+import io.atomix.core.collection.set.AsyncDistributedSet;
+import io.atomix.core.collection.set.impl.TranscodingAsyncDistributedSet;
 import io.atomix.core.map.AsyncDistributedMap;
 import io.atomix.core.map.DistributedMap;
 import io.atomix.core.map.MapEvent;
 import io.atomix.core.map.MapEventListener;
-import io.atomix.core.set.AsyncDistributedSet;
-import io.atomix.core.set.impl.TranscodingAsyncDistributedSet;
 import io.atomix.primitive.impl.DelegatingAsyncPrimitive;
 import io.atomix.utils.concurrent.Futures;
 

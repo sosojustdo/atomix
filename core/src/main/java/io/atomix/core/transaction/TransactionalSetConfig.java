@@ -15,9 +15,9 @@
  */
 package io.atomix.core.transaction;
 
-import io.atomix.core.set.DistributedSetType;
-import io.atomix.primitive.config.PrimitiveConfig;
+import io.atomix.core.collection.set.DistributedSetType;
 import io.atomix.primitive.PrimitiveType;
+import io.atomix.primitive.config.PrimitiveConfig;
 
 /**
  * Transactional set configuration.

@@ -15,6 +15,9 @@
  */
 package io.atomix.core.map.impl;
 
+import io.atomix.core.atomic.map.impl.AtomicTreeMapProxy;
+import io.atomix.core.atomic.map.impl.AtomicTreeMapService;
+import io.atomix.core.atomic.map.impl.TranscodingAsyncAtomicTreeMap;
 import io.atomix.core.map.DistributedTreeMap;
 import io.atomix.core.map.DistributedTreeMapBuilder;
 import io.atomix.core.map.DistributedTreeMapConfig;

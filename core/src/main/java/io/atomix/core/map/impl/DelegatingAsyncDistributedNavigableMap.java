@@ -16,10 +16,10 @@
 package io.atomix.core.map.impl;
 
 import com.google.common.collect.Maps;
-import io.atomix.core.map.AsyncAtomicNavigableMap;
+import io.atomix.core.atomic.map.AsyncAtomicNavigableMap;
+import io.atomix.core.collection.set.AsyncDistributedNavigableSet;
 import io.atomix.core.map.AsyncDistributedNavigableMap;
 import io.atomix.core.map.DistributedNavigableMap;
-import io.atomix.core.set.AsyncDistributedNavigableSet;
 import io.atomix.utils.time.Versioned;
 
 import java.time.Duration;

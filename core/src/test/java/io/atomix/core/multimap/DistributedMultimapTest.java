@@ -19,6 +19,7 @@ package io.atomix.core.multimap;
 import com.google.common.collect.Lists;
 import com.google.common.collect.Maps;
 import io.atomix.core.AbstractPrimitiveTest;
+import io.atomix.core.map.DistributedMultimap;
 import org.junit.Test;
 
 import java.util.Arrays;

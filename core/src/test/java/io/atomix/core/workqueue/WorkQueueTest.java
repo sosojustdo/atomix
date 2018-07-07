@@ -19,7 +19,10 @@ import com.google.common.util.concurrent.Uninterruptibles;
 
 import io.atomix.core.AbstractPrimitiveTest;
 
-import io.atomix.core.workqueue.impl.WorkQueueProxy;
+import io.atomix.core.coordination.workqueue.AsyncWorkQueue;
+import io.atomix.core.coordination.workqueue.Task;
+import io.atomix.core.coordination.workqueue.WorkQueueStats;
+import io.atomix.core.coordination.workqueue.impl.WorkQueueProxy;
 import org.junit.Test;
 
 import java.time.Duration;

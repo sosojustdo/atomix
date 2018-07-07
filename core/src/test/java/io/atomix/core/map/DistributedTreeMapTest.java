@@ -18,7 +18,7 @@ package io.atomix.core.map;
 import com.google.common.collect.Lists;
 import com.google.common.collect.Maps;
 import io.atomix.core.AbstractPrimitiveTest;
-import io.atomix.core.map.impl.AtomicTreeMapProxy;
+import io.atomix.core.atomic.map.impl.AtomicTreeMapProxy;
 import org.junit.Test;
 
 import java.util.Arrays;

@@ -15,7 +15,7 @@
  */
 package io.atomix.core.map.impl;
 
-import io.atomix.core.map.AsyncAtomicSortedMap;
+import io.atomix.core.atomic.map.AsyncAtomicSortedMap;
 import io.atomix.core.map.AsyncDistributedSortedMap;
 import io.atomix.core.map.DistributedSortedMap;
 
