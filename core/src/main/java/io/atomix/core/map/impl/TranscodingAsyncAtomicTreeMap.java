@@ -16,9 +16,9 @@
 
 package io.atomix.core.map.impl;
 
-import io.atomix.core.map.AsyncAtomicNavigableMap;
-import io.atomix.core.map.AsyncAtomicTreeMap;
-import io.atomix.core.map.AtomicTreeMap;
+import io.atomix.core.atomic.AsyncAtomicNavigableMap;
+import io.atomix.core.atomic.AsyncAtomicTreeMap;
+import io.atomix.core.atomic.AtomicTreeMap;
 
 import java.time.Duration;
 import java.util.function.Function;

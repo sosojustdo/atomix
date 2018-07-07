@@ -17,12 +17,12 @@
 package io.atomix.core.map.impl;
 
 import io.atomix.core.collection.AsyncDistributedCollection;
-import io.atomix.core.map.AsyncAtomicNavigableMap;
-import io.atomix.core.map.AsyncAtomicTreeMap;
-import io.atomix.core.map.AtomicMapEventListener;
-import io.atomix.core.map.AtomicTreeMap;
-import io.atomix.core.set.AsyncDistributedNavigableSet;
-import io.atomix.core.set.AsyncDistributedSet;
+import io.atomix.core.atomic.AsyncAtomicNavigableMap;
+import io.atomix.core.atomic.AsyncAtomicTreeMap;
+import io.atomix.core.atomic.AtomicMapEventListener;
+import io.atomix.core.atomic.AtomicTreeMap;
+import io.atomix.core.collection.AsyncDistributedNavigableSet;
+import io.atomix.core.collection.AsyncDistributedSet;
 import io.atomix.core.transaction.TransactionId;
 import io.atomix.core.transaction.TransactionLog;
 import io.atomix.primitive.impl.DelegatingAsyncPrimitive;

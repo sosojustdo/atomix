@@ -15,7 +15,7 @@
  */
 package io.atomix.core.map.impl;
 
-import io.atomix.core.map.AtomicTreeMapType;
+import io.atomix.core.atomic.AtomicTreeMapType;
 
 /**
  * Default atomic tree map service.

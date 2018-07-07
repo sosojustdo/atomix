@@ -15,10 +15,10 @@
  */
 package io.atomix.core.map.impl;
 
-import io.atomix.core.map.AsyncAtomicTreeMap;
-import io.atomix.core.map.AtomicTreeMap;
-import io.atomix.core.map.AtomicTreeMapBuilder;
-import io.atomix.core.map.AtomicTreeMapConfig;
+import io.atomix.core.atomic.AsyncAtomicTreeMap;
+import io.atomix.core.atomic.AtomicTreeMap;
+import io.atomix.core.atomic.AtomicTreeMapBuilder;
+import io.atomix.core.atomic.AtomicTreeMapConfig;
 import io.atomix.primitive.PrimitiveManagementService;
 import io.atomix.primitive.proxy.ProxyClient;
 import io.atomix.primitive.service.ServiceConfig;

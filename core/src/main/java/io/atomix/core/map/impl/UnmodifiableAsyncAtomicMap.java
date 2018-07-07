@@ -16,7 +16,7 @@
 
 package io.atomix.core.map.impl;
 
-import io.atomix.core.map.AsyncAtomicMap;
+import io.atomix.core.atomic.AsyncAtomicMap;
 import io.atomix.utils.concurrent.Futures;
 import io.atomix.utils.time.Versioned;
 

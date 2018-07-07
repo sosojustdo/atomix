@@ -15,7 +15,7 @@
  */
 package io.atomix.core.transaction;
 
-import io.atomix.core.map.AtomicMapType;
+import io.atomix.core.atomic.AtomicMapType;
 import io.atomix.primitive.PrimitiveBuilder;
 import io.atomix.primitive.PrimitiveManagementService;
 

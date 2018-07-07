@@ -15,10 +15,10 @@
  */
 package io.atomix.core.map.impl;
 
-import io.atomix.core.map.AsyncAtomicNavigableMap;
-import io.atomix.core.map.AtomicNavigableMap;
-import io.atomix.core.set.DistributedNavigableSet;
-import io.atomix.core.set.impl.BlockingDistributedNavigableSet;
+import io.atomix.core.atomic.AsyncAtomicNavigableMap;
+import io.atomix.core.atomic.AtomicNavigableMap;
+import io.atomix.core.collection.DistributedNavigableSet;
+import io.atomix.core.collection.impl.BlockingDistributedNavigableSet;
 import io.atomix.utils.time.Versioned;
 
 import java.util.Map;

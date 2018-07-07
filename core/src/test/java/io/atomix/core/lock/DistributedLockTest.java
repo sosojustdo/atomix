@@ -16,6 +16,7 @@
 package io.atomix.core.lock;
 
 import io.atomix.core.AbstractPrimitiveTest;
+import io.atomix.core.concurrent.AsyncDistributedLock;
 import io.atomix.utils.concurrent.Futures;
 import io.atomix.utils.time.Version;
 import org.junit.Test;

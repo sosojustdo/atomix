@@ -16,7 +16,7 @@
 package io.atomix.core.map.impl;
 
 import com.google.common.collect.Sets;
-import io.atomix.core.map.AsyncAtomicMap;
+import io.atomix.core.atomic.AsyncAtomicMap;
 import io.atomix.primitive.resource.PrimitiveResource;
 import io.atomix.utils.time.Versioned;
 import org.slf4j.Logger;

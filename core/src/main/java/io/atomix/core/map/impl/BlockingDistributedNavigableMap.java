@@ -17,8 +17,8 @@ package io.atomix.core.map.impl;
 
 import io.atomix.core.map.AsyncDistributedNavigableMap;
 import io.atomix.core.map.DistributedNavigableMap;
-import io.atomix.core.set.DistributedNavigableSet;
-import io.atomix.core.set.impl.BlockingDistributedNavigableSet;
+import io.atomix.core.collection.DistributedNavigableSet;
+import io.atomix.core.collection.impl.BlockingDistributedNavigableSet;
 
 /**
  * Default implementation of {@code DistributedNavigableMap}.

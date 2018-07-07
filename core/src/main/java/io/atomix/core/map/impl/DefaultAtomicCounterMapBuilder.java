@@ -16,9 +16,9 @@
 package io.atomix.core.map.impl;
 
 import com.google.common.io.BaseEncoding;
-import io.atomix.core.map.AtomicCounterMap;
-import io.atomix.core.map.AtomicCounterMapBuilder;
-import io.atomix.core.map.AtomicCounterMapConfig;
+import io.atomix.core.atomic.AtomicCounterMap;
+import io.atomix.core.atomic.AtomicCounterMapBuilder;
+import io.atomix.core.atomic.AtomicCounterMapConfig;
 import io.atomix.primitive.PrimitiveManagementService;
 import io.atomix.primitive.proxy.ProxyClient;
 import io.atomix.primitive.service.ServiceConfig;

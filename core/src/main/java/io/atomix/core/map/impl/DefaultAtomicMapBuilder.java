@@ -16,10 +16,10 @@
 package io.atomix.core.map.impl;
 
 import com.google.common.io.BaseEncoding;
-import io.atomix.core.map.AsyncAtomicMap;
-import io.atomix.core.map.AtomicMap;
-import io.atomix.core.map.AtomicMapBuilder;
-import io.atomix.core.map.AtomicMapConfig;
+import io.atomix.core.atomic.AsyncAtomicMap;
+import io.atomix.core.atomic.AtomicMap;
+import io.atomix.core.atomic.AtomicMapBuilder;
+import io.atomix.core.atomic.AtomicMapConfig;
 import io.atomix.primitive.PrimitiveManagementService;
 import io.atomix.primitive.proxy.ProxyClient;
 import io.atomix.primitive.service.ServiceConfig;

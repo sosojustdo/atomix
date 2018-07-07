@@ -16,9 +16,9 @@
 
 package io.atomix.core.map.impl;
 
-import io.atomix.core.map.AsyncAtomicNavigableMap;
-import io.atomix.core.map.AtomicNavigableMap;
-import io.atomix.core.set.AsyncDistributedNavigableSet;
+import io.atomix.core.atomic.AsyncAtomicNavigableMap;
+import io.atomix.core.atomic.AtomicNavigableMap;
+import io.atomix.core.collection.AsyncDistributedNavigableSet;
 import io.atomix.utils.time.Versioned;
 
 import java.time.Duration;

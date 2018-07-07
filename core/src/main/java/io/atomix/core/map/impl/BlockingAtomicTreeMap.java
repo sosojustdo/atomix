@@ -15,8 +15,8 @@
  */
 package io.atomix.core.map.impl;
 
-import io.atomix.core.map.AsyncAtomicTreeMap;
-import io.atomix.core.map.AtomicTreeMap;
+import io.atomix.core.atomic.AsyncAtomicTreeMap;
+import io.atomix.core.atomic.AtomicTreeMap;
 
 /**
  * Default implementation of {@code AtomicTreeMap}.

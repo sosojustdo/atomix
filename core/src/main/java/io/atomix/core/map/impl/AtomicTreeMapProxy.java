@@ -16,10 +16,10 @@
 
 package io.atomix.core.map.impl;
 
-import io.atomix.core.map.AsyncAtomicNavigableMap;
-import io.atomix.core.map.AsyncAtomicTreeMap;
-import io.atomix.core.map.AtomicTreeMap;
-import io.atomix.core.set.AsyncDistributedNavigableSet;
+import io.atomix.core.atomic.AsyncAtomicNavigableMap;
+import io.atomix.core.atomic.AsyncAtomicTreeMap;
+import io.atomix.core.atomic.AtomicTreeMap;
+import io.atomix.core.collection.AsyncDistributedNavigableSet;
 import io.atomix.primitive.PrimitiveRegistry;
 import io.atomix.primitive.proxy.ProxyClient;
 import io.atomix.utils.time.Versioned;

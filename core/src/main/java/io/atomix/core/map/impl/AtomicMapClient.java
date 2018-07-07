@@ -15,7 +15,7 @@
  */
 package io.atomix.core.map.impl;
 
-import io.atomix.core.map.AtomicMapEvent;
+import io.atomix.core.atomic.AtomicMapEvent;
 import io.atomix.primitive.event.Event;
 
 /**

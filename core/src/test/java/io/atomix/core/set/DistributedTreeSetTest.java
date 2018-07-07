@@ -19,6 +19,7 @@ import com.google.common.collect.Sets;
 import io.atomix.core.AbstractPrimitiveTest;
 import io.atomix.core.collection.CollectionEvent;
 import io.atomix.core.collection.CollectionEventListener;
+import io.atomix.core.collection.DistributedTreeSet;
 import org.junit.Test;
 
 import java.util.Arrays;

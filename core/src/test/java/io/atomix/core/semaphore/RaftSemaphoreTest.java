@@ -16,6 +16,8 @@
 package io.atomix.core.semaphore;
 
 import io.atomix.core.Atomix;
+import io.atomix.core.concurrent.AsyncDistributedSemaphore;
+import io.atomix.core.concurrent.QueueStatus;
 import io.atomix.primitive.protocol.PrimitiveProtocol;
 import io.atomix.protocols.raft.MultiRaftProtocol;
 import io.atomix.protocols.raft.ReadConsistency;

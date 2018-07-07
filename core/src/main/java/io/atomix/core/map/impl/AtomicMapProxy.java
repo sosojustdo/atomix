@@ -15,8 +15,8 @@
  */
 package io.atomix.core.map.impl;
 
-import io.atomix.core.map.AsyncAtomicMap;
-import io.atomix.core.map.AtomicMap;
+import io.atomix.core.atomic.AsyncAtomicMap;
+import io.atomix.core.atomic.AtomicMap;
 import io.atomix.primitive.PrimitiveRegistry;
 import io.atomix.primitive.proxy.ProxyClient;
 

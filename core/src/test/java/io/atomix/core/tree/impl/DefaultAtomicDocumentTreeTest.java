@@ -16,10 +16,11 @@
 
 package io.atomix.core.tree.impl;
 
-import io.atomix.core.tree.DocumentPath;
-import io.atomix.core.tree.AtomicDocumentTree;
-import io.atomix.core.tree.IllegalDocumentModificationException;
-import io.atomix.core.tree.NoSuchDocumentPathException;
+import io.atomix.core.atomic.DocumentPath;
+import io.atomix.core.atomic.AtomicDocumentTree;
+import io.atomix.core.atomic.IllegalDocumentModificationException;
+import io.atomix.core.atomic.NoSuchDocumentPathException;
+import io.atomix.core.atomic.impl.DefaultAtomicDocumentTree;
 import io.atomix.utils.time.Versioned;
 import org.junit.Assert;
 import org.junit.Test;

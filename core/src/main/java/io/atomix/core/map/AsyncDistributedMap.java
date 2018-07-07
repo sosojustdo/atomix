@@ -17,7 +17,7 @@ package io.atomix.core.map;
 
 import com.google.common.util.concurrent.MoreExecutors;
 import io.atomix.core.collection.AsyncDistributedCollection;
-import io.atomix.core.set.AsyncDistributedSet;
+import io.atomix.core.collection.AsyncDistributedSet;
 import io.atomix.primitive.AsyncPrimitive;
 
 import java.time.Duration;

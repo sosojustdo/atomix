@@ -15,7 +15,7 @@
  */
 package io.atomix.core.map.impl;
 
-import io.atomix.core.map.AtomicMapType;
+import io.atomix.core.atomic.AtomicMapType;
 
 /**
  * Default atomic map service.

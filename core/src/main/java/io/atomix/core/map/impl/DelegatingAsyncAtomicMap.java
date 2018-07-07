@@ -18,10 +18,10 @@ package io.atomix.core.map.impl;
 
 import com.google.common.base.MoreObjects;
 import io.atomix.core.collection.AsyncDistributedCollection;
-import io.atomix.core.set.AsyncDistributedSet;
-import io.atomix.core.map.AsyncAtomicMap;
-import io.atomix.core.map.AtomicMap;
-import io.atomix.core.map.AtomicMapEventListener;
+import io.atomix.core.collection.AsyncDistributedSet;
+import io.atomix.core.atomic.AsyncAtomicMap;
+import io.atomix.core.atomic.AtomicMap;
+import io.atomix.core.atomic.AtomicMapEventListener;
 import io.atomix.core.transaction.TransactionId;
 import io.atomix.core.transaction.TransactionLog;
 import io.atomix.primitive.impl.DelegatingAsyncPrimitive;

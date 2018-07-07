@@ -15,8 +15,8 @@
  */
 package io.atomix.core.impl;
 
-import io.atomix.core.map.AsyncAtomicMap;
-import io.atomix.core.map.AtomicMapType;
+import io.atomix.core.atomic.AsyncAtomicMap;
+import io.atomix.core.atomic.AtomicMapType;
 import io.atomix.core.map.impl.AtomicMapProxy;
 import io.atomix.core.map.impl.AtomicMapService;
 import io.atomix.core.map.impl.TranscodingAsyncAtomicMap;

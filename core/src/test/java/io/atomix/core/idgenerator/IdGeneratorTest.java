@@ -17,7 +17,8 @@ package io.atomix.core.idgenerator;
 
 import io.atomix.core.AbstractPrimitiveTest;
 
-import io.atomix.core.idgenerator.impl.DelegatingAtomicIdGenerator;
+import io.atomix.core.atomic.AsyncAtomicIdGenerator;
+import io.atomix.core.atomic.impl.DelegatingAtomicIdGenerator;
 import org.junit.Test;
 
 import java.util.concurrent.CompletableFuture;

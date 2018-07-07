@@ -15,8 +15,8 @@
  */
 package io.atomix.core.map.impl;
 
-import io.atomix.core.map.AsyncAtomicSortedMap;
-import io.atomix.core.map.AtomicSortedMap;
+import io.atomix.core.atomic.AsyncAtomicSortedMap;
+import io.atomix.core.atomic.AtomicSortedMap;
 
 /**
  * Default implementation of {@code AtomicSortedMap}.

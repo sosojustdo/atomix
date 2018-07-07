@@ -15,9 +15,9 @@
  */
 package io.atomix.core.transaction.impl;
 
-import io.atomix.core.map.AtomicMapBuilder;
-import io.atomix.core.map.AtomicMapConfig;
-import io.atomix.core.map.AtomicMapType;
+import io.atomix.core.atomic.AtomicMapBuilder;
+import io.atomix.core.atomic.AtomicMapConfig;
+import io.atomix.core.atomic.AtomicMapType;
 import io.atomix.core.transaction.TransactionalMap;
 import io.atomix.core.transaction.TransactionalMapBuilder;
 import io.atomix.core.transaction.TransactionalMapConfig;
