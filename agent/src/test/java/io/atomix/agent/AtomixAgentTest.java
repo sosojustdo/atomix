@@ -40,12 +40,19 @@ public class AtomixAgentTest {
 
   @Test
   @Ignore
+  public void testFormCluster2() throws Exception {
+    String path = getClass().getClassLoader().getResource("test.json").getPath();
+    AtomixAgent.main(new String[]{"-c", path});
+  }
+
+  @Test
+  @Ignore
   public void testFormCluster() throws Exception {
     String path = getClass().getClassLoader().getResource("test.conf").getPath();
 
     Thread thread1 = new Thread(() -> {
       try {
-        AtomixAgent.main(new String[]{"-m", "node1", "-a", "localhost:5000", "-c", path, "-p", "6000"});
+        AtomixAgent.main(new String[]{"-c", path});
       } catch (Exception e) {
         e.printStackTrace();
         Thread.currentThread().interrupt();

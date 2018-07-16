@@ -52,6 +52,10 @@ import java.util.stream.Stream;
 public class ConfigMapper {
   private final ClassLoader classLoader;
 
+  public ConfigMapper() {
+    this(Thread.currentThread().getContextClassLoader());
+  }
+
   public ConfigMapper(ClassLoader classLoader) {
     this.classLoader = classLoader;
   }
@@ -237,7 +241,7 @@ public class ConfigMapper {
       return new MemorySize(size.toBytes());
     } else if (parameterClass == Object.class) {
       return config.getAnyRef(configPropName);
-    } else if (parameterClass == List.class) {
+    } else if (parameterClass == Collection.class || parameterClass == List.class) {
       return getListValue(beanClass, parameterType, parameterClass, config, configPath, configPropName);
     } else if (parameterClass == Set.class) {
       return getSetValue(beanClass, parameterType, parameterClass, config, configPath, configPropName);
