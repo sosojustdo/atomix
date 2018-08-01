@@ -19,6 +19,8 @@ import com.google.common.util.concurrent.Uninterruptibles;
 import io.atomix.core.AbstractPrimitiveTest;
 import io.atomix.core.workqueue.impl.WorkQueueProxy;
 import io.atomix.primitive.protocol.ProxyProtocol;
+import org.junit.AfterClass;
+import org.junit.BeforeClass;
 import org.junit.Test;
 
 import java.time.Duration;
@@ -225,5 +227,15 @@ public abstract class WorkQueueTest extends AbstractPrimitiveTest<ProxyProtocol>
     assertEquals(stats.totalPending(), 0);
     assertEquals(stats.totalInProgress(), 1);
     assertEquals(stats.totalCompleted(), 0);
+  }
+
+  @BeforeClass
+  public static void setupCluster() throws Exception {
+    setupCluster(WorkQueueTest.class);
+  }
+
+  @AfterClass
+  public static void teardownCluster() throws Exception {
+    teardownCluster(WorkQueueTest.class);
   }
 }

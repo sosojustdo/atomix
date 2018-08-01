@@ -21,6 +21,8 @@ import io.atomix.core.AbstractPrimitiveTest;
 import io.atomix.primitive.protocol.ProxyProtocol;
 import org.apache.commons.lang3.tuple.ImmutablePair;
 import org.apache.commons.lang3.tuple.Pair;
+import org.junit.AfterClass;
+import org.junit.BeforeClass;
 import org.junit.Test;
 
 import java.util.Arrays;
@@ -302,6 +304,16 @@ public abstract class DistributedMapTest extends AbstractPrimitiveTest<ProxyProt
     map.put(new Key("foo"), Pair.of("foo", 1));
     assertEquals("foo", map.get(new Key("foo")).getLeft());
     assertEquals(Integer.valueOf(1), map.get(new Key("foo")).getRight());
+  }
+
+  @BeforeClass
+  public static void setupCluster() throws Exception {
+    setupCluster(DistributedMapTest.class);
+  }
+
+  @AfterClass
+  public static void teardownCluster() throws Exception {
+    teardownCluster(DistributedMapTest.class);
   }
 
   private static class Key {

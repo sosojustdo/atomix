@@ -21,6 +21,8 @@ import io.atomix.core.collection.CollectionEventListener;
 import io.atomix.primitive.protocol.set.SetProtocol;
 import io.atomix.protocols.gossip.TimestampProvider;
 import io.atomix.utils.time.LogicalTimestamp;
+import org.junit.AfterClass;
+import org.junit.BeforeClass;
 import org.junit.Test;
 
 import java.util.Arrays;
@@ -339,6 +341,16 @@ public abstract class GossipDistributedSetTest extends AbstractPrimitiveTest<Set
 
     assertTrue(set1.isEmpty());
     assertTrue(set2.isEmpty());
+  }
+
+  @BeforeClass
+  public static void setupCluster() throws Exception {
+    setupCluster(GossipDistributedSetTest.class);
+  }
+
+  @AfterClass
+  public static void teardownCluster() throws Exception {
+    teardownCluster(GossipDistributedSetTest.class);
   }
 
   private static class TestSetEventListener implements CollectionEventListener<String> {

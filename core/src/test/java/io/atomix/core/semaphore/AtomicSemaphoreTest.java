@@ -28,6 +28,8 @@ import io.atomix.primitive.service.impl.DefaultBackupOutput;
 import io.atomix.storage.buffer.Buffer;
 import io.atomix.storage.buffer.HeapBuffer;
 import io.atomix.utils.time.Version;
+import org.junit.AfterClass;
+import org.junit.BeforeClass;
 import org.junit.Ignore;
 import org.junit.Test;
 
@@ -456,6 +458,16 @@ public abstract class AtomicSemaphoreTest extends AbstractPrimitiveTest<ProxyPro
 //    assertEquals(waiterQueue.get(serviceRestore), waiterLinkedList);
 //    assertEquals(1, ((Map) (timers.get(serviceRestore))).keySet().size());
 
+  }
+
+  @BeforeClass
+  public static void setupCluster() throws Exception {
+    setupCluster(AtomicSemaphoreTest.class);
+  }
+
+  @AfterClass
+  public static void teardownCluster() throws Exception {
+    teardownCluster(AtomicSemaphoreTest.class);
   }
 
 }

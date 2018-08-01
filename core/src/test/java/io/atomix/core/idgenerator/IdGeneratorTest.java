@@ -18,6 +18,8 @@ package io.atomix.core.idgenerator;
 import io.atomix.core.AbstractPrimitiveTest;
 import io.atomix.core.idgenerator.impl.DelegatingAtomicIdGenerator;
 import io.atomix.primitive.protocol.ProxyProtocol;
+import org.junit.AfterClass;
+import org.junit.BeforeClass;
 import org.junit.Test;
 
 import java.util.concurrent.CompletableFuture;
@@ -94,5 +96,15 @@ public abstract class IdGeneratorTest extends AbstractPrimitiveTest<ProxyProtoco
     assertEquals(Long.valueOf(4), future14.get(30, TimeUnit.SECONDS));
     assertEquals(Long.valueOf(9), future15.get(30, TimeUnit.SECONDS));
     assertEquals(Long.valueOf(10), future16.get(30, TimeUnit.SECONDS));
+  }
+
+  @BeforeClass
+  public static void setupCluster() throws Exception {
+    setupCluster(IdGeneratorTest.class);
+  }
+
+  @AfterClass
+  public static void teardownCluster() throws Exception {
+    teardownCluster(IdGeneratorTest.class);
   }
 }

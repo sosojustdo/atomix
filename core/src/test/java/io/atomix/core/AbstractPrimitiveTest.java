@@ -19,9 +19,7 @@ import io.atomix.primitive.protocol.PrimitiveProtocol;
 import io.atomix.protocols.backup.partition.PrimaryBackupPartitionGroup;
 import io.atomix.protocols.raft.partition.RaftPartitionGroup;
 import org.junit.After;
-import org.junit.AfterClass;
 import org.junit.Before;
-import org.junit.BeforeClass;
 
 import java.io.File;
 import java.util.ArrayList;
@@ -30,7 +28,6 @@ import java.util.List;
 import java.util.concurrent.CompletableFuture;
 import java.util.concurrent.TimeUnit;
 import java.util.function.BiFunction;
-import java.util.function.Function;
 import java.util.stream.Collectors;
 
 /**
@@ -60,19 +57,18 @@ public abstract class AbstractPrimitiveTest<P extends PrimitiveProtocol> extends
     return instance;
   }
 
-  @BeforeClass
-  public static void setupCluster() throws Exception {
-    AbstractAtomixTest.setupAtomix();
+  protected static void setupCluster(Class<?> clazz) throws Exception {
+    deleteData(clazz);
     BiFunction<AtomixBuilder, Integer, Atomix> build = (builder, id) ->
         builder.withManagementGroup(RaftPartitionGroup.builder("system")
             .withNumPartitions(1)
             .withMembers("1", "2", "3")
-            .withDataDirectory(new File(new File(DATA_DIR, "system"), String.valueOf(id)))
+            .withDataDirectory(new File(new File(dataDir(clazz), "system"), String.valueOf(id)))
             .build())
             .addPartitionGroup(RaftPartitionGroup.builder("raft")
                 .withNumPartitions(3)
                 .withMembers("1", "2", "3")
-                .withDataDirectory(new File(new File(DATA_DIR, "raft"), String.valueOf(id)))
+                .withDataDirectory(new File(new File(dataDir(clazz), "raft"), String.valueOf(id)))
                 .build())
             .addPartitionGroup(PrimaryBackupPartitionGroup.builder("data")
                 .withNumPartitions(7)
@@ -86,15 +82,14 @@ public abstract class AbstractPrimitiveTest<P extends PrimitiveProtocol> extends
     CompletableFuture.allOf(futures.toArray(new CompletableFuture[futures.size()])).get(30, TimeUnit.SECONDS);
   }
 
-  @AfterClass
-  public static void teardownCluster() throws Exception {
+  protected static void teardownCluster(Class<?> clazz) throws Exception {
     List<CompletableFuture<Void>> futures = servers.stream().map(Atomix::stop).collect(Collectors.toList());
     try {
       CompletableFuture.allOf(futures.toArray(new CompletableFuture[futures.size()])).get(30, TimeUnit.SECONDS);
     } catch (Exception e) {
       // Do nothing
     }
-    AbstractAtomixTest.teardownAtomix();
+    deleteData(clazz);
   }
 
   @Before

@@ -17,6 +17,8 @@ package io.atomix.core.barrier;
 
 import io.atomix.core.AbstractPrimitiveTest;
 import io.atomix.primitive.protocol.ProxyProtocol;
+import org.junit.AfterClass;
+import org.junit.BeforeClass;
 import org.junit.Test;
 
 import java.time.Duration;
@@ -162,5 +164,15 @@ public abstract class DistributedCyclicBarrierTest extends AbstractPrimitiveTest
     future1.get(10, TimeUnit.SECONDS);
     future2.get(10, TimeUnit.SECONDS);
     future3.get(10, TimeUnit.SECONDS);
+  }
+
+  @BeforeClass
+  public static void setupCluster() throws Exception {
+    setupCluster(DistributedCyclicBarrierTest.class);
+  }
+
+  @AfterClass
+  public static void teardownCluster() throws Exception {
+    teardownCluster(DistributedCyclicBarrierTest.class);
   }
 }

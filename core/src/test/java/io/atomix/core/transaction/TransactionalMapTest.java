@@ -17,6 +17,8 @@ package io.atomix.core.transaction;
 
 import io.atomix.core.AbstractPrimitiveTest;
 import io.atomix.primitive.protocol.ProxyProtocol;
+import org.junit.AfterClass;
+import org.junit.BeforeClass;
 import org.junit.Test;
 
 import static org.junit.Assert.assertEquals;
@@ -59,5 +61,15 @@ public abstract class TransactionalMapTest extends AbstractPrimitiveTest<ProxyPr
     } finally {
       assertEquals(CommitStatus.SUCCESS, transaction2.commit());
     }
+  }
+
+  @BeforeClass
+  public static void setupCluster() throws Exception {
+    setupCluster(TransactionalMapTest.class);
+  }
+
+  @AfterClass
+  public static void teardownCluster() throws Exception {
+    teardownCluster(TransactionalMapTest.class);
   }
 }

@@ -17,6 +17,8 @@ package io.atomix.core.value;
 
 import io.atomix.core.AbstractPrimitiveTest;
 import io.atomix.primitive.protocol.ProxyProtocol;
+import org.junit.AfterClass;
+import org.junit.BeforeClass;
 import org.junit.Test;
 
 import java.util.concurrent.BlockingQueue;
@@ -71,6 +73,16 @@ public abstract class AtomicValueTest extends AbstractPrimitiveTest<ProxyProtoco
     value2.set("Hello world back!");
     assertEquals("Hello world back!", listener1.nextEvent().newValue());
     assertEquals("Hello world back!", listener2.nextEvent().newValue());
+  }
+
+  @BeforeClass
+  public static void setupCluster() throws Exception {
+    setupCluster(AtomicValueTest.class);
+  }
+
+  @AfterClass
+  public static void teardownCluster() throws Exception {
+    teardownCluster(AtomicValueTest.class);
   }
 
   private static class BlockingAtomicValueListener<T> implements AtomicValueEventListener<T> {

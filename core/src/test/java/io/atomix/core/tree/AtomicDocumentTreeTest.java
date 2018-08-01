@@ -20,6 +20,8 @@ import com.google.common.base.Throwables;
 import io.atomix.core.AbstractPrimitiveTest;
 import io.atomix.primitive.protocol.ProxyProtocol;
 import io.atomix.utils.time.Versioned;
+import org.junit.AfterClass;
+import org.junit.BeforeClass;
 import org.junit.Ignore;
 import org.junit.Test;
 
@@ -414,6 +416,16 @@ public abstract class AtomicDocumentTreeTest extends AbstractPrimitiveTest<Proxy
     assertEquals(path("/a/b/c"), event.path());
     event = listener2abc.event();
     assertEquals(path("/a/b/c"), event.path());
+  }
+
+  @BeforeClass
+  public static void setupCluster() throws Exception {
+    setupCluster(AtomicDocumentTreeTest.class);
+  }
+
+  @AfterClass
+  public static void teardownCluster() throws Exception {
+    teardownCluster(AtomicDocumentTreeTest.class);
   }
 
   private static class TestEventListener implements DocumentTreeEventListener<String> {

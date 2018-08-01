@@ -18,6 +18,8 @@ package io.atomix.core.transaction;
 import io.atomix.core.AbstractPrimitiveTest;
 import io.atomix.core.set.DistributedSet;
 import io.atomix.primitive.protocol.ProxyProtocol;
+import org.junit.AfterClass;
+import org.junit.BeforeClass;
 import org.junit.Test;
 
 import static org.junit.Assert.assertEquals;
@@ -100,5 +102,15 @@ public abstract class TransactionalSetTest extends AbstractPrimitiveTest<ProxyPr
 
     assertEquals(CommitStatus.SUCCESS, transaction3.commit());
     assertEquals(CommitStatus.FAILURE, transaction4.commit());
+  }
+
+  @BeforeClass
+  public static void setupCluster() throws Exception {
+    setupCluster(TransactionalSetTest.class);
+  }
+
+  @AfterClass
+  public static void teardownCluster() throws Exception {
+    teardownCluster(TransactionalSetTest.class);
   }
 }

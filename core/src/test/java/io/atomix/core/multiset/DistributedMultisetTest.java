@@ -19,6 +19,8 @@ import io.atomix.core.AbstractPrimitiveTest;
 import io.atomix.core.collection.CollectionEvent;
 import io.atomix.core.collection.CollectionEventListener;
 import io.atomix.primitive.protocol.ProxyProtocol;
+import org.junit.AfterClass;
+import org.junit.BeforeClass;
 import org.junit.Test;
 
 import java.util.Arrays;
@@ -146,6 +148,16 @@ public abstract class DistributedMultisetTest extends AbstractPrimitiveTest<Prox
     assertEquals("foo", event.element());
 
     assertFalse(listener.eventReceived());
+  }
+
+  @BeforeClass
+  public static void setupCluster() throws Exception {
+    setupCluster(DistributedMultisetTest.class);
+  }
+
+  @AfterClass
+  public static void teardownCluster() throws Exception {
+    teardownCluster(DistributedMultisetTest.class);
   }
 
   private static class TestQueueEventListener implements CollectionEventListener<String> {

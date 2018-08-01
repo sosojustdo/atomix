@@ -17,6 +17,8 @@ package io.atomix.core.map;
 
 import io.atomix.core.AbstractPrimitiveTest;
 import io.atomix.primitive.protocol.ProxyProtocol;
+import org.junit.AfterClass;
+import org.junit.BeforeClass;
 import org.junit.Test;
 
 import static org.junit.Assert.assertEquals;
@@ -71,5 +73,15 @@ public abstract class AtomicCounterMapTest extends AbstractPrimitiveTest<ProxyPr
     assertTrue(map.isEmpty());
     assertTrue(map.replace("baz", 0, 5));
     assertEquals(5, map.get("baz"));
+  }
+
+  @BeforeClass
+  public static void setupCluster() throws Exception {
+    setupCluster(AtomicCounterMapTest.class);
+  }
+
+  @AfterClass
+  public static void teardownCluster() throws Exception {
+    teardownCluster(AtomicCounterMapTest.class);
   }
 }

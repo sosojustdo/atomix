@@ -19,6 +19,8 @@ import io.atomix.core.AbstractPrimitiveTest;
 import io.atomix.core.collection.CollectionEvent;
 import io.atomix.core.collection.CollectionEventListener;
 import io.atomix.primitive.protocol.ProxyProtocol;
+import org.junit.AfterClass;
+import org.junit.BeforeClass;
 import org.junit.Test;
 
 import java.util.Arrays;
@@ -126,6 +128,16 @@ public abstract class DistributedQueueTest extends AbstractPrimitiveTest<ProxyPr
       fail();
     } catch (NoSuchElementException e) {
     }
+  }
+
+  @BeforeClass
+  public static void setupCluster() throws Exception {
+    setupCluster(DistributedQueueTest.class);
+  }
+
+  @AfterClass
+  public static void teardownCluster() throws Exception {
+    teardownCluster(DistributedQueueTest.class);
   }
 
   private static class TestQueueEventListener implements CollectionEventListener<String> {

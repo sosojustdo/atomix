@@ -17,6 +17,8 @@ package io.atomix.core.value;
 
 import io.atomix.core.AbstractPrimitiveTest;
 import io.atomix.primitive.protocol.value.ValueProtocol;
+import org.junit.AfterClass;
+import org.junit.BeforeClass;
 import org.junit.Test;
 
 import java.util.concurrent.BlockingQueue;
@@ -62,6 +64,16 @@ public abstract class DistributedValueTest extends AbstractPrimitiveTest {
     assertEquals(ValueEvent.Type.UPDATE, event.type());
     assertEquals("bar", event.newValue());
     assertEquals("bar", value2.get());
+  }
+
+  @BeforeClass
+  public static void setupCluster() throws Exception {
+    setupCluster(DistributedValueTest.class);
+  }
+
+  @AfterClass
+  public static void teardownCluster() throws Exception {
+    teardownCluster(DistributedValueTest.class);
   }
 
   private static class BlockingValueListener<T> implements ValueEventListener<T> {

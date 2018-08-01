@@ -21,6 +21,8 @@ import io.atomix.core.collection.CollectionEventListener;
 import io.atomix.primitive.protocol.ProxyProtocol;
 import org.apache.commons.lang3.tuple.ImmutablePair;
 import org.apache.commons.lang3.tuple.Pair;
+import org.junit.AfterClass;
+import org.junit.BeforeClass;
 import org.junit.Test;
 
 import java.util.Arrays;
@@ -148,6 +150,16 @@ public abstract class DistributedListTest extends AbstractPrimitiveTest<ProxyPro
     list.add(Pair.of("foo", 1));
     assertEquals("foo", list.iterator().next().getLeft());
     assertEquals(Integer.valueOf(1), list.iterator().next().getRight());
+  }
+
+  @BeforeClass
+  public static void setupCluster() throws Exception {
+    setupCluster(DistributedListTest.class);
+  }
+
+  @AfterClass
+  public static void teardownCluster() throws Exception {
+    teardownCluster(DistributedListTest.class);
   }
 
   private static class TestQueueEventListener implements CollectionEventListener<String> {

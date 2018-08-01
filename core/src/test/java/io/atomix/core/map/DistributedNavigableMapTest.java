@@ -20,6 +20,8 @@ import com.google.common.collect.Maps;
 import io.atomix.core.AbstractPrimitiveTest;
 import io.atomix.core.map.impl.AtomicNavigableMapProxy;
 import io.atomix.primitive.protocol.ProxyProtocol;
+import org.junit.AfterClass;
+import org.junit.BeforeClass;
 import org.junit.Test;
 
 import java.util.Arrays;
@@ -304,6 +306,16 @@ public abstract class DistributedNavigableMapTest extends AbstractPrimitiveTest<
       map.put(String.valueOf(26 + i), String.valueOf(26 + i));
     }
     assertEquals(String.valueOf(27), map.get(String.valueOf(27)));
+  }
+
+  @BeforeClass
+  public static void setupCluster() throws Exception {
+    setupCluster(DistributedNavigableMapTest.class);
+  }
+
+  @AfterClass
+  public static void teardownCluster() throws Exception {
+    teardownCluster(DistributedNavigableMapTest.class);
   }
 
   private static class TestMapEventListener implements MapEventListener<String, String> {

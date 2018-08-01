@@ -19,6 +19,8 @@ import io.atomix.core.AbstractPrimitiveTest;
 import io.atomix.core.Atomix;
 import io.atomix.primitive.PrimitiveException;
 import io.atomix.primitive.protocol.ProxyProtocol;
+import org.junit.AfterClass;
+import org.junit.BeforeClass;
 import org.junit.Ignore;
 import org.junit.Test;
 
@@ -341,6 +343,16 @@ public abstract class DistributedSemaphoreTest extends AbstractPrimitiveTest<Pro
     }
 
     executorService.shutdown();
+  }
+
+  @BeforeClass
+  public static void setupCluster() throws Exception {
+    setupCluster(DistributedSemaphoreTest.class);
+  }
+
+  @AfterClass
+  public static void teardownCluster() throws Exception {
+    teardownCluster(DistributedSemaphoreTest.class);
   }
 
 }

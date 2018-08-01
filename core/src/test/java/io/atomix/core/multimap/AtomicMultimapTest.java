@@ -21,6 +21,8 @@ import com.google.common.collect.Maps;
 import io.atomix.core.AbstractPrimitiveTest;
 import io.atomix.core.multimap.impl.AtomicMultimapProxy;
 import io.atomix.primitive.protocol.ProxyProtocol;
+import org.junit.AfterClass;
+import org.junit.BeforeClass;
 import org.junit.Test;
 
 import java.util.Arrays;
@@ -280,6 +282,16 @@ public abstract class AtomicMultimapTest extends AbstractPrimitiveTest<ProxyProt
       i += 1;
       map.put(String.valueOf(100 * i), String.valueOf(100 * i));
     }
+  }
+
+  @BeforeClass
+  public static void setupCluster() throws Exception {
+    setupCluster(AtomicMultimapTest.class);
+  }
+
+  @AfterClass
+  public static void teardownCluster() throws Exception {
+    teardownCluster(AtomicMultimapTest.class);
   }
 
   /**

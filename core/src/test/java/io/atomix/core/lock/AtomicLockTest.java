@@ -18,6 +18,8 @@ package io.atomix.core.lock;
 import io.atomix.core.AbstractPrimitiveTest;
 import io.atomix.primitive.protocol.ProxyProtocol;
 import io.atomix.utils.time.Version;
+import org.junit.AfterClass;
+import org.junit.BeforeClass;
 import org.junit.Test;
 
 import java.time.Duration;
@@ -146,5 +148,15 @@ public abstract class AtomicLockTest extends AbstractPrimitiveTest<ProxyProtocol
     lock1.async().lock().thenRun(() -> lock1.unlock());
 
     lock2.lock();
+  }
+
+  @BeforeClass
+  public static void setupCluster() throws Exception {
+    setupCluster(AtomicLockTest.class);
+  }
+
+  @AfterClass
+  public static void teardownCluster() throws Exception {
+    teardownCluster(AtomicLockTest.class);
   }
 }

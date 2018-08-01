@@ -15,13 +15,12 @@
  */
 package io.atomix.core;
 
+import com.google.common.collect.Maps;
+import io.atomix.cluster.Node;
 import io.atomix.cluster.discovery.BootstrapDiscoveryProvider;
 import io.atomix.cluster.discovery.MulticastDiscoveryProvider;
-import io.atomix.cluster.Node;
 import io.atomix.core.profile.Profile;
 import io.atomix.utils.net.Address;
-import org.junit.AfterClass;
-import org.junit.BeforeClass;
 
 import java.io.File;
 import java.io.IOException;
@@ -33,6 +32,7 @@ import java.nio.file.SimpleFileVisitor;
 import java.nio.file.attribute.BasicFileAttributes;
 import java.util.Collection;
 import java.util.List;
+import java.util.Map;
 import java.util.Properties;
 import java.util.function.Function;
 import java.util.stream.Collectors;
@@ -41,25 +41,10 @@ import java.util.stream.Collectors;
  * Base Atomix test.
  */
 public abstract class AbstractAtomixTest {
-  private static final int BASE_PORT = 5000;
-  protected static final File DATA_DIR = new File(System.getProperty("user.dir"), ".data");
+  private static final Map<Integer, Integer> PORT_MAPPINGS = Maps.newConcurrentMap();
 
-  @BeforeClass
-  public static void setupAtomix() throws Exception {
-    deleteData();
-  }
-
-  /**
-   * Creates an Atomix instance.
-   */
-  protected static AtomixBuilder buildAtomix(int id, Properties properties) {
-    return Atomix.builder()
-        .withClusterId("test")
-        .withMemberId(String.valueOf(id))
-        .withAddress("localhost", BASE_PORT + id)
-        .withProperties(properties)
-        .withMulticastEnabled()
-        .withMembershipProvider(new MulticastDiscoveryProvider());
+  private static int port(int id) {
+    return PORT_MAPPINGS.computeIfAbsent(id, i -> findAvailablePort(5000 + id));
   }
 
   /**
@@ -69,14 +54,14 @@ public abstract class AbstractAtomixTest {
     Collection<Node> nodes = memberIds.stream()
         .map(memberId -> Node.builder()
             .withId(String.valueOf(id))
-            .withAddress(Address.from("localhost", BASE_PORT + memberId))
+            .withAddress(Address.from("localhost", port(memberId)))
             .build())
         .collect(Collectors.toList());
 
     return Atomix.builder()
         .withClusterId("test")
         .withMemberId(String.valueOf(id))
-        .withAddress("localhost", BASE_PORT + id)
+        .withAddress("localhost", port(id))
         .withProperties(properties)
         .withMulticastEnabled()
         .withMembershipProvider(!nodes.isEmpty() ? new BootstrapDiscoveryProvider(nodes) : new MulticastDiscoveryProvider());
@@ -110,11 +95,6 @@ public abstract class AbstractAtomixTest {
     return builderFunction.apply(buildAtomix(id, bootstrapIds, properties));
   }
 
-  @AfterClass
-  public static void teardownAtomix() throws Exception {
-    deleteData();
-  }
-
   protected static int findAvailablePort(int defaultPort) {
     try {
       ServerSocket socket = new ServerSocket(0);
@@ -127,11 +107,15 @@ public abstract class AbstractAtomixTest {
     }
   }
 
+  protected static File dataDir(Class<?> clazz) {
+    return new File(new File(System.getProperty("user.dir"), ".data"), clazz.getCanonicalName());
+  }
+
   /**
    * Deletes data from the test data directory.
    */
-  protected static void deleteData() throws Exception {
-    Path directory = DATA_DIR.toPath();
+  protected static void deleteData(Class<?> clazz) throws Exception {
+    Path directory = dataDir(clazz).toPath();
     if (Files.exists(directory)) {
       Files.walkFileTree(directory, new SimpleFileVisitor<Path>() {
         @Override
@@ -147,5 +131,6 @@ public abstract class AbstractAtomixTest {
         }
       });
     }
+    PORT_MAPPINGS.clear();
   }
 }

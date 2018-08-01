@@ -19,6 +19,8 @@ import com.google.common.collect.Sets;
 import io.atomix.core.AbstractPrimitiveTest;
 import io.atomix.core.map.impl.AtomicNavigableMapProxy;
 import io.atomix.primitive.protocol.ProxyProtocol;
+import org.junit.AfterClass;
+import org.junit.BeforeClass;
 import org.junit.Test;
 
 import java.util.NoSuchElementException;
@@ -395,6 +397,16 @@ public abstract class AtomicNavigableMapTest extends AbstractPrimitiveTest<Proxy
     map.navigableKeySet().subSet("k", false, "n", false).clear();
     assertEquals(5, map.navigableKeySet().size());
     assertEquals(Sets.newHashSet(map.navigableKeySet()), Sets.newHashSet("h", "i", "j", "k", "n"));
+  }
+
+  @BeforeClass
+  public static void setupCluster() throws Exception {
+    setupCluster(AtomicNavigableMapTest.class);
+  }
+
+  @AfterClass
+  public static void teardownCluster() throws Exception {
+    teardownCluster(AtomicNavigableMapTest.class);
   }
 
   private AsyncAtomicNavigableMap<String, String> createResource(String mapName) {

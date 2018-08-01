@@ -19,6 +19,8 @@ import io.atomix.core.AbstractPrimitiveTest;
 import io.atomix.primitive.protocol.map.MapProtocol;
 import io.atomix.protocols.gossip.AntiEntropyProtocol;
 import io.atomix.utils.time.LogicalTimestamp;
+import org.junit.AfterClass;
+import org.junit.BeforeClass;
 import org.junit.Test;
 
 import java.util.HashMap;
@@ -541,6 +543,16 @@ public class AntiEntropyDistributedMapTest extends AbstractPrimitiveTest<MapProt
 
     // Check the entry set is still correct
     assertTrue(entrySetsAreEqual(expectedValues, map.entrySet()));
+  }
+
+  @BeforeClass
+  public static void setupCluster() throws Exception {
+    setupCluster(AntiEntropyDistributedMapTest.class);
+  }
+
+  @AfterClass
+  public static void teardownCluster() throws Exception {
+    teardownCluster(AntiEntropyDistributedMapTest.class);
   }
 
   private static boolean entrySetsAreEqual(Map<String, String> expectedMap, Set<Map.Entry<String, String>> actual) {

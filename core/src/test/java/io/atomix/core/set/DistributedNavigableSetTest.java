@@ -20,6 +20,8 @@ import io.atomix.core.AbstractPrimitiveTest;
 import io.atomix.core.collection.CollectionEvent;
 import io.atomix.core.collection.CollectionEventListener;
 import io.atomix.primitive.protocol.ProxyProtocol;
+import org.junit.AfterClass;
+import org.junit.BeforeClass;
 import org.junit.Test;
 
 import java.util.Arrays;
@@ -342,6 +344,16 @@ public abstract class DistributedNavigableSetTest extends AbstractPrimitiveTest<
     set.subSet("k", false, "n", false).clear();
     assertEquals(5, set.size());
     assertEquals(Sets.newHashSet(set), Sets.newHashSet("h", "i", "j", "k", "n"));
+  }
+
+  @BeforeClass
+  public static void setupCluster() throws Exception {
+    setupCluster(DistributedNavigableSetTest.class);
+  }
+
+  @AfterClass
+  public static void teardownCluster() throws Exception {
+    teardownCluster(DistributedNavigableSetTest.class);
   }
 
   private static class TestSetEventListener implements CollectionEventListener<String> {

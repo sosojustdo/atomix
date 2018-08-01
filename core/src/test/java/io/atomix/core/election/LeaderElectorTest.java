@@ -17,7 +17,9 @@ package io.atomix.core.election;
 
 import io.atomix.core.AbstractPrimitiveTest;
 import io.atomix.primitive.protocol.ProxyProtocol;
+import org.junit.AfterClass;
 import org.junit.Assert;
+import org.junit.BeforeClass;
 import org.junit.Ignore;
 import org.junit.Test;
 
@@ -354,6 +356,16 @@ public abstract class LeaderElectorTest extends AbstractPrimitiveTest<ProxyProto
     Leadership barLeadership2 = leaderships2.get("bar");
     assertEquals(node2, barLeadership2.leader().id());
     assertEquals(node2, barLeadership2.candidates().get(0));
+  }
+
+  @BeforeClass
+  public static void setupCluster() throws Exception {
+    setupCluster(LeaderElectorTest.class);
+  }
+
+  @AfterClass
+  public static void teardownCluster() throws Exception {
+    teardownCluster(LeaderElectorTest.class);
   }
 
   private static class LeaderEventListener implements LeadershipEventListener<String> {

@@ -17,6 +17,8 @@ package io.atomix.core.counter;
 
 import io.atomix.core.AbstractPrimitiveTest;
 import io.atomix.primitive.protocol.counter.CounterProtocol;
+import org.junit.AfterClass;
+import org.junit.BeforeClass;
 import org.junit.Test;
 
 import static org.junit.Assert.assertEquals;
@@ -68,6 +70,16 @@ public abstract class DistributedCounterTest extends AbstractPrimitiveTest<Count
 
     assertTrue(waitFor(counter1, 10));
     assertTrue(waitFor(counter2, 10));
+  }
+
+  @BeforeClass
+  public static void setupCluster() throws Exception {
+    setupCluster(DistributedCounterTest.class);
+  }
+
+  @AfterClass
+  public static void teardownCluster() throws Exception {
+    teardownCluster(DistributedCounterTest.class);
   }
 
   private boolean waitFor(DistributedCounter counter, long value) throws InterruptedException {

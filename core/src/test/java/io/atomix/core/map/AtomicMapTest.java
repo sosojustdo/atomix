@@ -24,6 +24,8 @@ import io.atomix.core.transaction.Transaction;
 import io.atomix.core.transaction.TransactionalMap;
 import io.atomix.primitive.protocol.ProxyProtocol;
 import io.atomix.utils.time.Versioned;
+import org.junit.AfterClass;
+import org.junit.BeforeClass;
 import org.junit.Test;
 
 import java.time.Duration;
@@ -401,6 +403,16 @@ public abstract class AtomicMapTest extends AbstractPrimitiveTest<ProxyProtocol>
     assertNotNull(result);
     assertTrue(result.size() == 1);
     assertEquals(result.get("foo").value(), "baz");
+  }
+
+  @BeforeClass
+  public static void setupCluster() throws Exception {
+    setupCluster(AtomicMapTest.class);
+  }
+
+  @AfterClass
+  public static void teardownCluster() throws Exception {
+    teardownCluster(AtomicMapTest.class);
   }
 
   private static class TestAtomicMapEventListener implements AtomicMapEventListener<String, String> {
